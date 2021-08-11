@@ -103,4 +103,4 @@ theme: fluid
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/HJTAHMAKBAR/HJTAHMAKBAR.github.io.git
+  repo: git@github.com:HJTAHMAKBAR/HJTAHMAKBAR.github.io.git
