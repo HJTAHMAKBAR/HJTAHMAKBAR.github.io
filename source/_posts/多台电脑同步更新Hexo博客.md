@@ -18,31 +18,31 @@ index_img: img/cover/hexo.png
 
 博客搭建好后(博客搭建教程见——[利用Hexo框架从零开始搭建个人博客 - 江客 (jettsblog.top)](https://jettsblog.top/Hexo/利用Hexo框架从零开始搭建个人博客/))，我们在Github上创建分支
 
-![image-20210627092559451](image-20210627092559451.png)
+![image-20210627092559451](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627092559451.png)
 
 创建一个名为hexo的分支
 
 # 设置hexo分支为默认分支
 
-![image-20210627093723305](image-20210627093723305.png)
+![image-20210627093723305](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627093723305.png)
 
 将博客项目仓库的Settings->Branches->Default branch修改为hexo
 
-![image-20210627093748365](image-20210627093748365.png)
+![image-20210627093748365](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627093748365.png)
 
 # 将创建的分支的远程仓库克隆到本地
 
-![image-20210627093914404](image-20210627093914404.png)
+![image-20210627093914404](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627093914404.png)
 
 # 删去除.git文件夹以外的所有你内容
 
 1. 进入克隆到本地的仓库
 
-   ![image-20210627094256807](image-20210627094256807.png)
+   ![image-20210627094256807](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627094256807.png)
 
 2. 勾选查看隐藏的文件
 
-   ![image-20210627094400276](image-20210627094400276.png)
+   ![image-20210627094400276](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627094400276.png)
 
 3. 删去除.git文件夹以外的所有文件
 
@@ -125,7 +125,7 @@ index_img: img/cover/hexo.png
 
 5. 将分支克隆到本地的仓库中的.git文件夹复制到博客文件夹中
 
-   ![image-20210627101258655](image-20210627101258655.png)
+   ![image-20210627101258655](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627101258655.png)
 
 6. 在博客目录下执行命令同步到远程的hexo分支
 
@@ -188,7 +188,7 @@ index_img: img/cover/hexo.png
 
 7. 查看hexo分支的仓库
 
-   ![image-20210627101634009](image-20210627101634009.png)
+   ![image-20210627101634009](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627101634009.png)
 
 # 另一台电脑的操作
 
@@ -234,7 +234,7 @@ hexo clean
 hexo d -g
 ```
 
-![image-20210627142332846](image-20210627142332846.png)
+![image-20210627142332846](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627142332846.png)
 
 执行以下命令，将hexo中的网站原始文件更新
 
@@ -247,7 +247,7 @@ git commit -m "描述"
 git push origin hexo
 ```
 
-![image-20210627143023286](image-20210627143023286.png)
+![image-20210627143023286](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210627143023286.png)
 
 **大功告成！**
 

@@ -16,6 +16,8 @@ index_img: /img/cover/hexowithgithub.png
 
    在[Git - Downloads (git-scm.com)](https://git-scm.com/downloads)下载电脑对应的版本的Git并安装
 
+   ![image-20210626175500424](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626175500424.png)
+
 2. 安装**nvm**
 
    下载地址：
@@ -24,7 +26,7 @@ index_img: /img/cover/hexowithgithub.png
    https://github.com/coreybutler/nvm-windows/releases
    ```
 
-   ![image-20210626185428222](image-20210626175500424.png)
+   
 
 3. 利用**nvm**安装指定的**node.js**版本
 
@@ -131,7 +133,7 @@ index_img: /img/cover/hexowithgithub.png
    hexo init
    ```
 
-   ![image-20210626185428222](image-20210626185428222.png)
+   ![image-20210626185428222](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626185428222.png)
 
 2. 查看Hexo是否搭建好，运行本地的Hexo服务器
 
@@ -148,7 +150,7 @@ index_img: /img/cover/hexowithgithub.png
    INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.
    ```
 
-3. 在浏览器访问http://localhost:4000![image-20210626185620370](image-20210626185620370.png)
+3. 在浏览器访问http://localhost:4000![image-20210626185620370](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626185620370.png)
 
 # **开始配置博客**
 
@@ -168,11 +170,11 @@ index_img: /img/cover/hexowithgithub.png
 
    2. 然后在博客目录下创建 `_config.fluid.yml`，将主题的 [_config.yml](https://github.com/fluid-dev/hexo-theme-fluid/blob/master/_config.yml) 内容复制进去。此文件可以在本地主题文件夹D:\Github\JettsBlog\node_modules\hexo-theme-fluid下找到。
 
-      ![image-20210626190417304](image-20210626190417304.png)
+      ![image-20210626190417304](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626190417304.png)
 
       在D:\Github\JettsBlog即项目的最外层目录下新建_config.fluid.yml文件
 
-      ![image-20210626190538965](image-20210626190538965.png)
+      ![image-20210626190538965](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626190538965.png)
 
       将主题目录下的[_config.yml](https://github.com/fluid-dev/hexo-theme-fluid/blob/master/_config.yml) 中的内容复制到_config.fluid.yml文件中
 
@@ -182,7 +184,7 @@ index_img: /img/cover/hexowithgithub.png
       theme: fluid
       ```
 
-      ![image-20210626190834137](image-20210626190834137.png)
+      ![image-20210626190834137](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626190834137.png)
 
    4. 创建**关于页**
 
@@ -198,7 +200,7 @@ index_img: /img/cover/hexowithgithub.png
       layout: about
       ```
 
-      ![image-20210626203851192](image-20210626203851192.png)
+      ![image-20210626203851192](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626203851192.png)
 
       **至此，博客的主题已经初始化完成。**
 
@@ -206,17 +208,17 @@ index_img: /img/cover/hexowithgithub.png
 
       主题的配置详细教程见主题项目的相关文档[fluid-dev/hexo-theme-fluid: 一款 Material Design 风格的 Hexo 主题 / An elegant Material-Design theme for Hexo (github.com)](https://github.com/fluid-dev/hexo-theme-fluid)
 
-      ![image-20210626191616671](image-20210626191616671.png)
+      ![image-20210626191616671](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626191616671.png)
 
 # **将博客部署到网上**
 
 1. 在**github**上创建一个仓库，名字严格按照格式：**xxxx.github.io**，其中**xxx**就是你注册GitHub的用户，例如
 
-   ![image-20210626195402198](image-20210626195402198.png)
+   ![image-20210626195402198](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626195402198.png)
 
 2. 打开git bash
 
-   ![image-20210626192756242](image-20210626192756242.png)
+   ![image-20210626192756242](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626192756242.png)
 
 3. 创建密钥
 
@@ -249,7 +251,7 @@ index_img: /img/cover/hexowithgithub.png
 
 4. 查看生成的密钥文件
 
-   ![image-20210626193527928](image-20210626193527928.png)
+   ![image-20210626193527928](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626193527928.png)
 
    `id_rsa`是你这台电脑的私人秘钥，不能给别人看的，`id_rsa.pub`是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。
 
@@ -257,9 +259,9 @@ index_img: /img/cover/hexowithgithub.png
 
    在GitHub的setting中，找到SSH keys的设置选项，点击`New SSH key` 把你的`id_rsa.pub`里面的信息复制进去
 
-   ![image-20210626193735726](image-20210626193735726.png)
+   ![image-20210626193735726](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626193735726.png)
 
-   ![image-20210626193922973](image-20210626193922973.png)
+   ![image-20210626193922973](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626193922973.png)
 
 6. 将Hexo部署到Github
 
@@ -288,7 +290,7 @@ index_img: /img/cover/hexowithgithub.png
    (后面两行命令可以简写为hexo d -g)
    ```
 
-   ![image-20210626195755281](image-20210626195755281.png)
+   ![image-20210626195755281](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626195755281.png)
 
    **至此，本地的Hexo已经部署到Github上**
 
@@ -296,11 +298,11 @@ index_img: /img/cover/hexowithgithub.png
 
    在项目的Settings下的Pages中，可以看到博客的地址
 
-   ![image-20210626195944721](image-20210626195944721.png)
+   ![image-20210626195944721](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626195944721.png)
 
    **此时，已经可以通过这个地址在线访问自己的博客了**
 
-   ![image-20210626200053519](image-20210626200053519.png)
+   ![image-20210626200053519](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626200053519.png)
 
 # 为博客绑定一个域名
 
@@ -343,15 +345,15 @@ index_img: /img/cover/hexowithgithub.png
 
    添加两条记录
 
-   ![image-20210626200935329](image-20210626200935329.png)
+   ![image-20210626200935329](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626200935329.png)
 
 3. 在GitHub Pages设置我们的域名
 
    填入自己的域名
 
-   ![image-20210626201101821](image-20210626201101821.png)
+   ![image-20210626201101821](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626201101821.png)
 
-   ![image-20210626201140900](image-20210626201140900.png)
+   ![image-20210626201140900](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210626201140900.png)
 
    大功告成，至此，我们已经可以通过域名访问我们的博客！
 
