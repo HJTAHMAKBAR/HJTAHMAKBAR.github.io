@@ -5,7 +5,7 @@ tags: [Hexo, Github Pages, Git]
 categories:
 - [Hexo]
 - [所有]
-index_img: img/cover/hexo.png
+index_img: https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/hexo.png
 ---
 
 在利用Hexo+Github Pages写我们的博客的时候，真正的原始Hexo文件在我们的电脑本地，而GitHub上传的只是Hexo生成的静态网页，即public文件夹里面的内容。

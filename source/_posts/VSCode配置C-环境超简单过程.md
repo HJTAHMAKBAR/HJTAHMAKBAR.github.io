@@ -4,7 +4,7 @@ date: 2021-06-30 00:28:09
 tags: [c++, VSCode]
 categories:
 - [C++]
-index_img: img/cover/vscode.png
+index_img: https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/vscode.png
 ---
 
 # 在VSCode中写C++的相关配置

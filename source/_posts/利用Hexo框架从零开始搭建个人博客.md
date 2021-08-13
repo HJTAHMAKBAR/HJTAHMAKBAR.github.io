@@ -5,7 +5,7 @@ tags: [Hexo, GithubPages, Git, nvm, Nodejs]
 categories:
 - [Hexo]
 - [所有]
-index_img: /img/cover/hexowithgithub.png
+index_img: https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/hexowithgithub.png
 ---
 
 # **安装框架**

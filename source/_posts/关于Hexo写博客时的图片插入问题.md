@@ -7,7 +7,7 @@ tags:
 categories:
   - - Hexo
   - - 所有
-index_img: /img/cover/helloworld.png
+index_img: https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/helloworld.png
 date: 2021-08-12 16:14:35
 ---
 
