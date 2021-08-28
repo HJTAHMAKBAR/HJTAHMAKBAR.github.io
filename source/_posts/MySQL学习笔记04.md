@@ -256,9 +256,9 @@ mysql> select * from emp;
 - U:Update（改）			
 - D:Delete（删）
 
-#### DBA常用命令
+### DBA常用命令
 
-- 数据导出
+- #### 数据导出
 
   - 导出数据库到D盘
 
@@ -272,7 +272,7 @@ mysql> select * from emp;
     mysqldump xxxxxx yourtable>D:\xxxxxx.sql -uyourname -pyourpassword
     ```
 
-- 数据导入
+- #### 数据导入
 
   - 登录到mysql数据库服务器上
 
