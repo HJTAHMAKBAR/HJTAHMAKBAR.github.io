@@ -289,7 +289,7 @@
 <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-keyword">select</span> <br>	<span class="hljs-params">...</span><br>from<br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">where</span><br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>	<span class="hljs-params">...</span><br>having<br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br>	<span class="hljs-params">...</span><br>limit<br>	<span class="hljs-params">...</span><br></code></pre></td></tr></table></figure>
 
 <p>执行顺序</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span><span class="hljs-keyword">from</span><br><span class="hljs-number">2.</span><span class="hljs-keyword">where</span><br><span class="hljs-number">3.</span><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br><span class="hljs-number">4.</span><span class="hljs-keyword">having</span><br><span class="hljs-number">5.</span><span class="hljs-keyword">select</span><br><span class="hljs-number">6.</span><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br><span class="hljs-number">7.</span><span class="hljs-keyword">limit</span>..<br></code></pre></td></tr></table></figure>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">from</span><br><span class="hljs-keyword">join</span><br>on<br><span class="hljs-keyword">where</span><br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br><span class="hljs-keyword">avg</span>, <span class="hljs-keyword">sum</span>...<br>having<br><span class="hljs-keyword">select</span><br>distinct<br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br>limit..<br></code></pre></td></tr></table></figure>
 
 <h3 id="表的创建"><a href="#表的创建" class="headerlink" title="表的创建"></a>表的创建</h3><p>建表属于DDL语句，DDL包括：create drop alter。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名(字段名<span class="hljs-number">1</span> 数据类型, 字段名<span class="hljs-number">2</span> 数据类型, 字段名<span class="hljs-number">3</span> 数据类型);<br><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名(<br>	字段名<span class="hljs-number">1</span> 数据类型, <br>	字段名<span class="hljs-number">2</span> 数据类型, <br>	字段名<span class="hljs-number">3</span> 数据类型<br>);<br></code></pre></td></tr></table></figure>
@@ -384,9 +384,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
-                    
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
+                    
+                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
                     
                   </div>
                 
@@ -411,7 +411,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
+                      <a href="/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">MySQL学习笔记03</span>
                         <span class="visible-mobile">上一篇</span>
@@ -421,7 +421,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+                      <a href="/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
                         <span class="hidden-mobile">MySQL学习笔记01</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
