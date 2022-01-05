@@ -42,3 +42,17 @@ hexo deploy
 hexo g -d
 ```
 
+### 新建文章
+
+```
+hexo new <title>
+hexo new "我的第一篇文章"
+```
+
+### 新建布局
+
+```
+hexo new [layout] <title>
+```
+
+- 布局有三种：`post`（文章）、`draft`（草稿）、`page`（页面）
