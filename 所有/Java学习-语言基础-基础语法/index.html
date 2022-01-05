@@ -228,31 +228,23 @@
             <h1 style="display: none">Java学习-语言基础-基础语法</h1>
             
             <div class="markdown-body">
-              <h2 id="Java语言基础-基础语法"><a href="#Java语言基础-基础语法" class="headerlink" title="Java语言基础-基础语法"></a>Java语言基础-基础语法</h2><h4 id="00-Java的基本程序设计结构"><a href="#00-Java的基本程序设计结构" class="headerlink" title="00-Java的基本程序设计结构"></a>00-Java的基本程序设计结构</h4><ul>
-<li><p>简单的Java应用程序</p>
-</li>
-<li><p>注释</p>
-</li>
-<li><p>数据类型</p>
-</li>
-<li><p>变量</p>
-</li>
-<li><p>运算符</p>
-</li>
-<li><p>字符串</p>
-</li>
-<li><p>输入输出</p>
-</li>
-<li><p>控制流</p>
-</li>
-<li><p>大数值</p>
-</li>
-<li><p>数组</p>
-</li>
+              <h2 id="java语言基础-基础语法">Java语言基础-基础语法</h2>
+<h4 id="java的基本程序设计结构">00-Java的基本程序设计结构</h4>
+<ul>
+<li><p>简单的Java应用程序</p></li>
+<li><p>注释</p></li>
+<li><p>数据类型</p></li>
+<li><p>变量</p></li>
+<li><p>运算符</p></li>
+<li><p>字符串</p></li>
+<li><p>输入输出</p></li>
+<li><p>控制流</p></li>
+<li><p>大数值</p></li>
+<li><p>数组</p></li>
 </ul>
-<h4 id="01-简单的Java应用程序"><a href="#01-简单的Java应用程序" class="headerlink" title="01-简单的Java应用程序"></a>01-简单的Java应用程序</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * This is the first sample program in Core Java Chapter 3</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@version </span>1.01 1997-03-22</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author </span>Gary Cornell</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstSample</span></span><br><span class="hljs-class"></span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>)</span><br>   &#123;<br>      System.out.println(<span class="hljs-string">&quot;We will not use &#x27;Hello, World!&#x27;&quot;</span>);<br>   &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-
-<ol>
+<h4 id="简单的java应用程序">01-简单的Java应用程序</h4>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * This is the first sample program in Core Java Chapter 3</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@version </span>1.01 1997-03-22</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author </span>Gary Cornell</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstSample</span></span><br><span class="hljs-class"></span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>)</span><br>   &#123;<br>      System.out.println(<span class="hljs-string">&quot;We will not use &#x27;Hello, World!&#x27;&quot;</span>);<br>   &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<ol type="1">
 <li>关键字<code>Public</code>称为<code>访问修饰符</code>，这些修饰符用于控制程序的其他部分对这段代码的访问级别。</li>
 <li>关键字<code>class</code>表明Java程序中的全部内容都包含在类中。这里，只需要将类作为一个加载程序逻辑的容器，程序逻辑定义了应用程序的行为。</li>
 <li>关键字<code>class</code>后面紧跟类名。Java中定义类名的规则很宽松。名字必须以字母开头，后面可以跟字母和数字的任意组合，长度上基本没有限制。但是不能使用Java保留字作为类名。</li>
@@ -262,13 +254,15 @@
 <li>如果<code>main</code>方法正常退出，那么Java应用程序的推出代码为0，表示成功地运行了程序。如果需要在终止程序时返回其他的代码，那就需要调用<code>System.exit</code>方法。</li>
 </ol>
 <p><code>注意：根据Java语言规范，main方法必须申明为public。在Jaav SE 1.4及以后的版本中强制main方法是public的。</code></p>
-<h4 id="02-注释"><a href="#02-注释" class="headerlink" title="02-注释"></a>02-注释</h4><ol>
+<h4 id="注释">02-注释</h4>
+<ol type="1">
 <li>使用<code>//</code>，其注释内容从<code>//</code>开始到本行结尾。</li>
 <li>使用<code>/*</code>和<code>*/</code>将一段比较长的注释括起来。</li>
 <li>以<code>/**</code>开始，以<code>*/</code>结束，用于自动生成文档。</li>
 </ol>
 <p><code>在Java中，/* */注释不能嵌套。也就是说，不能简单地把代码用/*和*/括起来作为注释，因为这段代码本身可能也包含一个*/</code></p>
-<h4 id="03-数据类型"><a href="#03-数据类型" class="headerlink" title="03-数据类型"></a>03-数据类型</h4><p>Java是一种强类型语言。这就意味着必须为每一个变量申明一种类型。在Java中，一共有8种基本类型。</p>
+<h4 id="数据类型">03-数据类型</h4>
+<p>Java是一种强类型语言。这就意味着必须为每一个变量申明一种类型。在Java中，一共有8种基本类型。</p>
 <ul>
 <li>4种整型</li>
 <li>2种浮点类型</li>
@@ -276,38 +270,41 @@
 <li>1种用于表示真值的<code>boolean</code>类型</li>
 </ul>
 <p><code>Java有一个能够表示任意精度的算术包，通常称为“大数值”。虽然被称为大数值，但它并不是一种新的Java类型，而是一个Java对象。</code></p>
-<ol>
-<li><h5 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h5><p>整型用于表示没有小数部分的数值，它允许是负数。Java提供4种整型。</p>
+<ol type="1">
+<li><h5 id="整型">整型</h5>
+<p>整型用于表示没有小数部分的数值，它允许是负数。Java提供4种整型。</p>
 <table>
 <thead>
-<tr>
-<th align="left">类型</th>
-<th align="center">存储需求</th>
-<th align="center">取值范围</th>
+<tr class="header">
+<th style="text-align: left;">类型</th>
+<th style="text-align: center;">存储需求</th>
+<th style="text-align: center;">取值范围</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">int</td>
-<td align="center">4字节</td>
-<td align="center">-2 147 483 648 ~ 2 147 483 647（正好超过20亿）</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">int</td>
+<td style="text-align: center;">4字节</td>
+<td style="text-align: center;">-2 147 483 648 ~ 2 147 483 647（正好超过20亿）</td>
 </tr>
-<tr>
-<td align="left">short</td>
-<td align="center">2字节</td>
-<td align="center">-32 768 ~ 32 767</td>
+<tr class="even">
+<td style="text-align: left;">short</td>
+<td style="text-align: center;">2字节</td>
+<td style="text-align: center;">-32 768 ~ 32 767</td>
 </tr>
-<tr>
-<td align="left">long</td>
-<td align="center">8字节</td>
-<td align="center">-9 223 372 036 854 775 808 ~ 9 223 372 036 854 775 807</td>
+<tr class="odd">
+<td style="text-align: left;">long</td>
+<td style="text-align: center;">8字节</td>
+<td style="text-align: center;">-9 223 372 036 854 775 808 ~ 9 223 372 036 854 775 807</td>
 </tr>
-<tr>
-<td align="left">byte</td>
-<td align="center">1字节</td>
-<td align="center">-128 ~ 127</td>
+<tr class="even">
+<td style="text-align: left;">byte</td>
+<td style="text-align: center;">1字节</td>
+<td style="text-align: center;">-128 ~ 127</td>
 </tr>
-</tbody></table>
-<ol>
+</tbody>
+</table>
+<ol type="1">
 <li><code>btye</code>——<code>short</code>——<code>int</code>——<code>long</code>，2倍关系，等比增长。</li>
 <li><code>Java中，整型的范围与运行Java代码的机器无关</code></li>
 <li>长整型数值有一个后缀L或l（如4000000000L）。</li>
@@ -315,28 +312,30 @@
 <li>八进制有一个前缀0，例如，010对应8进制中的8。八进制表示法比较容易混淆，建议最好不要使用八进制常数。</li>
 <li>从Java7开始，加上前缀0B或0b就可以写二进制数。例如，0b1001就是9。另外，同样是从Java7开始，还可以为数字字面量加上下划线，如用1_000_000（或0b1111_0100_0010_0100_0000）表示一百万。这些下划线只是为了让人们更好读。Java编译器会去除这些下划线。</li>
 <li><code>注意：Java没有任何无符号（unsigned）形式的int、long、short、或byte类型。</code></li>
-</ol>
-</li>
-<li><h5 id="浮点类型"><a href="#浮点类型" class="headerlink" title="浮点类型"></a>浮点类型</h5><p>浮点类型用于表示小数部分的数值。在Java中有两种浮点类型。</p>
+</ol></li>
+<li><h5 id="浮点类型">浮点类型</h5>
+<p>浮点类型用于表示小数部分的数值。在Java中有两种浮点类型。</p>
 <table>
 <thead>
-<tr>
-<th align="left">类型</th>
-<th align="center">存储需求</th>
-<th align="center">取值范围</th>
+<tr class="header">
+<th style="text-align: left;">类型</th>
+<th style="text-align: center;">存储需求</th>
+<th style="text-align: center;">取值范围</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">float</td>
-<td align="center">4字节</td>
-<td align="center">大约± 3.402 823 47E+38F（有效位数为6-7位）</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">float</td>
+<td style="text-align: center;">4字节</td>
+<td style="text-align: center;">大约± 3.402 823 47E+38F（有效位数为6-7位）</td>
 </tr>
-<tr>
-<td align="left">double</td>
-<td align="center">8字节</td>
-<td align="center">大约± 1.797 693 134 862 315 70E+308（有效位数为15位）</td>
+<tr class="even">
+<td style="text-align: left;">double</td>
+<td style="text-align: center;">8字节</td>
+<td style="text-align: center;">大约± 1.797 693 134 862 315 70E+308（有效位数为15位）</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>double表示这种类型的数值精度是float类型的两倍（有人称之为双精度数值）。绝大部分应用程序都采用double类型。在很多情况下，float类型的精度很难满足需求。实际上，只有很少的情况适合使用float类型，例如，需要单精度数据的库，或者需要存储大量的数据。</p>
 <p>floa类型的数值有一个后缀F或f（例如，3.14F）。没有后缀F的浮点数值（如3.14）默认为double类型。当然，也可以在浮点数值后面添加后缀D或d（例如，3.14D）</p>
 <p>所有的浮点数值计算都遵循IEEE 754规范。具体来说，下面是用于表示溢出和出错情况的三个特殊的浮点数值。</p>
@@ -349,72 +348,72 @@
 <p><code>常量Double.POSITIVE_INFINITY、Double.NEGEATIVE_INFINITY和Double.NaN（以及相应的float类型的常量）分别表示这三种特殊的值。</code></p>
 <p>注意：所有NaN（非数值）的值都认为是不相同的。然而，可以使用Double.isNaN方法。</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">if</span> (x<span class="hljs-operator"> == </span>Double.NaN)		<span class="hljs-comment">//	永远是false</span><br><span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Double</span>.</span></span>is<span class="hljs-constructor">NaN(<span class="hljs-params">x</span>)</span>)		<span class="hljs-comment">// 	检查x是否是（非数值）</span><br></code></pre></td></tr></table></figure>
-
-<p><code>警告：浮点数值不适用于无法接受舍入误差的金融计算中。例如，命令System.out.println(2.0 - 1.1)将打印出0.8999999999999999，而不是人们想象中的0.9。这种舍入误差的主要原因是浮点数值采用二进制系统表示，而在二进制系统中无法精确地表示分数1/10。这就好像十进制无法精确地表示分数1/3一样。如果在数值计算中不允许有任何舍入误差，就应该使用BigDecimal类。</code></p>
-</li>
-<li><h5 id="浮点类型-1"><a href="#浮点类型-1" class="headerlink" title="浮点类型"></a>浮点类型</h5><p><code>char</code>类型原本用于表示单个字符。如今，有些<code>Unicode</code>字符可以用一个<code>char</code>值描述，另外一些<code>Unicode</code>值需要两个<code>char</code>值。</p>
-<p><code>char</code>类型的字面量值要用单引号括起来。例如：<code>&#39;A&#39;</code>是编码值为65所对应的字符常量。它与<code>&quot;A&quot;</code>不同，<code>&quot;A&quot;</code>是包含一个字符A的字符串。</p>
+<p><code>警告：浮点数值不适用于无法接受舍入误差的金融计算中。例如，命令System.out.println(2.0 - 1.1)将打印出0.8999999999999999，而不是人们想象中的0.9。这种舍入误差的主要原因是浮点数值采用二进制系统表示，而在二进制系统中无法精确地表示分数1/10。这就好像十进制无法精确地表示分数1/3一样。如果在数值计算中不允许有任何舍入误差，就应该使用BigDecimal类。</code></p></li>
+<li><h5 id="浮点类型-1">浮点类型</h5>
+<p><code>char</code>类型原本用于表示单个字符。如今，有些<code>Unicode</code>字符可以用一个<code>char</code>值描述，另外一些<code>Unicode</code>值需要两个<code>char</code>值。</p>
+<p><code>char</code>类型的字面量值要用单引号括起来。例如：<code>'A'</code>是编码值为65所对应的字符常量。它与<code>"A"</code>不同，<code>"A"</code>是包含一个字符A的字符串。</p>
 <p><code>char</code>类型的值可以表示为十六进制值，其范围从<code>\u0000</code>到<code>\Uffff</code>。</p>
 <p>除了转移序列<code>\u</code>之外，还有一些用于表示特殊字符的转义序列，所有这些转义序列都可以出现在加引号的字符字面量或字符串中。</p>
 <table>
 <thead>
-<tr>
-<th align="center">转义序列</th>
-<th align="center">名称</th>
-<th align="center">Unicode值</th>
+<tr class="header">
+<th style="text-align: center;">转义序列</th>
+<th style="text-align: center;">名称</th>
+<th style="text-align: center;">Unicode值</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><code>\b</code></td>
-<td align="center">退格</td>
-<td align="center">\u0008</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>\b</code></td>
+<td style="text-align: center;">退格</td>
+<td style="text-align: center;">008</td>
 </tr>
-<tr>
-<td align="center"><code>\t</code></td>
-<td align="center">制表</td>
-<td align="center">\u0009</td>
+<tr class="even">
+<td style="text-align: center;"><code>\t</code></td>
+<td style="text-align: center;">制表</td>
+<td style="text-align: center;">009</td>
 </tr>
-<tr>
-<td align="center"><code>\n</code></td>
-<td align="center">换行</td>
-<td align="center">\u000a</td>
+<tr class="odd">
+<td style="text-align: center;"><code>\n</code></td>
+<td style="text-align: center;">换行</td>
+<td style="text-align: center;">00a</td>
 </tr>
-<tr>
-<td align="center"><code>\r</code></td>
-<td align="center">回车</td>
-<td align="center">\u000d</td>
+<tr class="even">
+<td style="text-align: center;"><code>\r</code></td>
+<td style="text-align: center;">回车</td>
+<td style="text-align: center;">00d</td>
 </tr>
-<tr>
-<td align="center"><code>\&quot;</code></td>
-<td align="center">双引号</td>
-<td align="center">\u0022</td>
+<tr class="odd">
+<td style="text-align: center;"><code>\"</code></td>
+<td style="text-align: center;">双引号</td>
+<td style="text-align: center;">022</td>
 </tr>
-<tr>
-<td align="center"><code>\&#39;</code></td>
-<td align="center">单引号</td>
-<td align="center">\u0027</td>
+<tr class="even">
+<td style="text-align: center;"><code>\'</code></td>
+<td style="text-align: center;">单引号</td>
+<td style="text-align: center;">027</td>
 </tr>
-<tr>
-<td align="center"><code>\\</code></td>
-<td align="center">反斜杠</td>
-<td align="center">\u005e</td>
+<tr class="odd">
+<td style="text-align: center;"><code>\\</code></td>
+<td style="text-align: center;">反斜杠</td>
+<td style="text-align: center;">05e</td>
 </tr>
-</tbody></table>
-<p><code>警告：Unicode转义字符会在解析代码之前得到处理。例如，&quot;\u0022+\u0022&quot;并不是一个由引号(U+0022)包围加号构成的字符串。实际上，\u0022会在解析之前转换为&quot;，这会得到&quot;&quot;+&quot;&quot;，也就是一个空串。</code></p>
+</tbody>
+</table>
+<p><code>警告：Unicode转义字符会在解析代码之前得到处理。例如，"\u0022+\u0022"并不是一个由引号(U+0022)包围加号构成的字符串。实际上，\u0022会在解析之前转换为"，这会得到""+""，也就是一个空串。</code></p>
 <p>更隐蔽地，一定要当心注释中的<code>\u</code>。注释</p>
-<p>​    <code>// \u00A0 is a newline</code></p>
+<p>​ <code>// \u00A0 is a newline</code></p>
 <p>会产生一个语法错误，因为读程序时<code>\u00A0</code>会替换成一个换行符。</p>
 <p>类似地，下面这个注释</p>
-<p>​    <code>// Look inside c:\users</code></p>
+<p>​ <code>// Look inside c:\users</code></p>
 <p>也会产生一个语法错误，因为<code>\u</code>后面并未跟着4个十六进制数。</p>
 <p>在Java中，char类型描述了UTF-16编码中的一个代码单元。</p>
-<p>我们强烈建议不要在程序中使用char类型，除非确实需要处理UTF-16代码单元。最好将字符串作为抽象数据类型处理。</p>
-</li>
-<li><h5 id="boolean类型"><a href="#boolean类型" class="headerlink" title="boolean类型"></a>boolean类型</h5><p><code>boolean</code>（布尔）类型有两个值：<code>false</code>和<code>true</code>，用来判断逻辑条件。<code>整型值和布尔值之间不能进行相互转换</code>。</p>
+<p>我们强烈建议不要在程序中使用char类型，除非确实需要处理UTF-16代码单元。最好将字符串作为抽象数据类型处理。</p></li>
+<li><h5 id="boolean类型">boolean类型</h5>
+<p><code>boolean</code>（布尔）类型有两个值：<code>false</code>和<code>true</code>，用来判断逻辑条件。<code>整型值和布尔值之间不能进行相互转换</code>。</p>
 <p><code>注意：在C++中，数值甚至指针可以代替boolean值。值0相当于布尔值false，非0值相当于布尔值true。在Java中则不是这样。</code>因此，Java程序员不会遇到下述麻烦：</p>
-<p>​    <code>if (x = 0) // oops... meant x == 0</code></p>
-<p>在C++中这个测试可以编译运行，其结果总是<code>false</code>。而在Java中，这个测试将不能通过编译，其原因是整数表达式<code>x = 0</code>不能转换为布尔值。</p>
-</li>
+<p>​ <code>if (x = 0) // oops... meant x == 0</code></p>
+<p>在C++中这个测试可以编译运行，其结果总是<code>false</code>。而在Java中，这个测试将不能通过编译，其原因是整数表达式<code>x = 0</code>不能转换为布尔值。</p></li>
 </ol>
 
             </div>

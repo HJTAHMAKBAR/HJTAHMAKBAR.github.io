@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>算法学习-概述 - 江客</title>
+  <title>机器学习-查准率与查全率 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="算法学习-概述">
+            <span class="h2" id="subtitle" title="机器学习-查准率与查全率">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-29 11:31" pubdate>
-        2021年8月29日 中午
+      <time datetime="2022-01-05 15:12" pubdate>
+        2022年1月5日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      50 字
+      426 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      4
        分钟
     </span>
   
@@ -225,24 +225,28 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">算法学习-概述</h1>
+            <h1 style="display: none">机器学习-查准率与查全率</h1>
             
             <div class="markdown-body">
-              <h3 id="算法学习">算法学习</h3>
-<ul>
-<li><h4 id="排序算法学习-排序算法01---江客">排序：<a target="_blank" rel="noopener" href="http://localhost:4000/算法/算法学习-排序算法01/">算法学习-排序算法01 - 江客</a></h4></li>
-<li><h4 id="双指针">双指针</h4></li>
-<li><h4 id="查找">查找</h4></li>
-<li><h4 id="分治">分治</h4></li>
-<li><h4 id="动态规划">动态规划</h4></li>
-<li><h4 id="递归">递归</h4></li>
-<li><h4 id="回溯">回溯</h4></li>
-<li><h4 id="贪心">贪心</h4></li>
-<li><h4 id="位运算">位运算</h4></li>
-<li><h4 id="深度优先搜索">深度优先搜索</h4></li>
-<li><h4 id="广度优先搜索">广度优先搜索</h4></li>
-<li><h4 id="图">图</h4></li>
-</ul>
+              <blockquote>
+<p>最近在看周志华的《机器学习》西瓜书的时候，感觉书上的概念-查准率和查全率描述地有点抽象。于是查阅了一些资料深入学习，有所感悟。</p>
+</blockquote>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105153124644.png" srcset="/img/loading.gif" lazyload alt="西瓜书上的描述" style="zoom:200%;" /></p>
+<p>参考了另一本书《机器学习实战：基于Scikit-Learn、Keras和TensorFlow》第二版</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105160225958.png" srcset="/img/loading.gif" lazyload alt="image-20220105160225958"  /></p>
+<p>For each instance, it computes a score based on a decision function.</p>
+<p>对于每个实例，它都基于决策函数计算分数。</p>
+<p>If that score is greater than a threshold, it assigns the instance to the positive class; otherwise it assigns it to the negative class.</p>
+<p>如果该分数大于阈值，则将实例分配给正类；否则，它会将其分配给负类。</p>
+<p>对于这样的二分类问题，我们可以用手写数字识别"5"举例</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105155446546.png" srcset="/img/loading.gif" lazyload alt="机器学习实战第137页" style="zoom:200%;" /></p>
+<p>在上图中，我们可以看到有三个可以选择的阈值（Various thresholds），就拿中间的那条竖线而言（对应一个阈值）：在竖线右边的实例，都会被预测为正例，在竖线左边的实例，都会被预测为反例。其中，中间的竖线右边有5个实例，而真实情况下这5个实例中只有4个手写数字是表示"5"的（第二个看不出来是"5"）。</p>
+<p>查准率表示预测的结果中有多少是对的，也就是4/5 = 80％。其中4就是预测结果是"5"，真实情况是"5"的实例的个数，也就是真正例TP（True Positive），而5就是中间竖线右边的实例个数，也就是预测结果是"5"，但是不确定它的真实情况是什么，也就是TP + FP（包括真正例和假正例）。</p>
+<p>最后的查准率P（Precision）也就是 <span class="math display">\[
+P={TP \over TP + FP}
+\]</span></p>
+<p>$$</p>
+<p>$$</p>
 
             </div>
             <hr>
@@ -254,7 +258,7 @@
                     
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -262,7 +266,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                      <a class="hover-with-bg" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -279,9 +283,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+                      <a href="/%E6%89%80%E6%9C%89/%E7%89%9B%E5%AE%A2%E7%BD%91Java%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">算法学习-排序算法</span>
+                        <span class="hidden-mobile">牛客网Java做题笔记</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -289,8 +293,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/">
-                        <span class="hidden-mobile">MySQL学习笔记04</span>
+                      <a href="/Hexo/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%A0%E9%A2%98-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/">
+                        <span class="hidden-mobile">计算机网络习题_第二章_物理层</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -488,6 +492,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
 
 
 

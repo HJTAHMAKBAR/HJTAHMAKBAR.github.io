@@ -228,153 +228,161 @@
             <h1 style="display: none">MySQL学习笔记02</h1>
             
             <div class="markdown-body">
-              <h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><p>从一张表中单独查询，称为单表查询。</p>
-<p>emp表和dept表联合起来查询数据，从emp表中取员工名字，从dept表中取部门名字。<br>这种跨表查询，多张表联合起来查询数据，被称为连接查询。</p>
-<h4 id="连接查询的分类"><a href="#连接查询的分类" class="headerlink" title="连接查询的分类"></a>连接查询的分类</h4><p>根据语法的年代分类：</p>
+              <h3 id="连接查询">连接查询</h3>
+<p>从一张表中单独查询，称为单表查询。</p>
+<p>emp表和dept表联合起来查询数据，从emp表中取员工名字，从dept表中取部门名字。 这种跨表查询，多张表联合起来查询数据，被称为连接查询。</p>
+<h4 id="连接查询的分类">连接查询的分类</h4>
+<p>根据语法的年代分类：</p>
 <ul>
 <li>SQL92：1992年的时候出现的语法</li>
 <li>SQL99：1999年的时候出现的语法</li>
 </ul>
 <p>根据表连接的方式分类：</p>
 <ul>
-<li>内连接：<ul>
+<li>内连接：
+<ul>
 <li>等值连接</li>
 <li>非等值连接</li>
 <li>自连接</li>
-</ul>
-</li>
-<li>外连接：<ul>
+</ul></li>
+<li>外连接：
+<ul>
 <li>左外连接（左连接）</li>
 <li>右外连接（右连接）</li>
-</ul>
-</li>
+</ul></li>
 <li>全连接</li>
 </ul>
-<h4 id="笛卡尔积现象"><a href="#笛卡尔积现象" class="headerlink" title="笛卡尔积现象"></a>笛卡尔积现象</h4><p>当两张表进行连接查询，没有任何条件限制的时候，最终查询结果条数，是<br>两张表条数的乘积，这种现象被称为：笛卡尔积现象。（笛卡尔发现的，这是<br>一个数学现象。）</p>
-<h4 id="如何避免笛卡尔积现象（匹配次数仍不变，只是避免现象）"><a href="#如何避免笛卡尔积现象（匹配次数仍不变，只是避免现象）" class="headerlink" title="如何避免笛卡尔积现象（匹配次数仍不变，只是避免现象）"></a>如何避免笛卡尔积现象（匹配次数仍不变，只是避免现象）</h4><p>连接时加条件，满足这个条件的记录被筛选出来！</p>
-<p>思考：最终查询的结果条数是14条，但是匹配的过程中，匹配的次数减少了吗？<br>还是56次，只不过进行了四选一。次数没有减少。    </p>
-<p>注意：通过笛卡尔积现象得出，表的连接次数越多效率越低，尽量避免表的<br>连接次数。</p>
-<h4 id="内连接之等值连接"><a href="#内连接之等值连接" class="headerlink" title="内连接之等值连接"></a>内连接之等值连接</h4><blockquote>
-<p>案例：查询每个员工所在部门名称，显示员工名和部门名？<br>emp e和dept d表进行连接。条件是：e.deptno = d.deptno</p>
+<h4 id="笛卡尔积现象">笛卡尔积现象</h4>
+<p>当两张表进行连接查询，没有任何条件限制的时候，最终查询结果条数，是 两张表条数的乘积，这种现象被称为：笛卡尔积现象。（笛卡尔发现的，这是 一个数学现象。）</p>
+<h4 id="如何避免笛卡尔积现象匹配次数仍不变只是避免现象">如何避免笛卡尔积现象（匹配次数仍不变，只是避免现象）</h4>
+<p>连接时加条件，满足这个条件的记录被筛选出来！</p>
+<p>思考：最终查询的结果条数是14条，但是匹配的过程中，匹配的次数减少了吗？ 还是56次，只不过进行了四选一。次数没有减少。</p>
+<p>注意：通过笛卡尔积现象得出，表的连接次数越多效率越低，尽量避免表的 连接次数。</p>
+<h4 id="内连接之等值连接">内连接之等值连接</h4>
+<blockquote>
+<p>案例：查询每个员工所在部门名称，显示员工名和部门名？ emp e和dept d表进行连接。条件是：e.deptno = d.deptno</p>
 </blockquote>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">SQL92语法：<br>	<span class="hljs-keyword">select</span> <br>		<span class="hljs-built_in">e</span>.ename,d.dname<br>	<span class="hljs-keyword">from</span><br>		emp <span class="hljs-built_in">e</span>, dept d<br>	<span class="hljs-keyword">where</span><br>		<span class="hljs-built_in">e</span>.deptno = d.deptno;<br></code></pre></td></tr></table></figure>
-
 <p>sql92的缺点：结构不清晰，表的连接条件，和后期进一步筛选的条件，都放到了where后面。</p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">SQL99语法：<br>	<span class="hljs-keyword">select</span> <br>		<span class="hljs-built_in">e</span>.ename,d.dname<br>	<span class="hljs-keyword">from</span><br>		emp <span class="hljs-built_in">e</span><br>	<span class="hljs-keyword">join</span><br>		dept d<br>	<span class="hljs-keyword">on</span><br>		<span class="hljs-built_in">e</span>.deptno = d.deptno;<br>			//默认就是内连接<br>			//inner可以省略（带着inner可读性更好！！！一眼就能看出来是内连接）<br>	<span class="hljs-keyword">select</span> <br>		<span class="hljs-built_in">e</span>.ename,d.dname<br>	<span class="hljs-keyword">from</span><br>		emp <span class="hljs-built_in">e</span><br>	<span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span><br>		dept d<br>	<span class="hljs-keyword">on</span><br>		<span class="hljs-built_in">e</span>.deptno = d.deptno; // 条件是等量关系，所以被称为等值连接。<br></code></pre></td></tr></table></figure>
-
 <p>sql99优点：表连接的条件是独立的，连接之后，如果还需要进一步筛选，再往后继续添加where。</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs csharp">SQL99语法：<br>	<span class="hljs-keyword">select</span> <br>		...<br>	<span class="hljs-keyword">from</span><br>		a<br>	<span class="hljs-keyword">join</span><br>		b<br>	<span class="hljs-keyword">on</span><br>		a和b的连接条件<br>	<span class="hljs-keyword">where</span><br>		筛选条件<br></code></pre></td></tr></table></figure>
-
-<h4 id="外连接VS内连接"><a href="#外连接VS内连接" class="headerlink" title="外连接VS内连接"></a>外连接VS内连接</h4><p>内连接</p>
+<h4 id="外连接vs内连接">外连接VS内连接</h4>
+<p>内连接</p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">内连接：（A和B连接，AB两张表没有主次关系。平等的。）<br><span class="hljs-keyword">select</span> <br>	<span class="hljs-built_in">e</span>.ename,d.dname<br><span class="hljs-keyword">from</span><br>	emp <span class="hljs-built_in">e</span><br><span class="hljs-keyword">join</span><br>	dept d<br><span class="hljs-keyword">on</span><br>	<span class="hljs-built_in">e</span>.deptno = d.deptno; //内连接的特点：完成能够匹配上这个条件的数据查询出来。<br></code></pre></td></tr></table></figure>
-
 <p>外连接（右外连接）</p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">select</span> <br>	<span class="hljs-built_in">e</span>.ename,d.dname<br><span class="hljs-keyword">from</span><br>	emp <span class="hljs-built_in">e</span> <br><span class="hljs-keyword">right</span> <span class="hljs-keyword">join</span> <br>	dept d<br><span class="hljs-keyword">on</span><br>	<span class="hljs-built_in">e</span>.deptno = d.deptno;<br><br>// outer是可以省略的，带着可读性强。<br><span class="hljs-keyword">select</span> <br>	<span class="hljs-built_in">e</span>.ename,d.dname<br><span class="hljs-keyword">from</span><br>	emp <span class="hljs-built_in">e</span> <br><span class="hljs-keyword">right</span> <span class="hljs-keyword">outer</span> <span class="hljs-keyword">join</span> <br>	dept d<br><span class="hljs-keyword">on</span><br>	<span class="hljs-built_in">e</span>.deptno = d.deptno;<br></code></pre></td></tr></table></figure>
-
 <blockquote>
-<p>right代表什么：表示将join关键字右边的这张表看成主表，主要是为了将<br>这张表的数据全部查询出来，捎带着关联查询左边的表。<br>在外连接当中，两张表连接，产生了主次关系。</p>
+<p>right代表什么：表示将join关键字右边的这张表看成主表，主要是为了将 这张表的数据全部查询出来，捎带着关联查询左边的表。 在外连接当中，两张表连接，产生了主次关系。</p>
 </blockquote>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">外连接（左外连接）：<br><span class="hljs-keyword">select</span> <br>	<span class="hljs-built_in">e</span>.ename,d.dname<br><span class="hljs-keyword">from</span><br>	dept d <br><span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> <br>	emp <span class="hljs-built_in">e</span><br><span class="hljs-keyword">on</span><br>	<span class="hljs-built_in">e</span>.deptno = d.deptno;<br><br>// outer是可以省略的，带着可读性强。<br><span class="hljs-keyword">select</span> <br>	<span class="hljs-built_in">e</span>.ename,d.dname<br><span class="hljs-keyword">from</span><br>	dept d <br><span class="hljs-keyword">left</span> <span class="hljs-keyword">outer</span> <span class="hljs-keyword">join</span> <br>	emp <span class="hljs-built_in">e</span><br><span class="hljs-keyword">on</span><br>	<span class="hljs-built_in">e</span>.deptno = d.deptno;<br></code></pre></td></tr></table></figure>
-
 <blockquote>
-<p>带有right的是右外连接，又叫做右连接。<br>带有left的是左外连接，又叫做左连接。<br>任何一个右连接都有左连接的写法。<br>任何一个左连接都有右连接的写法。</p>
+<p>带有right的是右外连接，又叫做右连接。 带有left的是左外连接，又叫做左连接。 任何一个右连接都有左连接的写法。 任何一个左连接都有右连接的写法。</p>
 </blockquote>
 <p>思考：外连接的查询结果条数一定是 &gt;= 内连接的查询结果条数？正确。</p>
-<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><p>select语句中嵌套select语句，被嵌套的select语句称为子查询。</p>
-<h4 id="子查询可以出现的地方"><a href="#子查询可以出现的地方" class="headerlink" title="子查询可以出现的地方"></a>子查询可以出现的地方</h4><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span><br>	..(<span class="hljs-keyword">select</span>).<br><span class="hljs-keyword">from</span><br>	..(<span class="hljs-keyword">select</span>).<br><span class="hljs-keyword">where</span><br>	..(<span class="hljs-keyword">select</span>).<br></code></pre></td></tr></table></figure>
-
-
-
-<h3 id="关于DQL语句的总结"><a href="#关于DQL语句的总结" class="headerlink" title="关于DQL语句的总结"></a>关于DQL语句的总结</h3><p>编写顺序</p>
+<h3 id="子查询">子查询</h3>
+<p>select语句中嵌套select语句，被嵌套的select语句称为子查询。</p>
+<h4 id="子查询可以出现的地方">子查询可以出现的地方</h4>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span><br>	..(<span class="hljs-keyword">select</span>).<br><span class="hljs-keyword">from</span><br>	..(<span class="hljs-keyword">select</span>).<br><span class="hljs-keyword">where</span><br>	..(<span class="hljs-keyword">select</span>).<br></code></pre></td></tr></table></figure>
+<h3 id="关于dql语句的总结">关于DQL语句的总结</h3>
+<p>编写顺序</p>
 <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-keyword">select</span> <br>	<span class="hljs-params">...</span><br>from<br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">where</span><br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>	<span class="hljs-params">...</span><br>having<br>	<span class="hljs-params">...</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br>	<span class="hljs-params">...</span><br>limit<br>	<span class="hljs-params">...</span><br></code></pre></td></tr></table></figure>
-
 <p>执行顺序</p>
 <figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">from</span><br><span class="hljs-keyword">join</span><br>on<br><span class="hljs-keyword">where</span><br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br><span class="hljs-keyword">avg</span>, <span class="hljs-keyword">sum</span>...<br>having<br><span class="hljs-keyword">select</span><br>distinct<br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br>limit..<br></code></pre></td></tr></table></figure>
-
-<h3 id="表的创建"><a href="#表的创建" class="headerlink" title="表的创建"></a>表的创建</h3><p>建表属于DDL语句，DDL包括：create drop alter。</p>
+<h3 id="表的创建">表的创建</h3>
+<p>建表属于DDL语句，DDL包括：create drop alter。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名(字段名<span class="hljs-number">1</span> 数据类型, 字段名<span class="hljs-number">2</span> 数据类型, 字段名<span class="hljs-number">3</span> 数据类型);<br><br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名(<br>	字段名<span class="hljs-number">1</span> 数据类型, <br>	字段名<span class="hljs-number">2</span> 数据类型, <br>	字段名<span class="hljs-number">3</span> 数据类型<br>);<br></code></pre></td></tr></table></figure>
-
-<h3 id="MySQL中的数据类型"><a href="#MySQL中的数据类型" class="headerlink" title="MySQL中的数据类型"></a>MySQL中的数据类型</h3><table>
+<h3 id="mysql中的数据类型">MySQL中的数据类型</h3>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 35%" />
+<col style="width: 26%" />
+<col style="width: 17%" />
+</colgroup>
 <thead>
-<tr>
-<th align="center">数据类型</th>
-<th align="center">描述</th>
-<th align="center">特点</th>
-<th align="center">优点</th>
-<th align="center">缺点</th>
+<tr class="header">
+<th style="text-align: center;">数据类型</th>
+<th style="text-align: center;">描述</th>
+<th style="text-align: center;">特点</th>
+<th style="text-align: center;">优点</th>
+<th style="text-align: center;">缺点</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">varchar(最长255)</td>
-<td align="center">可变长度的字符串</td>
-<td align="center">会根据实际的数据长度动态分配空间。</td>
-<td align="center">比较智能，节省空间。</td>
-<td align="center">需要动态分配空间，速度慢。</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">varchar(最长255)</td>
+<td style="text-align: center;">可变长度的字符串</td>
+<td style="text-align: center;">会根据实际的数据长度动态分配空间。</td>
+<td style="text-align: center;">比较智能，节省空间。</td>
+<td style="text-align: center;">需要动态分配空间，速度慢。</td>
 </tr>
-<tr>
-<td align="center">char(最长255)</td>
-<td align="center">定长字符串</td>
-<td align="center">不管实际的数据长度是多少，分配固定长度的空间去存储数据。</td>
-<td align="center">不需要动态分配空间，速度快。</td>
-<td align="center">使用不当可能会导致空间的浪费。</td>
+<tr class="even">
+<td style="text-align: center;">char(最长255)</td>
+<td style="text-align: center;">定长字符串</td>
+<td style="text-align: center;">不管实际的数据长度是多少，分配固定长度的空间去存储数据。</td>
+<td style="text-align: center;">不需要动态分配空间，速度快。</td>
+<td style="text-align: center;">使用不当可能会导致空间的浪费。</td>
 </tr>
-<tr>
-<td align="center">int(最长11)</td>
-<td align="center">数字中的整数型</td>
-<td align="center">等同于java的int。</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="odd">
+<td style="text-align: center;">int(最长11)</td>
+<td style="text-align: center;">数字中的整数型</td>
+<td style="text-align: center;">等同于java的int。</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">bigint</td>
-<td align="center">数字中的长整型</td>
-<td align="center">等同于java中的long。</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="even">
+<td style="text-align: center;">bigint</td>
+<td style="text-align: center;">数字中的长整型</td>
+<td style="text-align: center;">等同于java中的long。</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">float</td>
-<td align="center">单精度浮点型数据</td>
-<td align="center">等同于java中的float。</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="odd">
+<td style="text-align: center;">float</td>
+<td style="text-align: center;">单精度浮点型数据</td>
+<td style="text-align: center;">等同于java中的float。</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">double</td>
-<td align="center">双精度浮点型数据</td>
-<td align="center">等同于java中的double。</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="even">
+<td style="text-align: center;">double</td>
+<td style="text-align: center;">双精度浮点型数据</td>
+<td style="text-align: center;">等同于java中的double。</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">date</td>
-<td align="center">短日期类型</td>
-<td align="center">默认格式：%Y-%m-%d</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="odd">
+<td style="text-align: center;">date</td>
+<td style="text-align: center;">短日期类型</td>
+<td style="text-align: center;">默认格式：%Y-%m-%d</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">datetime</td>
-<td align="center">长日期类型</td>
-<td align="center">默认格式：%Y-%m-%d %h:%i:%s</td>
-<td align="center"></td>
-<td align="center"></td>
+<tr class="even">
+<td style="text-align: center;">datetime</td>
+<td style="text-align: center;">长日期类型</td>
+<td style="text-align: center;">默认格式：%Y-%m-%d %h:%i:%s</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">clob</td>
-<td align="center">字符大对象</td>
-<td align="center">最多可以存储4G的字符串。比如：存储一篇文章，存储一个说明。</td>
-<td align="center">超过255个字符的都要采用CLOB字符大对象来存储。</td>
-<td align="center"></td>
+<tr class="odd">
+<td style="text-align: center;">clob</td>
+<td style="text-align: center;">字符大对象</td>
+<td style="text-align: center;">最多可以存储4G的字符串。比如：存储一篇文章，存储一个说明。</td>
+<td style="text-align: center;">超过255个字符的都要采用CLOB字符大对象来存储。</td>
+<td style="text-align: center;"></td>
 </tr>
-<tr>
-<td align="center">blob</td>
-<td align="center">二进制大对象</td>
-<td align="center">专门用来存储图片、声音、视频等流媒体数据。往BLOB类型的字段上插入数据的时候，例如插入一个图片、视频等。</td>
-<td align="center"></td>
-<td align="center">需要使用IO流才行。</td>
+<tr class="even">
+<td style="text-align: center;">blob</td>
+<td style="text-align: center;">二进制大对象</td>
+<td style="text-align: center;">专门用来存储图片、声音、视频等流媒体数据。往BLOB类型的字段上插入数据的时候，例如插入一个图片、视频等。</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">需要使用IO流才行。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 
             </div>
             <hr>
