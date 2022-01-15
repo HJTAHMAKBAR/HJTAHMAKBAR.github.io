@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>机器学习-理解ROC、AUC以及rank-loss</title>
+    <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
+    <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
+    
+    <content type="html"><![CDATA[<h1 id="理解rocauc以及rank-loss">理解ROC、AUC以及rank-loss</h1><h3 id="roc">ROC</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115103747376.png" alt="西瓜书P33" style="zoom:200%;" /></p><p>理解：以ROC在医学检测中的应用举例，首先我们需要将混淆矩阵中的各个元素赋予对应的含义。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115111426556.png" alt="分类结果混淆矩阵" style="zoom:200%;" /></p><p>在医学检测中，我们可以按照下面的含义解释上述各元素（正例为阳性-得病，反例为阴性-健康）</p><ul><li>TP：预测结果是正例，真实情况是正例，可以看作是医生正确诊断出病例</li><li>FN：预测结果是反例，真实情况是正例，可以看作是医生漏诊，将得病诊断为健康</li><li>FP：预测结果是正例，真实情况是反例，可以看作是医生误诊，将健康诊断为得病</li><li>TN：预测结果是反例，真实情况是反例，可以看作是医生检查出没有得病</li></ul><p>我们再来看ROC中的TPR和FPR。 <span class="math display">\[TPR = {TP \over TP + FN}\]</span></p><p><span class="math display">\[FPR = {FP \over TN + FP}\]</span></p><ul><li>TPR：<span class="math display">\[真正例 \over 真实情况是正例\]</span>即在所有实际为正例的样本中，被正确地判断为正例的比率，可以看作是在所有得病的人中，有多少人被医生正确地诊断出阳性。</li><li>FPR：<span class="math display">\[假正例 \over 真实情况是反例\]</span>即在所有实际为反例的样本中，被错误地判断为正例的比率，可以看作是在所有健康的人当中，有多少人被医生误诊为得病。</li></ul><p>那么对于一个机器学习的学习器而言，我们希望的是TPR越高越好，而FPR越低越好。然后实际情况是，当我们的阈值减小时，TPR和FPR会同时增大，当阈值为0的时候，即所有的实例都被预测为正例，此时的TPR为1，因为所有的阳性都被诊断出来了；此时的FPR为1，因为所有健康的人都被诊断为阳性。</p><p>ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115141452830.png" alt="ROC曲线" style="zoom:200%;" /></p><p>如图可见，如果想要TPR尽可能的高，那么相应的阴影部分的面积也会增大。我们进行学习器的比较时，与P-R图相似，若一个学习器的ROC曲线被另一个学习器的曲线完全”包住“，则可断言后者的性能优于前者；若两个学习器的ROC曲线发生交叉，则难以一般性地断言两者孰优孰劣。此时如果一定要进行比较，则较为合理的判据是比较ROC曲线下的面积，即AUC（Area Under ROC Curve）。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143800508.png" alt="image-20220115143800508" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115144442178.png" alt="image-20220115144442178" style="zoom:200%;" /></p><p>这里的AUC的公式比较好理解，就是通过坐标计算出一小块一小块的面积的和。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151620674.png" alt="ROC曲线可能出现的3种情况" /><figcaption aria-hidden="true">ROC曲线可能出现的3种情况</figcaption></figure><p>对应3种情况：</p><ol type="1"><li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math display">\[1 \over m-\]</span>，水平向右移动，面积就是<span class="math display">\[(x_{i+1} - x_i) \cdot y_i \]</span></li><li>如果<span class="math display">\[x_i = x_{i+1}\]</span>那么小块形状是垂直的线段，真正例率增加<span class="math display">\[1 \over m+\]</span>，假正例率不变，垂直向上移动，面积就是0</li><li>如果下一个点<span class="math display">\[(x_{i+1}, y_{i+1})\]</span>在<span class="math display">\[(x_{i}, y_{i})\]</span>的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，<span class="math display">\[{1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\]</span></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" /></p><p>综上，总的AUC计算公式，如下。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" alt="rank-loss" style="zoom:200%;" /></p><p>这里引入了一个loss</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" alt="image-20220115153949762" /><figcaption aria-hidden="true">image-20220115153949762</figcaption></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>机器学习</category>
+      
+      <category>所有</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>机器学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>F1度量为何用调和平均而不用算术平均</title>
     <link href="/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/"/>
     <url>/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/</url>
@@ -140,17 +167,17 @@
   
   <entry>
     <title>Linux实验1-系统安装与基本使用</title>
-    <link href="/Linux/Linux%E5%AE%9E%E9%AA%8C1-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
-    <url>/Linux/Linux%E5%AE%9E%E9%AA%8C1-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <link href="/%E6%89%80%E6%9C%89/Linux%E5%AE%9E%E9%AA%8C1-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <url>/%E6%89%80%E6%9C%89/Linux%E5%AE%9E%E9%AA%8C1-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
     
     <content type="html"><![CDATA[<h2 id="linux系统实验报告">《Linux系统》实验报告</h2><p>Ø 课 程 Linux系统与大数据应用</p><p>Ø 实验名称 实验 1 系统安装与基本使用</p><p>Ø 专 业 计算机科学与技术</p><p>Ø 班 级 1901</p><p>Ø 姓 名 黄江涛</p><p>Ø 学 号 191310630</p><p>Ø 完成报告日期 2021/9/9</p><h3 id="一实验内容"><strong>一、实验内容</strong></h3><h5 id="linux系统的安装在vmware的虚拟机上安装ubuntu系统">（1）Linux系统的安装，在VMware的虚拟机上安装Ubuntu系统。</h5><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/clip_image002.jpg" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure><h5 id="系统桌面环境的安装与使用">（2）系统桌面环境的安装与使用。</h5><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104619592.png" alt="image-20210910104619592" /><figcaption aria-hidden="true">image-20210910104619592</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104626676.png" alt="image-20210910104626676" /><figcaption aria-hidden="true">image-20210910104626676</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104639945.png" alt="image-20210910104639945" /><figcaption aria-hidden="true">image-20210910104639945</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104644140.png" alt="image-20210910104644140" /><figcaption aria-hidden="true">image-20210910104644140</figcaption></figure><p>重启系统之后显示安装成功</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104710149.png" alt="image-20210910104710149" /><figcaption aria-hidden="true">image-20210910104710149</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104714671.png" alt="image-20210910104714671" /><figcaption aria-hidden="true">image-20210910104714671</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104722689.png" alt="image-20210910104722689" /><figcaption aria-hidden="true">image-20210910104722689</figcaption></figure><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104727652.png" alt="image-20210910104727652" /><figcaption aria-hidden="true">image-20210910104727652</figcaption></figure><h5 id="字符终端之间以及与桌面之间的切换">（3）字符终端之间以及与桌面之间的切换。</h5><p>字符界面1：</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104746113.png" alt="image-20210910104746113" /><figcaption aria-hidden="true">image-20210910104746113</figcaption></figure><p>字符界面3：</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910104801812.png" alt="image-20210910104801812" /><figcaption aria-hidden="true">image-20210910104801812</figcaption></figure><p>返回图形界面：</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910105026221.png" alt="image-20210910105026221" /><figcaption aria-hidden="true">image-20210910105026221</figcaption></figure><h5 id="关闭和启动系统">（4）关闭和启动系统。</h5><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910105032354.png" alt="image-20210910105032354" /><figcaption aria-hidden="true">image-20210910105032354</figcaption></figure><h5 id="目录相对地址的使用">（5）目录相对地址的使用。</h5><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910105036166.png" alt="image-20210910105036166" /><figcaption aria-hidden="true">image-20210910105036166</figcaption></figure><h5 id="使用-echo命令">（6）使用 echo命令。</h5><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20210910105040479.png" alt="image-20210910105040479" /><figcaption aria-hidden="true">image-20210910105040479</figcaption></figure><h5 id="使用管道">（7）使用管道。</h5><h5 id="使用命令显示文件的内容">（8）使用命令显示文件的内容。</h5><h5 id="使用vi或vim编辑器">（9）使用vi或vim编辑器。</h5><h5 id="使用-uname命令显示计算机及操作系统相关信息">（10）使用 uname命令显示计算机及操作系统相关信息。</h5><h5 id="使用-hostname命令显示或修改计算机主机名">（11）使用 hostname命令显示或修改计算机主机名。</h5><h5 id="使用-ls-命令显示文件的属性">（12）使用 ls 命令显示文件的属性。</h5><h5 id="命令的排列可同时按先后顺序执行两个命令">（13）命令的排列，可同时按先后顺序执行两个命令。</h5><h5 id="使用通配符">（14）使用通配符。</h5><h5 id="使用-tab-键">（15）使用 Tab 键。</h5><h5 id="退出当前用户的命令">（16）退出当前用户的命令。</h5>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>Linux</category>
+      
+      <category>所有</category>
       
     </categories>
     
