@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>ARM最大寻址空间、字长、指令长度</title>
+    <link href="/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/"/>
+    <url>/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[<h3 id="arm最大寻址空间字长指令长度">ARM最大寻址空间、字长、指令长度</h3><h4 id="最大寻址空间">最大寻址空间</h4><p><strong>ARM</strong>体系结构所支持的最大寻址空间为<strong>4GB</strong>(<span class="math inline">\(2^{32}\)</span>字节)</p><h4 id="字长指令长度">字长、指令长度</h4><p>ARM处理器的字长是<strong>32位</strong>，则一条汇编指令的长度也是32位，也就是四个字节(8位一个字节)，而内存中一个地址单元是一个字节，也就是说一条指令要占据4个地址单元。 假设程序顺序执行（一条接一条，没有跳转），假设当前正在CPU中执行的指令A的首地址是0，也就是说指令A的存放位置是内存中的0—3这4个地址单元。</p><p>ARM是一种32位处理器，即ARM处理器处理的数据通常是以32位二进制位基本单位的。ARM中的一个32位数叫做一个字。在存储器中，ARM的一个基本数据需要占用4个连续存储单元，为了判断哪四个单元为一个字，ARM规定一个字所占用的4个连续存储单元的第一个单元地址的低2位必须是00(能被被四整除)。</p><p>根据字的4字节在4个存储单元中的存储顺序，ARM提供了两种存储方式：小端方式和大端方式。系统默认的是小端方式，即字的低位字节在地址的底端（小端）。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>ARM</category>
+      
+      <category>所有</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ARM</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</title>
+    <link href="/Oracle/%E5%85%B3%E4%BA%8EOracleDBConsoleorcl%E6%9C%8D%E5%8A%A1%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+    <url>/Oracle/%E5%85%B3%E4%BA%8EOracleDBConsoleorcl%E6%9C%8D%E5%8A%A1%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h2 id="关于oracledbconsoleorcl服务无法启动问题原因分析与解决办法">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</h2><h3 id="问题描述">问题描述</h3><p>不久前我在windows电脑上成功安装了Oracle10g，并顺利地启动了OracleDBConsoleorcl并且登上了OEM(Oracle企业管理器)网页。</p><p>但是在今天，我发现OracleDBConsoleorcl怎么也没有办法启动，不管是通过管理员命令行输入命令启动还是通过任务管理的服务手动打开。</p><h3 id="原因分析">原因分析</h3><p>经过上网搜索问题相关资料，我发现原因在于OracleDBConsoleorcl服务会根据当前计算机所连接到的ip地址信息来配置一些文件，启动这个服务的时候就会用到这些文件，而问题就出在了这里，每次重新联网后ip地址都会重新动态分配，这样分配的ip和第一次安装oracle时使用的ip信息不一样，所以导致oracleconsoleorcl服务无法启动了。</p><h3 id="解决办法">解决办法</h3><ol type="1"><li><p>删除资料档案库</p><p>会同时删除OracleDBConsoleORCL服务，并删除用户SYSMAN及其所属对象</p></li><li><p>重新创建资料档案库</p><p>会重新添加OracleDBConsoleORCL服务，并创建SYSMAN用户及其所属对象。</p></li></ol><h3 id="解决步骤方法1">解决步骤(方法1)</h3><ol type="1"><li><p>此时Oracle的监听器服务和数据库服务必须处于启动状态</p></li><li><p>以管理员身份运行CMD</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">emca -repos drop<br></code></pre></td></tr></table></figure><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201200469.png" /></p><p>输入以下信息:</p><ul><li>数据库 SID: orcl</li><li>监听程序端口号: 1521</li><li>SYS 用户的口令:</li><li>SYSMAN 用户的口令:</li><li>SYSMAN 用户的口令:</li><li>是否继续? [是(Y)/否(N)]: y</li></ul></li><li><p>启动数据库配置助手</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">dbca<br></code></pre></td></tr></table></figure><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201351570.png" /></p><ul><li>第一步时选择“配置数据库选件”</li></ul><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201554141.png" /></p><ul><li>后面的操作只需要一直点击下一步</li><li>在选择是否使用EM资料档案库时，一定要选中，默认没有选中</li></ul><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201616361.png" /></p><ul><li>dbca检查到系统中已经没有EM资料档案库，于是就会重新创建</li><li>OracleDBConsoleORCL服务也会重新添加了</li></ul><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305202803186.png" /></p></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305204411971.png" /></p><h3 id="解决步骤方法2">解决步骤(方法2)</h3><p>重新配置</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">emca -config dbcontrol db -repos recreate<br></code></pre></td></tr></table></figure><p>启动</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">emctl <span class="hljs-literal">start</span> dbconsole<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>所有</category>
+      
+      <category>Oracle</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Oracle</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CentOS7安装Mysql5.7</title>
     <link href="/%E6%89%80%E6%9C%89/CentOS7%E5%AE%89%E8%A3%85Mysql5-7/"/>
     <url>/%E6%89%80%E6%9C%89/CentOS7%E5%AE%89%E8%A3%85Mysql5-7/</url>
@@ -35,7 +89,7 @@
     <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
     <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
     
-    <content type="html"><![CDATA[<h1 id="理解rocauc以及rank-loss">理解ROC、AUC以及rank-loss</h1><h3 id="roc">ROC</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115103747376.png" alt="西瓜书P33" style="zoom:200%;" /></p><p>理解：以ROC在医学检测中的应用举例，首先我们需要将混淆矩阵中的各个元素赋予对应的含义。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115111426556.png" alt="分类结果混淆矩阵" style="zoom:200%;" /></p><p>在医学检测中，我们可以按照下面的含义解释上述各元素（正例为阳性-得病，反例为阴性-健康）</p><ul><li>TP：预测结果是正例，真实情况是正例，可以看作是医生正确诊断出病例</li><li>FN：预测结果是反例，真实情况是正例，可以看作是医生漏诊，将得病诊断为健康</li><li>FP：预测结果是正例，真实情况是反例，可以看作是医生误诊，将健康诊断为得病</li><li>TN：预测结果是反例，真实情况是反例，可以看作是医生检查出没有得病</li></ul><p>我们再来看ROC中的TPR和FPR。 <span class="math display">\[TPR = {TP \over TP + FN}\]</span></p><p><span class="math display">\[FPR = {FP \over TN + FP}\]</span></p><ul><li>TPR：<span class="math display">\[真正例 \over 真实情况是正例\]</span>即在所有实际为正例的样本中，被正确地判断为正例的比率，可以看作是在所有得病的人中，有多少人被医生正确地诊断出阳性。</li><li>FPR：<span class="math display">\[假正例 \over 真实情况是反例\]</span>即在所有实际为反例的样本中，被错误地判断为正例的比率，可以看作是在所有健康的人当中，有多少人被医生误诊为得病。</li></ul><p>那么对于一个机器学习的学习器而言，我们希望的是TPR越高越好，而FPR越低越好。然后实际情况是，当我们的阈值减小时，TPR和FPR会同时增大，当阈值为0的时候，即所有的实例都被预测为正例，此时的TPR为1，因为所有的阳性都被诊断出来了；此时的FPR为1，因为所有健康的人都被诊断为阳性。</p><p>ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115141452830.png" alt="ROC曲线" style="zoom:200%;" /></p><p>如图可见，如果想要TPR尽可能的高，那么相应的阴影部分的面积也会增大。我们进行学习器的比较时，与P-R图相似，若一个学习器的ROC曲线被另一个学习器的曲线完全”包住“，则可断言后者的性能优于前者；若两个学习器的ROC曲线发生交叉，则难以一般性地断言两者孰优孰劣。此时如果一定要进行比较，则较为合理的判据是比较ROC曲线下的面积，即AUC（Area Under ROC Curve）。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143800508.png" alt="image-20220115143800508" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115144442178.png" alt="image-20220115144442178" style="zoom:200%;" /></p><p>这里的AUC的公式比较好理解，就是通过坐标计算出一小块一小块的面积的和。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151620674.png" alt="ROC曲线可能出现的3种情况" /><figcaption aria-hidden="true">ROC曲线可能出现的3种情况</figcaption></figure><p>对应3种情况：</p><ol type="1"><li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math display">\[1 \over m-\]</span>，水平向右移动，面积就是<span class="math display">\[(x_{i+1} - x_i) \cdot y_i \]</span></li><li>如果<span class="math display">\[x_i = x_{i+1}\]</span>那么小块形状是垂直的线段，真正例率增加<span class="math display">\[1 \over m+\]</span>，假正例率不变，垂直向上移动，面积就是0</li><li>如果下一个点<span class="math display">\[(x_{i+1}, y_{i+1})\]</span>在<span class="math display">\[(x_{i}, y_{i})\]</span>的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，<span class="math display">\[{1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\]</span></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" /></p><p>综上，总的AUC计算公式，如下。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" alt="rank-loss" style="zoom:200%;" /></p><p>这里引入了一个loss</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" alt="image-20220115153949762" /><figcaption aria-hidden="true">image-20220115153949762</figcaption></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="理解rocauc以及rank-loss">理解ROC、AUC以及rank-loss</h1><h3 id="roc">ROC</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115103747376.png" alt="西瓜书P33" style="zoom:200%;" /></p><p>理解：以ROC在医学检测中的应用举例，首先我们需要将混淆矩阵中的各个元素赋予对应的含义。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115111426556.png" alt="分类结果混淆矩阵" style="zoom:200%;" /></p><p>在医学检测中，我们可以按照下面的含义解释上述各元素（正例为阳性-得病，反例为阴性-健康）</p><ul><li>TP：预测结果是正例，真实情况是正例，可以看作是医生正确诊断出病例</li><li>FN：预测结果是反例，真实情况是正例，可以看作是医生漏诊，将得病诊断为健康</li><li>FP：预测结果是正例，真实情况是反例，可以看作是医生误诊，将健康诊断为得病</li><li>TN：预测结果是反例，真实情况是反例，可以看作是医生检查出没有得病</li></ul><p>我们再来看ROC中的TPR和FPR。 <span class="math display">\[TPR = {TP \over TP + FN}\]</span></p><p><span class="math display">\[FPR = {FP \over TN + FP}\]</span></p><ul><li>TPR：<span class="math display">\[真正例 \over 真实情况是正例\]</span>即在所有实际为正例的样本中，被正确地判断为正例的比率，可以看作是在所有得病的人中，有多少人被医生正确地诊断出阳性。</li><li>FPR：<span class="math display">\[假正例 \over 真实情况是反例\]</span>即在所有实际为反例的样本中，被错误地判断为正例的比率，可以看作是在所有健康的人当中，有多少人被医生误诊为得病。</li></ul><p>那么对于一个机器学习的学习器而言，我们希望的是TPR越高越好，而FPR越低越好。然后实际情况是，当我们的阈值减小时，TPR和FPR会同时增大，当阈值为0的时候，即所有的实例都被预测为正例，此时的TPR为1，因为所有的阳性都被诊断出来了；此时的FPR为1，因为所有健康的人都被诊断为阳性。</p><p>ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115141452830.png" alt="ROC曲线" style="zoom:200%;" /></p><p>如图可见，如果想要TPR尽可能的高，那么相应的阴影部分的面积也会增大。我们进行学习器的比较时，与P-R图相似，若一个学习器的ROC曲线被另一个学习器的曲线完全”包住“，则可断言后者的性能优于前者；若两个学习器的ROC曲线发生交叉，则难以一般性地断言两者孰优孰劣。此时如果一定要进行比较，则较为合理的判据是比较ROC曲线下的面积，即AUC（Area Under ROC Curve）。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143800508.png" alt="image-20220115143800508" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115144442178.png" alt="image-20220115144442178" style="zoom:200%;" /></p><p>这里的AUC的公式比较好理解，就是通过坐标计算出一小块一小块的面积的和。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151620674.png" alt="ROC曲线可能出现的3种情况" /><figcaption aria-hidden="true">ROC曲线可能出现的3种情况</figcaption></figure><p>对应3种情况：</p><ol type="1"><li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math inline">\(1 \over m-\)</span>，水平向右移动，面积就是$(x_{i+1} - x_i) y_i $</li><li>如果<span class="math inline">\(x_i = x_{i+1}\)</span>那么小块形状是垂直的线段，真正例率增加<span class="math inline">\(1 \over m+\)</span>，假正例率不变，垂直向上移动，面积就是0</li><li>如果下一个点<span class="math inline">\((x_{i+1}, y_{i+1})\)</span><span class="math inline">\(在\)</span><span class="math inline">\((x_{i}, y_{i})\)</span><span class="math inline">\(的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，\)</span><span class="math inline">\({1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\)</span></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" /></p><p>综上，总的AUC计算公式，如下。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" alt="rank-loss" style="zoom:200%;" /></p><p>这里引入了一个loss</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" /></p>]]></content>
     
     
     <categories>
@@ -545,9 +599,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>Git</tag>
-      
       <tag>Github Pages</tag>
+      
+      <tag>Git</tag>
       
     </tags>
     
@@ -576,9 +630,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>GithubPages</tag>
-      
       <tag>Git</tag>
+      
+      <tag>GithubPages</tag>
       
       <tag>nvm</tag>
       

@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      852 字
+      849 字
     </span>
   
 
@@ -262,17 +262,15 @@ FPR = {FP \over TN + FP}
 </figure>
 <p>对应3种情况：</p>
 <ol type="1">
-<li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math display">\[1 \over m-\]</span>，水平向右移动，面积就是<span class="math display">\[(x_{i+1} - x_i) \cdot y_i \]</span></li>
-<li>如果<span class="math display">\[x_i = x_{i+1}\]</span>那么小块形状是垂直的线段，真正例率增加<span class="math display">\[1 \over m+\]</span>，假正例率不变，垂直向上移动，面积就是0</li>
-<li>如果下一个点<span class="math display">\[(x_{i+1}, y_{i+1})\]</span>在<span class="math display">\[(x_{i}, y_{i})\]</span>的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，<span class="math display">\[{1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\]</span></li>
+<li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math inline">\(1 \over m-\)</span>，水平向右移动，面积就是$(x_{i+1} - x_i) y_i $</li>
+<li>如果<span class="math inline">\(x_i = x_{i+1}\)</span>那么小块形状是垂直的线段，真正例率增加<span class="math inline">\(1 \over m+\)</span>，假正例率不变，垂直向上移动，面积就是0</li>
+<li>如果下一个点<span class="math inline">\((x_{i+1}, y_{i+1})\)</span><span class="math inline">\(在\)</span><span class="math inline">\((x_{i}, y_{i})\)</span><span class="math inline">\(的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，\)</span><span class="math inline">\({1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\)</span></li>
 </ol>
 <p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" srcset="/img/loading.gif" lazyload alt="image-20220115151949690" style="zoom:200%;" /></p>
 <p>综上，总的AUC计算公式，如下。</p>
 <p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" srcset="/img/loading.gif" lazyload alt="rank-loss" style="zoom:200%;" /></p>
 <p>这里引入了一个loss</p>
-<figure>
-<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" srcset="/img/loading.gif" lazyload alt="image-20220115153949762" /><figcaption aria-hidden="true">image-20220115153949762</figcaption>
-</figure>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" srcset="/img/loading.gif" lazyload /></p>
 
             </div>
             <hr>

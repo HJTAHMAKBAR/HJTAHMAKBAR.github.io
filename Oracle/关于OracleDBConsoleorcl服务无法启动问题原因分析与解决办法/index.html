@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>CentOS7安装Mysql5.7 - 江客</title>
+  <title>关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="CentOS7安装Mysql5.7">
+            <span class="h2" id="subtitle" title="关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-25 11:13" pubdate>
-        2022年2月25日 上午
+      <time datetime="2022-03-11 10:33" pubdate>
+        2022年3月11日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      149 字
+      503 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      5
        分钟
     </span>
   
@@ -225,38 +225,61 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">CentOS7安装Mysql5.7</h1>
+            <h1 style="display: none">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</h1>
             
             <div class="markdown-body">
-              <h3 id="centos安装mysql5.7">CentOS安装Mysql5.7</h3>
+              <h2 id="关于oracledbconsoleorcl服务无法启动问题原因分析与解决办法">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</h2>
+<h3 id="问题描述">问题描述</h3>
+<p>不久前我在windows电脑上成功安装了Oracle10g，并顺利地启动了OracleDBConsoleorcl并且登上了OEM(Oracle企业管理器)网页。</p>
+<p>但是在今天，我发现OracleDBConsoleorcl怎么也没有办法启动，不管是通过管理员命令行输入命令启动还是通过任务管理的服务手动打开。</p>
+<h3 id="原因分析">原因分析</h3>
+<p>经过上网搜索问题相关资料，我发现原因在于OracleDBConsoleorcl服务会根据当前计算机所连接到的ip地址信息来配置一些文件，启动这个服务的时候就会用到这些文件，而问题就出在了这里，每次重新联网后ip地址都会重新动态分配，这样分配的ip和第一次安装oracle时使用的ip信息不一样，所以导致oracleconsoleorcl服务无法启动了。</p>
+<h3 id="解决办法">解决办法</h3>
 <ol type="1">
-<li><h5 id="下载并安装mysql官方的-yum-repository">下载并安装Mysql官方的 Yum Repository</h5>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget http:<span class="hljs-regexp">//</span>dev.mysql.com<span class="hljs-regexp">/get/my</span>sql57-community-release-el7-<span class="hljs-number">11</span>.noarch.rpm<br></code></pre></td></tr></table></figure></li>
-<li><h5 id="安装mysql的软件仓库">安装MySQL的软件仓库</h5>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">rpm</span> -ivh mysql<span class="hljs-number">57</span>-community-release-el<span class="hljs-number">7</span>-<span class="hljs-number">11</span>.noarch.rpm<br></code></pre></td></tr></table></figure></li>
-<li><h5 id="安装mysql服务">安装MySQL服务</h5>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">yum -y install mysql-<span class="hljs-keyword">server</span><br></code></pre></td></tr></table></figure>
-<p><strong>可能遇到的问题</strong></p>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220225112053832.png" srcset="/img/loading.gif" lazyload /></p>
-<p><strong>问题描述：</strong>源MySQL 5.7 Community Server” 的 GPG 密钥已安装，但是不适用于此软件包。</p>
-<p><strong>解决办法：</strong></p>
-<ol type="1">
-<li><p>执行以下命令：</p>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">rpm --<span class="hljs-keyword">import</span> https:<span class="hljs-comment">//repo.mysql.com/RPM-GPG-KEY-mysql-2022</span><br></code></pre></td></tr></table></figure></li>
-<li><p>重试安装命令</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">yum -y install mysql-<span class="hljs-keyword">server</span><br></code></pre></td></tr></table></figure></li>
-</ol></li>
-<li><h5 id="安装成功">安装成功</h5>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220225112334882.png" srcset="/img/loading.gif" lazyload /></p></li>
+<li><p>删除资料档案库</p>
+<p>会同时删除OracleDBConsoleORCL服务，并删除用户SYSMAN及其所属对象</p></li>
+<li><p>重新创建资料档案库</p>
+<p>会重新添加OracleDBConsoleORCL服务，并创建SYSMAN用户及其所属对象。</p></li>
 </ol>
-<h3 id="启动mysql服务">启动Mysql服务</h3>
+<h3 id="解决步骤方法1">解决步骤(方法1)</h3>
 <ol type="1">
-<li><h5 id="启动命令">启动命令</h5>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">systemctl <span class="hljs-literal">start</span>  mysqld.service<br></code></pre></td></tr></table></figure></li>
-<li><h5 id="查看mysql运行状态">查看MySQL运行状态</h5>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs fortran">systemctl <span class="hljs-keyword">status</span> mysqld.service<br></code></pre></td></tr></table></figure>
-<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220225112442932.png" srcset="/img/loading.gif" lazyload /></li>
+<li><p>此时Oracle的监听器服务和数据库服务必须处于启动状态</p></li>
+<li><p>以管理员身份运行CMD</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">emca -repos drop<br></code></pre></td></tr></table></figure>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201200469.png" srcset="/img/loading.gif" lazyload /></p>
+<p>输入以下信息:</p>
+<ul>
+<li>数据库 SID: orcl</li>
+<li>监听程序端口号: 1521</li>
+<li>SYS 用户的口令:</li>
+<li>SYSMAN 用户的口令:</li>
+<li>SYSMAN 用户的口令:</li>
+<li>是否继续? [是(Y)/否(N)]: y</li>
+</ul></li>
+<li><p>启动数据库配置助手</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">dbca<br></code></pre></td></tr></table></figure>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201351570.png" srcset="/img/loading.gif" lazyload /></p>
+<ul>
+<li>第一步时选择“配置数据库选件”</li>
+</ul>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201554141.png" srcset="/img/loading.gif" lazyload /></p>
+<ul>
+<li>后面的操作只需要一直点击下一步</li>
+<li>在选择是否使用EM资料档案库时，一定要选中，默认没有选中</li>
+</ul>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305201616361.png" srcset="/img/loading.gif" lazyload /></p>
+<ul>
+<li>dbca检查到系统中已经没有EM资料档案库，于是就会重新创建</li>
+<li>OracleDBConsoleORCL服务也会重新添加了</li>
+</ul>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305202803186.png" srcset="/img/loading.gif" lazyload /></p></li>
 </ol>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220305204411971.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="解决步骤方法2">解决步骤(方法2)</h3>
+<p>重新配置</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">emca -config dbcontrol db -repos recreate<br></code></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">emctl <span class="hljs-literal">start</span> dbconsole<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -266,9 +289,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
-                    
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Oracle/">Oracle</a>
                     
                   </div>
                 
@@ -276,7 +299,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
                     
                   </div>
                 
@@ -293,9 +316,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Oracle/%E5%85%B3%E4%BA%8EOracleDBConsoleorcl%E6%9C%8D%E5%8A%A1%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</span>
+                        <span class="hidden-mobile">ARM最大寻址空间、字长、指令长度</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -303,8 +326,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/">
-                        <span class="hidden-mobile">机器学习-理解ROC、AUC以及rank-loss</span>
+                      <a href="/%E6%89%80%E6%9C%89/CentOS7%E5%AE%89%E8%A3%85Mysql5-7/">
+                        <span class="hidden-mobile">CentOS7安装Mysql5.7</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
