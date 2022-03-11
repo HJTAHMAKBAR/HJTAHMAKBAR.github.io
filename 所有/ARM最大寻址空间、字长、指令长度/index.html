@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      983 字
+      1.4k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      15
        分钟
     </span>
   
@@ -321,6 +321,22 @@
 <h3 id="指令长度及数据类型"><strong>指令长度及数据类型</strong></h3>
 <p><strong>ARM</strong>微处理器的指令长度可以是<strong>32</strong>位（在<strong>ARM</strong>状态下），也可以为<strong>16</strong>位（在<strong>Thumb</strong>状态下）。</p>
 <p><strong>ARM</strong>微处理器中支持字节（<strong>8</strong>位）、半字（<strong>16</strong>位）、字（<strong>32</strong>位）三种数据类型，其中，字需要<strong>4</strong>字节对齐（地址的低两位为<strong>0</strong>）、半字需要<strong>2</strong>字节对齐（地址的最低位为<strong>0</strong>）</p>
+<p><strong>ARM</strong>微处理器中的字为32位（4字节）、半字为16位（2字节）、字节为8位（1字节）。</p>
+<p>大多数计算机使用<strong>字节（8位的数据块）作为最小可寻址的存储器单位</strong>，而不是访问存储器中单独的位。存储器的每一个字节都由唯一的数字标识，称为该字节的<strong>地址</strong>，所有可能地址的集合称为存储器空间。</p>
+<p>举例来说，ARM处理器工作状态有如下两种：</p>
+<p>ARM状态：执行字对齐的32位ARM指令。</p>
+<p>Thumb状态：执行半字对齐的16位Thumb指令。</p>
+<p><strong>对于字对齐：</strong></p>
+<p>假如，第一次取ARM指令1的地址为 0x0000 0000，由于ARM指令占32位（4个字节），因此地址0x0000 0001、0x0000 0002、0x0000 0003（分别指向一个字中的4个字节的地址）都是指令1的地盘。那么第二次取ARM指令2的地址为 0x0000 0004，同样的道理，0x0000 0005、0x0000 0006、0x0000 0007也都是指令2的地盘，以此类推：</p>
+<p>指令1：<strong>0x0000 0000</strong>——0x0000 0003</p>
+<p>指令2：<strong>0x0000 0004</strong>——0x0000 0007</p>
+<p>指令3：<strong>0x0000 0008</strong>——0x0000 000B</p>
+<p>指令4：<strong>0x0000 000C</strong>——0x0000 000F</p>
+<p>…</p>
+<p>观察各个指令的<strong>起始地址</strong>：</p>
+<p>若按十进制来看分别是：0、4、8、12、…<strong>都可以被4整除</strong>。</p>
+<p>若按二进制来看bit1和bit0都是0：也就是说它们的起始地址都是0bxxxxxxxx xxxxxxxx xxxxxxxx xxxxxx<strong>00</strong>（32位地址）</p>
+<p>同理，对于Thumb指令，他们的起始地址都是0bxxxxxxxx xxxxxxxx xxxxxxxx xxxxxxx<strong>0</strong>（32位地址）</p>
 
             </div>
             <hr>
