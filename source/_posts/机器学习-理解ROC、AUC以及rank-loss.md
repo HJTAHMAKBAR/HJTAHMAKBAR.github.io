@@ -59,9 +59,9 @@ ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。
 
 对应3种情况：
 
-1. 如果$$y_i = y_{i+1}$$那么小块形状是矩形，真正例率不变，假正例率增加$$1 \over m-$$，水平向右移动，面积就是$$(x_{i+1} - x_i) \cdot y_i $$
-2. 如果$$x_i = x_{i+1}$$那么小块形状是垂直的线段，真正例率增加$$1 \over m+$$，假正例率不变，垂直向上移动，面积就是0
-3. 如果下一个点$$(x_{i+1}, y_{i+1})$$在$$(x_{i}, y_{i})$$的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，$${1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)$$
+1. 如果$$y_i = y_{i+1}$$那么小块形状是矩形，真正例率不变，假正例率增加$1 \over m-$，水平向右移动，面积就是$(x_{i+1} - x_i) \cdot y_i $
+2. 如果$x_i = x_{i+1}$那么小块形状是垂直的线段，真正例率增加$1 \over m+$，假正例率不变，垂直向上移动，面积就是0
+3. 如果下一个点$(x_{i+1}, y_{i+1})$$在$$(x_{i}, y_{i})$$的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，$${1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)$
 
 <img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" />
 
@@ -71,4 +71,4 @@ ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。
 
 这里引入了一个loss
 
-![image-20220115153949762](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png)
+![](https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png)
