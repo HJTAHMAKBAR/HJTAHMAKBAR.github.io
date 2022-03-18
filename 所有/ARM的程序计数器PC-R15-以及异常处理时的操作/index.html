@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>ARM微处理器的存储器格式 - 江客</title>
+  <title>ARM的程序计数器PC(R15)以及异常返回地址 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="ARM微处理器的存储器格式">
+            <span class="h2" id="subtitle" title="ARM的程序计数器PC(R15)以及异常返回地址">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-11 10:42" pubdate>
-        2022年3月11日 上午
+      <time datetime="2022-03-18 11:29" pubdate>
+        2022年3月18日 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1.6k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15
+      16
        分钟
     </span>
   
@@ -225,118 +225,53 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">ARM微处理器的存储器格式</h1>
+            <h1 style="display: none">ARM的程序计数器PC(R15)以及异常返回地址</h1>
             
             <div class="markdown-body">
-              <h2 id="arm微处理器的存储器格式">ARM微处理器的存储器格式</h2>
-<h3 id="最大寻址空间"><strong>最大寻址空间</strong></h3>
-<p><strong>ARM</strong>体系结构所支持的最大寻址空间为<strong>4GB</strong>(<span class="math inline">\(2^{32}\)</span>字节)</p>
-<h3 id="字长指令长度"><strong>字长、指令长度</strong></h3>
-<p>ARM处理器的字长是<strong>32位</strong>，则一条汇编指令的长度也是32位，也就是四个字节(8位一个字节)，而内存中一个地址单元是一个字节，也就是说一条指令要占据4个地址单元。 假设程序顺序执行（一条接一条，没有跳转），假设当前正在CPU中执行的指令A的首地址是0，也就是说指令A的存放位置是内存中的0—3这4个地址单元。</p>
-<p>ARM是一种32位处理器，即ARM处理器处理的数据通常是以32位二进制位基本单位的。ARM中的一个32位数叫做一个字。在存储器中，ARM的一个基本数据需要占用4个连续存储单元，为了判断哪四个单元为一个字，ARM规定一个字所占用的4个连续存储单元的第一个单元地址的低2位必须是00(能被被四整除)。</p>
-<h3 id="大端格式小端格式"><strong>大端格式、小端格式</strong></h3>
-<p>根据字的4字节在4个存储单元中的存储顺序，ARM提供了两种存储方式：小端方式和大端方式。系统默认的是小端方式，即字的低位字节在地址的底端（小端）。</p>
-<p><strong>理解</strong>：</p>
-<p><strong>所谓的大端模式，</strong>是指数据的低位保存在内存的高地址中，而数据的高位，保存在内存的低地址中；</p>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220311114119021.png" srcset="/img/loading.gif" lazyload /></p>
-<p><strong>所谓的小端模式，</strong>是指数据的低位保存在内存的低地址中，而数据的高位保存在内存的高地址中。</p>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220311114322099.png" srcset="/img/loading.gif" lazyload /></p>
-<p>例如，<strong>16bit</strong>宽的数<strong>0x1234</strong>在Little-endian（小端）模式CPU内存中的存放方式（假设从地址<strong>0x4000</strong>开始存放）为：</p>
-<table>
-<thead>
-<tr class="header">
-<th>内存地址</th>
-<th>0x4000</th>
-<th>0x4001</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>存放内容</td>
-<td>0x34</td>
-<td>0x12</td>
-</tr>
-</tbody>
-</table>
-<p>而在Big-endian（大端）模式CPU内存中的存放方式则为：</p>
-<table>
-<thead>
-<tr class="header">
-<th>内存地址</th>
-<th>0x4000</th>
-<th>0x4001</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>存放内容</td>
-<td>0x12</td>
-<td>0x34</td>
-</tr>
-</tbody>
-</table>
-<p><strong>32bit</strong>宽的数0x12345678在Little-endian（小端）模式CPU内存中的存放方式（假设从地址<strong>0x4000</strong>开始存放）为：</p>
-<table>
-<thead>
-<tr class="header">
-<th>内存地址</th>
-<th>0x4000</th>
-<th>0x4001</th>
-<th>0x4002</th>
-<th>0x4003</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>存放内容</td>
-<td>0x78</td>
-<td>0x56</td>
-<td>0x34</td>
-<td>0x12</td>
-</tr>
-</tbody>
-</table>
-<p>　　而在Big-endian（大端）模式CPU内存中的存放方式则为：</p>
-<table>
-<thead>
-<tr class="header">
-<th>内存地址</th>
-<th>0x4000</th>
-<th>0x4001</th>
-<th>0x4002</th>
-<th>0x4003</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>存放内容</td>
-<td>0x12</td>
-<td>0x34</td>
-<td>0x56</td>
-<td>0x78</td>
-</tr>
-</tbody>
-</table>
-<p>为什么会有大小端模式之分呢？这是因为在计算机系统中，我们是以字节为单位的，每个地址单元都对应着一个字节，一个字节为8bit。但是在C语言中除了8bit的char之外，还有16bit的short型，32bit的long型（要看具体的编译器），另外，对于位数大于8位的处理器，例如16位或者32位的处理器，由于寄存器宽度大于一个字节，那么必然存在着一个如果将多个字节安排的问题。因此就导致了大端存储模式和小端存储模式。例如一个16bit的short型x，在内存中的地址为0x0010，x的值为0x1122，那么0x11为高字节，0x22为低字节。对于大端模式，就将0x11放在低地址中，即0x0010中，0x22放在高地址中，即0x0011中。小端模式，刚好相反。我们常用的X86结构是小端模式，而KEIL C51则为大端模式。很多的ARM，DSP都为小端模式。有些ARM处理器还可以由硬件来选择是大端模式还是小端模式。</p>
-<h3 id="指令长度及数据类型"><strong>指令长度及数据类型</strong></h3>
-<p><strong>ARM</strong>微处理器的指令长度可以是<strong>32</strong>位（在<strong>ARM</strong>状态下），也可以为<strong>16</strong>位（在<strong>Thumb</strong>状态下）。</p>
-<p><strong>ARM</strong>微处理器中支持字节（<strong>8</strong>位）、半字（<strong>16</strong>位）、字（<strong>32</strong>位）三种数据类型，其中，字需要<strong>4</strong>字节对齐（地址的低两位为<strong>0</strong>）、半字需要<strong>2</strong>字节对齐（地址的最低位为<strong>0</strong>）</p>
-<p><strong>ARM</strong>微处理器中的字为32位（4字节）、半字为16位（2字节）、字节为8位（1字节）。</p>
-<p>大多数计算机使用<strong>字节（8位的数据块）作为最小可寻址的存储器单位</strong>，而不是访问存储器中单独的位。存储器的每一个字节都由唯一的数字标识，称为该字节的<strong>地址</strong>，所有可能地址的集合称为存储器空间。</p>
-<p>举例来说，ARM处理器工作状态有如下两种：</p>
-<p>ARM状态：执行字对齐的32位ARM指令。</p>
-<p>Thumb状态：执行半字对齐的16位Thumb指令。</p>
-<p><strong>对于字对齐：</strong></p>
-<p>假如，第一次取ARM指令1的地址为 0x0000 0000，由于ARM指令占32位（4个字节），因此地址0x0000 0001、0x0000 0002、0x0000 0003（分别指向一个字中的4个字节的地址）都是指令1的地盘。那么第二次取ARM指令2的地址为 0x0000 0004，同样的道理，0x0000 0005、0x0000 0006、0x0000 0007也都是指令2的地盘，以此类推：</p>
-<p>指令1：<strong>0x0000 0000</strong>——0x0000 0003</p>
-<p>指令2：<strong>0x0000 0004</strong>——0x0000 0007</p>
-<p>指令3：<strong>0x0000 0008</strong>——0x0000 000B</p>
-<p>指令4：<strong>0x0000 000C</strong>——0x0000 000F</p>
-<p>…</p>
-<p>观察各个指令的<strong>起始地址</strong>：</p>
-<p>若按十进制来看分别是：0、4、8、12、…<strong>都可以被4整除</strong>。</p>
-<p>若按二进制来看bit1和bit0都是0：也就是说它们的起始地址都是0bxxxxxxxx xxxxxxxx xxxxxxxx xxxxxx<strong>00</strong>（32位地址）</p>
-<p>同理，对于Thumb指令，他们的起始地址都是0bxxxxxxxx xxxxxxxx xxxxxxxx xxxxxxx<strong>0</strong>（32位地址）</p>
+              <h3 id="程序计数器pcr15">程序计数器PC(R15)</h3>
+<p><strong>ARM</strong>状态下，位<strong>[1:0]</strong>为0，位<strong>[31:2]</strong>用于保存<strong>PC</strong>；</p>
+<p><strong>Thumb</strong>状态下，位<strong>[0]</strong>为0，位<strong>[31:1]</strong>用于保存<strong>PC</strong>；</p>
+<p>由于<strong>ARM</strong>体系结构采用了多级流水线技术，对于<strong>ARM</strong>指令集而言，<strong>PC</strong>总是指向当前指令的<strong>下两条指令</strong>的地址，即<strong>PC</strong>的值为当前指令（正在执行的指令）的地址值加<strong>8</strong>个字节（一个ARM指令32位，4个字节）。</p>
+<h4 id="理解">理解</h4>
+<p>这里需要回顾一下CPU执行指令的步骤和多级流水线技术</p>
+<p>CPU在执行1条指令的时候，主要有3个步骤：</p>
+<ul>
+<li><p>取指（将指令从内存或指令cache中取入指令寄存器）；</p></li>
+<li><p>译码（指令译码器对指令寄存器中的指令进行译码操作，从而辨识出该指令是要执行add，或是sub，或是其它操作，从而产生各种时序控制信号）；</p></li>
+<li><p>执行（指令执行单元根据译码的结果进行运算并保存结果）</p></li>
+</ul>
+<p><strong>取指</strong>阶段占用的CPU硬件是<strong>指令通路</strong>和<strong>指令寄存器</strong>；<strong>译码</strong>阶段占用的CPU硬件是<strong>指令译码器</strong>；<strong>执行</strong>阶段占用的CPU硬件是指令<strong>执行单元</strong>和<strong>数据通路</strong>。三者占用的CPU硬件完全不同，这样就使得如下的操作得以进行：在对第1条指令进行译码的时候，可以同时对第2条指令进行取指操作；在对第1条指令进行执行的时候，可以同时对第2条指令进行译码操作，对第3条指令进行取指操作。显然，这样就可以将该程序的运行总时间从30秒缩减为12秒，提速近3倍。上面所述并行运行指令的方式就被称为流水线操作。可见：流水线操作的本质是利用指令运行的不同阶段使用的CPU硬件互不相同，并发的运行多条指令，从而提高时间效率。</p>
+<p>这里以三级流水线为例：</p>
+<figure>
+<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318170255436.png" srcset="/img/loading.gif" lazyload alt="三级流水线" /><figcaption aria-hidden="true">三级流水线</figcaption>
+</figure>
+<p><code>寄存器PC的值是即将被取指的指令的地址</code></p>
+<p><strong>正常情况下</strong>，在该条指令被取入CPU后执行期间，PC的值保持不变，在该条指令执行完成的时间点上，硬件会自动将PC的值增加一个单位的大小，这样PC就指向了下一条将被取指和执行的指令。</p>
+<p><strong>而在引入流水线后</strong>，PC值的情况发生了变化，假定第1条指令的内存地址为X，则在时刻T（第一条指令即将被取指），PC的值变为X，并在时刻T至时刻T+1期间维持不变；在时刻T+1，PC的值变为X+1个单位，并在时刻T+1至时刻T+2期间维持不变；在时刻T+2，PC的值变为X+2个单位，并在时刻T+2至时刻T+3期间维持不变；在时刻T+3，PC的值将变为X+3个单位。<strong>（为要保证流水线正常工作就得不停取指，每次取值PC值就会增加）</strong>由此可见，在第1条指令的执行阶段，PC的值不再是该指令在内存中的位置，而是该指令在内存中的位置+2个单元。对于ARM指令集而言，每条指令的长度为32bit，占4byte，所以1条指令在内存中需要4byte存储。</p>
+<p><strong>注意</strong>：虽然存在多种级别的流水线，但ARM出于统一和前后兼容的考虑，<code>PC 的值 = 当前正在执行指令在内存中的地址 + 8</code>这个结论在所有的流水线级别上都是相同的。</p>
+<figure>
+<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318171259152.png" srcset="/img/loading.gif" lazyload alt="读R15的限制" /><figcaption aria-hidden="true">读R15的限制</figcaption>
+</figure>
+<h3 id="arm处理器异常返回地址">ARM处理器异常返回地址</h3>
+<p>下面以三种异常为例，说明<strong>ARM处理器异常返回地址</strong>：</p>
+<ol type="1">
+<li><strong>FIQ</strong>（<strong>Fast Interrupt Request</strong>）</li>
+<li><strong>IRQ</strong>（<strong>Interrupt Request</strong>）</li>
+<li><strong>ABORT</strong>（中止）</li>
+</ol>
+<p>在ARM处理器中一条指令的执行分为取指、译码、执行三个阶段，由于指令流水线的存在造成当前执行的指令的地址是PC-8(ARM指令集)，那么当前执行指令的下一条指令的地址应该是PC-4，所以在异常产生时处理器会将PC-4的值保存到对应模式的LR寄存器中，但是该返回地址是否能够被使用还要看具体产生的异常的种类而定。</p>
+<p><strong>FIQ与RIQ异常：</strong></p>
+<p>FIQ与RIQ异常返回处理是一样的，当处理器<strong>执行完当前指令后</strong>才去查询中断且查看是否允许中断，如果处理器产生了中断，这时PC的值已经更新，即PC指向了当前指令后<strong>第三条指令的位置</strong>(被中断指令地址加12)，产生FIQ与RIQ异常后处理器将PC-4的值保存到了对应模式下的LR，而它指向的是当前被中断指令的后面的第二条指令，因此在返回时我们需要人为的将LR中保存的值自减4以得到正确的返回地址。</p>
+<p>说明：PC是发生中断的指令后面的第三条指令地址，PC-12是发生中断的指令地址，LR（R14）= PC - 4，LR - 4就是发生中断的指令地址后面的第一条指令(也就是PC - 8)。</p>
+<figure>
+<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318172408962.png" srcset="/img/loading.gif" lazyload alt="以FIQ为例" /><figcaption aria-hidden="true">以FIQ为例</figcaption>
+</figure>
+<p><strong>数据中止异常：</strong></p>
+<p>产生该异常的时候程序要返回到有问题的指令处重新访问该数据，因此应该返回到产生异常的指令处而不是产生异常指令的下一条指令处。当异常产生时PC的值已经更新，所以PC指向的是异常产生指令的后面的第三条指令，而LR中保存的是PC-4的值即异常产生指令的后面的第二条指令的地址。所以在返回时我们需人为的对LR中的值进行自减8的处理。以保证异常正确的返回。</p>
+<figure>
+<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318172659486.png" srcset="/img/loading.gif" lazyload alt="数据中止异常" /><figcaption aria-hidden="true">数据中止异常</figcaption>
+</figure>
+<p><strong>文章参考</strong>：<a target="_blank" rel="noopener" href="http://emb.hqyj.com/Column/7517.html">ARM处理器异常返回地址_华清远见教育集团 (hqyj.com)</a></p>
 
             </div>
             <hr>
@@ -373,18 +308,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/ARM%E7%9A%84%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8PC-R15-%E4%BB%A5%E5%8F%8A%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%97%B6%E7%9A%84%E6%93%8D%E4%BD%9C/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ARM的程序计数器PC(R15)以及异常返回地址</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Oracle/%E5%85%B3%E4%BA%8EOracleDBConsoleorcl%E6%9C%8D%E5%8A%A1%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
-                        <span class="hidden-mobile">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</span>
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/">
+                        <span class="hidden-mobile">ARM微处理器的存储器格式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
