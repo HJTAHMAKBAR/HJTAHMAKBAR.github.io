@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>Java学习-语言基础-继承 - 江客</title>
+  <title>ARM指令格式以及第二个操作数的immed_8r形式 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Java学习-语言基础-继承">
+            <span class="h2" id="subtitle" title="ARM指令格式以及第二个操作数的immed_8r形式">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-19 20:23" pubdate>
-        2021年8月19日 晚上
+      <time datetime="2022-03-18 17:33" pubdate>
+        2022年3月18日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      59 字
+      886 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -225,20 +225,44 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Java学习-语言基础-继承</h1>
+            <h1 style="display: none">ARM指令格式以及第二个操作数的immed_8r形式</h1>
             
             <div class="markdown-body">
-              <h2 id="java学习-语言基础-继承">Java学习-语言基础-继承</h2>
+              <h3 id="基本语法格式">基本语法格式</h3>
+<p><strong>编码指令格式</strong></p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318180225611.png" srcset="/img/loading.gif" lazyload /></p>
+<p>ARM是<strong>三地址</strong>指令格式，指令的基本格式如下：</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318175303792.png" srcset="/img/loading.gif" lazyload /></p>
+<p>其中&lt;&gt;号内的项是必须的，{}号内的项是可选的。各项的说明如下：</p>
+<p><strong>Opcode</strong>：指令助记符；</p>
+<p><strong>cond</strong>：执行条件；</p>
+<p><strong>S</strong>：是否影响CPSR寄存器的值；</p>
+<p><strong>Rd</strong>：目标寄存器；</p>
+<p><strong>Rn</strong>：第1个操作数的寄存器；</p>
+<p><strong>operand2</strong>：第2个操作数；</p>
+<h3 id="第二个操作数12位">第二个操作数（12位）</h3>
+<p>灵活的使用第2个操作数<strong>"operand2"</strong>能够提高代码效率。它有如下的形式：</p>
 <ul>
-<li>类、超类和子类</li>
-<li>Object：所有类的超类</li>
-<li>泛型数组列表</li>
-<li>对象包装器与自动装箱</li>
-<li>参数数量可变的方法</li>
-<li>枚举类</li>
-<li>反射</li>
-<li>继承的设计技巧</li>
+<li><strong>#immed_8r</strong>——<strong>常数表达式</strong>（立即数-immediate operand）；</li>
+<li><strong>Rm</strong>——寄存器方式；</li>
+<li>Rm,shift——<strong>寄存器移位方式</strong>；</li>
 </ul>
+<p><strong>#immed_8r——常数表达式</strong></p>
+<p>该常数必须对应8位位图，即一个8位的常数通过循环右移偶数位得到。</p>
+<p><strong>这里需要注意的点：</strong></p>
+<ol type="1">
+<li>8位数</li>
+<li>循环右移偶数位</li>
+</ol>
+<p><strong>理解</strong>：ARM需要使用12位的编码来表示32位数。那么如何实现这一点呢？</p>
+<p>8位存数据，4位存移位的次数（实际是移位数÷2）</p>
+<p><strong>理解</strong>：4位只有16种可能值，而32位数可以循环移位32次（32种可能），并且为什么必须是右移偶数位呢，而不能是奇数位呢？</p>
+<p>为什么会有立即数这样的规定呢，这是由于所有的ARM指令是<strong>精简指令集</strong>，指令长度固定都是32位，对于ARM数据处理指令自然也是一样。数据处理指令大致可包含3类，数据传送指令、数据算术逻辑运算指令和数据比较指令。在以条ARM数据处理指令中，除了要包含处理的数据值外，还要标识ARM命令名称,控制位,寄存器等其他信息。</p>
+<p>这样在一条ARM数据处理指令中，能用于表示要处理的数据值的位数只能小于32位。 ARM在指令格式中设定，只能用指令机器码32位中的<strong>低12位</strong>来表示要操作的常数。ARM处理器是按32位来处理数 据的，ARM处理器处理的数据是32位，如果简单的用这12位来表示，显然范围太小了，为了扩展到32位，因此使用了 构造的方法，在12位中<strong>用8位表示基本数据值</strong>，用4位表示位移值，通过用8位基本数据值往右循环移动<strong>4位位移值×2次</strong>，来表示要操作的常数。这里要强调终的循环次数是4位位移值乘以2得到的，所以得到的终循环次数肯定是一个偶数，为什么要乘以2呢，实质还是因为范围不够，4位表示位移次数，最大才15次，加上8位数据还是不够32位，这样只能通过ALU的内部结构设计将4位位移次数乘以2,这样就能用12位表示32位常数了。 通过循环偶数位得的到操作数，扩大了操作数的范围，但也带来了问题，并不是每个数据都能通过8位基本数据循 环移动偶数为得到，如果你在ARM数据处理指令中使用的操作数,不是立即数。</p>
+<p><strong>理解</strong>：为什么是右移？</p>
+<p>arm中只有循环右移</p>
+<p><strong>理解</strong>：立即数能表示所有的32位数吗？</p>
+<p>不能，只能表示32位数中的一部分，不是每个数都能通过8位基本数据循环移动偶数次得到。</p>
 
             </div>
             <hr>
@@ -248,7 +272,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/ARM/">ARM</a>
                     
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
                     
@@ -258,9 +282,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%BB%A7%E6%89%BF/">继承</a>
+                      <a class="hover-with-bg" href="/tags/ARM/">ARM</a>
                     
                   </div>
                 
@@ -277,18 +299,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL学习笔记01</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
-                        <span class="hidden-mobile">Java学习-语言基础-面向对象</span>
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E7%9A%84%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8PC-R15-%E4%BB%A5%E5%8F%8A%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%97%B6%E7%9A%84%E6%93%8D%E4%BD%9C/">
+                        <span class="hidden-mobile">ARM的程序计数器PC(R15)以及异常返回地址</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -486,6 +502,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
 
 
 
