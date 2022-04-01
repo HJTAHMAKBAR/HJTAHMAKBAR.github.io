@@ -194,17 +194,17 @@
   
   <entry>
     <title>机器学习-理解ROC、AUC以及rank-loss</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
+    <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
+    <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
     
     <content type="html"><![CDATA[<h1 id="理解rocauc以及rank-loss">理解ROC、AUC以及rank-loss</h1><h3 id="roc">ROC</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115103747376.png" alt="西瓜书P33" style="zoom:200%;" /></p><p>理解：以ROC在医学检测中的应用举例，首先我们需要将混淆矩阵中的各个元素赋予对应的含义。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115111426556.png" alt="分类结果混淆矩阵" style="zoom:200%;" /></p><p>在医学检测中，我们可以按照下面的含义解释上述各元素（正例为阳性-得病，反例为阴性-健康）</p><ul><li>TP：预测结果是正例，真实情况是正例，可以看作是医生正确诊断出病例</li><li>FN：预测结果是反例，真实情况是正例，可以看作是医生漏诊，将得病诊断为健康</li><li>FP：预测结果是正例，真实情况是反例，可以看作是医生误诊，将健康诊断为得病</li><li>TN：预测结果是反例，真实情况是反例，可以看作是医生检查出没有得病</li></ul><p>我们再来看ROC中的TPR和FPR。 <span class="math display">\[TPR = {TP \over TP + FN}\]</span></p><p><span class="math display">\[FPR = {FP \over TN + FP}\]</span></p><ul><li>TPR：<span class="math display">\[真正例 \over 真实情况是正例\]</span>即在所有实际为正例的样本中，被正确地判断为正例的比率，可以看作是在所有得病的人中，有多少人被医生正确地诊断出阳性。</li><li>FPR：<span class="math display">\[假正例 \over 真实情况是反例\]</span>即在所有实际为反例的样本中，被错误地判断为正例的比率，可以看作是在所有健康的人当中，有多少人被医生误诊为得病。</li></ul><p>那么对于一个机器学习的学习器而言，我们希望的是TPR越高越好，而FPR越低越好。然后实际情况是，当我们的阈值减小时，TPR和FPR会同时增大，当阈值为0的时候，即所有的实例都被预测为正例，此时的TPR为1，因为所有的阳性都被诊断出来了；此时的FPR为1，因为所有健康的人都被诊断为阳性。</p><p>ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115141452830.png" alt="ROC曲线" style="zoom:200%;" /></p><p>如图可见，如果想要TPR尽可能的高，那么相应的阴影部分的面积也会增大。我们进行学习器的比较时，与P-R图相似，若一个学习器的ROC曲线被另一个学习器的曲线完全”包住“，则可断言后者的性能优于前者；若两个学习器的ROC曲线发生交叉，则难以一般性地断言两者孰优孰劣。此时如果一定要进行比较，则较为合理的判据是比较ROC曲线下的面积，即AUC（Area Under ROC Curve）。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143800508.png" alt="image-20220115143800508" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115144442178.png" alt="image-20220115144442178" style="zoom:200%;" /></p><p>这里的AUC的公式比较好理解，就是通过坐标计算出一小块一小块的面积的和。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151620674.png" alt="ROC曲线可能出现的3种情况" /><figcaption aria-hidden="true">ROC曲线可能出现的3种情况</figcaption></figure><p>对应3种情况：</p><ol type="1"><li>如果<span class="math display">\[y_i = y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<span class="math inline">\(1 \over m-\)</span>，水平向右移动，面积就是$(x_{i+1} - x_i) y_i $</li><li>如果<span class="math inline">\(x_i = x_{i+1}\)</span>那么小块形状是垂直的线段，真正例率增加<span class="math inline">\(1 \over m+\)</span>，假正例率不变，垂直向上移动，面积就是0</li><li>如果下一个点<span class="math inline">\((x_{i+1}, y_{i+1})\)</span><span class="math inline">\(在\)</span><span class="math inline">\((x_{i}, y_{i})\)</span><span class="math inline">\(的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，\)</span><span class="math inline">\({1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\)</span></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" /></p><p>综上，总的AUC计算公式，如下。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" alt="rank-loss" style="zoom:200%;" /></p><p>这里引入了一个loss</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" /></p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
@@ -221,17 +221,17 @@
   
   <entry>
     <title>F1度量为何用调和平均而不用算术平均</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/</url>
+    <link href="/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/"/>
+    <url>/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/</url>
     
     <content type="html"><![CDATA[<h3 id="p-r图">P-R图</h3><p>查准率P（Precision）和查全率R（Recall）是一对矛盾的度量，一般来说，查准率高时，查全率往往偏低；而查全率高时，查准率往往偏低。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203102931.png" alt="P-R曲线" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203245081.png" alt="西瓜书P31" style="zoom:200%;" /></p><h3 id="f_1值"><span class="math inline">\(F_1值\)</span></h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203305121.png" alt="西瓜书P32" style="zoom:200%;" /></p><blockquote><p>当我看到西瓜书这个地方的时候，觉得一切都很有道理，但是突然又觉得不讲道理。虽然我知道F1度量肯定是人为规定的一个式子，但是为什么F1度量用的是调和平均，为什么不简单的使用算术平均或者其他的平均式综合考虑查准率和查全率。</p></blockquote><p>书上的解释是与算术平均（<span class="math inline">\(P + R \over 2\)</span>）和几何平均（<span class="math inline">\(\sqrt{(P \times R)}\)</span>）相比，调和平均更重视较小值。</p><p>于是我又去看了吴恩达的机器学习课程的相关内容，才算是搞懂了。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110205407917.png" alt="吴恩达机器学习系列课程-精确度和召回率的权衡" style="zoom:200%;" /></p><p>如果我们有不同的算法，我们如何比较不同的查准率和召回率。具体一点，假设我们有三个不同的学习算法，或者这三个不同的学习曲线是同样的算法但是临界值（Threshold）不同，我们怎样决定哪一个算法是最好的？</p><p>我们可以用一个评估度量来决定算法的优劣。那么我们怎么得到一个评估度量值呢？</p><p>你可能会去尝试的一件事情是计算一下查准率和召回率的平均值（算术平均） <span class="math display">\[Average = { P + R \over 2}\]</span> 但是这可能并不是一个很好的解决办法。因为，如果我们的回归模型总是预测y = 1（阈值很低），那么你可能得到非常高的召回率，得到非常低的查准率。相反地，如果你的模型总是预测y = 0，就是说，如果很少预测y = 1，对应的，设置了一个高临界值，最后你会得到非常高的查准率和非常低的召回率。这两个极端情况，一个有非常高的临界值，一个有非常低的临界值，它们中的任何一个都不是一个好的模型。我们可以通过非常低的查准率或者非常低的召回率，判断这不是一个好模型。如果你只是使用<span class="math inline">\(P + R \over 2\)</span>，算法3的这个值是最高的。即使你可以通过使用总是预测y = 1这样的方法来得到这样的值，但是这并不是一个好的模型。算法1和算法2比算法3更好，但是在这个例子中，查准率和召回率的平均值，算法3是最高的。</p><p>因此我们通常认为查准率和召回率的平均值（算术平均）不是评估算法的好方法。相反地，有一种结合查准率和召回率的不同方式，叫做F值，公式是 <span class="math display">\[F_1Score = 2{ PR \over P + R}\]</span> 我们可以通过<span class="math inline">\(F_1Score\)</span>来判断算法1有最高的F值，算法2第二，算法3是最低的。因此，通过F值我们会在这几个算法中选择算法1。F值也叫做<span class="math inline">\(F_1\)</span>值。它的定义会考虑一部分查准率和召回率的平均值，但是它会给查准率和召回率中较低的值更高的权重。因此，你可以看到F值的分子是查准率和召回率的乘积，因此如果查准率等于0，或者召回率等于0，F值也会等于0。因此它结合了查准率和召回率，对于一个较大的F值，查准率和召回率都必须较大。</p><p>有较多的公式，可以结合查准率和召回率，F值公式只是其中一个，但是处于历史原因和习惯问题，人们在机器学习中使用F值。这个术语F值，没有什么特别的意义。</p><h3 id="总结">总结</h3><blockquote><p>后续我又上网搜索了下别人对算术平均和调和平均的理解</p></blockquote><p>算术平均值是一个良好的集中量数，具有反应灵敏、确定严密、简明易解、计算简单、适合进一步演算和较小抽样变化的影响等特点。但是极易受极端数据的影响，每个数据的或大或小的变化都会影响最终结果。</p><p>调和平均数具有以下几个主要特点：</p><p>1、调和平均数易受极端值的影响，且受极小值的影响比受极大值的影响更大。</p><p>2、只要有一个标志值为0，就不能计算调和平均数。</p><p>3、当组距数列有开口组时，其组中值即使按照相邻组距计算，假定性也很大。</p><p>4、调和平均数应用的范围较小。</p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
@@ -248,17 +248,17 @@
   
   <entry>
     <title>机器学习-查准率与查全率</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/</url>
+    <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/"/>
+    <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/</url>
     
     <content type="html"><![CDATA[<blockquote><p>最近在看周志华的《机器学习》西瓜书的时候，感觉书上的概念-查准率和查全率描述地有点抽象。于是查阅了一些资料深入学习，有所感悟。</p></blockquote><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105153124644.png" alt="西瓜书上的描述" style="zoom:200%;" /></p><p>参考了另一本书《机器学习实战：基于Scikit-Learn、Keras和TensorFlow》第二版</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105160225958.png" alt="image-20220105160225958"  /></p><p>For each instance, it computes a score based on a decision function.</p><p>对于每个实例，它都基于决策函数计算分数。</p><p>If that score is greater than a threshold, it assigns the instance to the positive class; otherwise it assigns it to the negative class.</p><p>如果该分数大于阈值，则将实例分配给正类；否则，它会将其分配给负类。</p><p>对于这样的二分类问题，我们可以用手写数字识别"5"举例</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105155446546.png" alt="机器学习实战第137页" style="zoom:200%;" /></p><p>在上图中，我们可以看到有三个可以选择的阈值（Various thresholds），就拿中间的那条竖线而言（对应一个阈值）：在竖线右边的实例，都会被预测为正例-1，在竖线左边的实例，都会被预测为反例-0。其中，中间的竖线右边有5个实例，而真实情况下这5个实例中只有4个手写数字是表示"5"的（第二个看不出来是"5"）。</p><p>查准率表示所有预测为1的样本中预测正确的比率，也就是4/5 = 80％。其中4就是预测结果是"5"，真实情况是"5"的实例的个数，也就是真正例TP（True Positive），预测正确，而5就是中间竖线右边的实例个数，也就是预测结果是"5"，但是不确定它的真实情况是什么，也就是TP + FP（包括真正例和假正例）。</p><p>查准率P（Precision） <span class="math display">\[P={TP \over TP + FP}\]</span></p><p>在上图中，可以看到在所有的实例中（共12个），真实情况是"5"的个数有6个，包括了正例中的4个和反例中的2个，也就是真正例TP和假反例FN。召回率是指在所有真正为1的样本中预测正确的比率。也就是4/6 = 67％。</p><p>召回率R（Recall） <span class="math display">\[R = { TP \over TP + FN }\]</span> 而精度（准确率）是正确预测为1，正确预测为0的样本占总体的比率 <span class="math display">\[Acc = { TP + TN \over ALL}\]</span> TP是真正例，TN是真反例，准确率只关心是否预测对了，但是不关心实例本身的属性。</p><p>从上图也可以看出，对于图中的三种可以选取的阈值，当阈值越大（也就是把门的越严格），查准率P在上升，查全率R在下降。</p><p>而阈值越小，查准率P在下降，而查全率R在上升，也可以直观地表明查准率和查全率是一对矛盾的度量。</p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
@@ -518,17 +518,17 @@
   
   <entry>
     <title>Java学习-语言基础-继承</title>
-    <link href="/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E7%BB%A7%E6%89%BF/"/>
-    <url>/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E7%BB%A7%E6%89%BF/</url>
+    <link href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E7%BB%A7%E6%89%BF/"/>
+    <url>/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E7%BB%A7%E6%89%BF/</url>
     
     <content type="html"><![CDATA[<h2 id="java学习-语言基础-继承">Java学习-语言基础-继承</h2><ul><li>类、超类和子类</li><li>Object：所有类的超类</li><li>泛型数组列表</li><li>对象包装器与自动装箱</li><li>参数数量可变的方法</li><li>枚举类</li><li>反射</li><li>继承的设计技巧</li></ul>]]></content>
     
     
     <categories>
       
-      <category>Java</category>
-      
       <category>所有</category>
+      
+      <category>Java</category>
       
     </categories>
     
@@ -547,17 +547,17 @@
   
   <entry>
     <title>Java学习-语言基础-面向对象</title>
-    <link href="/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
-    <url>/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</url>
+    <link href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
+    <url>/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</url>
     
     <content type="html"><![CDATA[<h2 id="java学习-语言基础-面向对象">Java学习-语言基础-面向对象</h2><ul><li>面向对象程序设计概述</li><li>使用预定义类</li><li>用户自定义类</li><li>静态域与静态方法</li><li>方法参数</li><li>对象构造</li><li>包</li><li>类路径</li><li>文档注释</li><li>类设计技巧</li></ul><h4 id="面向对象程序设计概述">面向对象程序设计概述</h4><p>面向对象程序设计（简称OOP）是当今主流的程序设计泛型。面向对象的程序是由对象组成的，每个对象包含对用户公开的特定功能部分和隐藏的实现部分。在OOP中，不必关心对象的具体实现，只要能够满足用户的需求即可。</p><h4 id="类">类</h4><p>类（class）是构造对象的模板或蓝图。由类构造（construct）对象的过程称为创建类的实例（instance）。</p>]]></content>
     
     
     <categories>
       
-      <category>Java</category>
-      
       <category>所有</category>
+      
+      <category>Java</category>
       
     </categories>
     
@@ -576,17 +576,17 @@
   
   <entry>
     <title>Java位运算符</title>
-    <link href="/%E6%89%80%E6%9C%89/Java%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
-    <url>/%E6%89%80%E6%9C%89/Java%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
+    <link href="/Java/Java%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
+    <url>/Java/Java%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
     
     <content type="html"><![CDATA[<h1 id="java位运算符">Java位运算符</h1><p>Java定义的位运算（bitwise operators）直接对整数类型的位进行操作，这些整数类型包括 long，int，short，char 和 byte。</p><p>位运算符主要用来对操作数二进制的位进行运算。按位运算表示按每个二进制位（bit）进行计算，其操作数和运算结果都是整型值。</p><p>Java 语言中的位运算符分为位逻辑运算符和位移运算符两类。</p><h2 id="位逻辑运算符">位逻辑运算符</h2><p>位逻辑运算符包含 4 个：&amp;（与）、|（或）、~（非）和 ^（异或）。除了 ~（即位取反）为单目运算符外，其余都为双目运算符。</p><table><thead><tr class="header"><th style="text-align: center;">运算符</th><th style="text-align: center;">含义</th><th style="text-align: center;">实例</th><th style="text-align: center;">结果</th></tr></thead><tbody><tr class="odd"><td style="text-align: center;">&amp;</td><td style="text-align: center;">按位进行与运算（AND）</td><td style="text-align: center;">4 &amp; 5</td><td style="text-align: center;">4</td></tr><tr class="even"><td style="text-align: center;">|</td><td style="text-align: center;">按位进行或运算（OR）</td><td style="text-align: center;">4</td><td style="text-align: center;">5</td></tr><tr class="odd"><td style="text-align: center;">^</td><td style="text-align: center;">按位进行异或运算（XOR）</td><td style="text-align: center;">4 ^ 5</td><td style="text-align: center;">1</td></tr><tr class="even"><td style="text-align: center;">~</td><td style="text-align: center;">按位进行取反运算（NOT）</td><td style="text-align: center;">~ 4</td><td style="text-align: center;">-5</td></tr></tbody></table><h4 id="位与运算符">位与运算符</h4><p>位与运算符为<code>&amp;</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零，如果对应的二进制位同时为 1，那么计算结果才为 1，否则为 0。因此，任何数与 0 进行按位与运算，其结果都为 0。</p><p>例如下面的表达式：</p><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-number">100</span><span class="hljs-meta">&amp;0</span><br></code></pre></td></tr></table></figure><p>图 1 所示为这个运算过程，结果为 0。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F126492.jpg" alt="图 1 100位与0的运算过程" /><figcaption aria-hidden="true">图 1 100位与0的运算过程</figcaption></figure><p>下面是两个非零的数字进行位与运算的过程。</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">int x = <span class="hljs-number">5</span>,y = <span class="hljs-number">12</span>; <span class="hljs-regexp">//</span> 创建整型变量保存两个数int z = x&amp;y; <span class="hljs-regexp">//</span> 对这两个数进行位与运算，结果保存到z<br></code></pre></td></tr></table></figure><p>这两行语句执行后变量 Z 的值是 4，图 2 所示为这个运算过程。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F21U53.jpg" alt="图 2 5位与12的运算过程" /><figcaption aria-hidden="true">图 2 5位与12的运算过程</figcaption></figure><h4 id="位或运算符">位或运算符</h4><p>位或运算符为<code>|</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零。如果对应的二进制位只要有一个为 1，那么结果就为 1；如果对应的二进制位都为 0，结果才为 0。</p><p>下面是一个使用位或运算符的表达式。</p><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-number">11</span><span class="hljs-string">|7</span><br></code></pre></td></tr></table></figure><p>运算结果为 15，图 3 所示为其运算过程。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F239E8.jpg" alt="图 3 11位或7的运算过程" /><figcaption aria-hidden="true">图 3 11位或7的运算过程</figcaption></figure><h4 id="位异或运算符">位异或运算符</h4><p>位异或运算符为<code>^</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零，如果对应的二进制位相同（同时为 0 或同时为 1）时，结果为 0；如果对应的二进制位不相同，结果则为 1。</p><p>下面是一个使用位异或运算符的表达式。</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">11</span>^<span class="hljs-number">7</span><br></code></pre></td></tr></table></figure><p>运算结果为 12，图 4 所示为其运算过程。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F315J4.jpg" alt="图 4 11位异或7的运算过程" /><figcaption aria-hidden="true">图 4 11位异或7的运算过程</figcaption></figure><p>提示：在有的高级语言中，将运算符<code>^</code>作为求幂运算符，要注意区分。</p><h4 id="位取反运算符">位取反运算符</h4><p>位取反运算符为<code>~</code>，其运算规则是：只对一个操作数进行运算，将操作数二进制中的 1 改为 0，0 改为 1。</p><p>下面是一个使用位取反运算符的表达式。</p><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haml">~10<br></code></pre></td></tr></table></figure><p>运算结果为 65525，图 5 所示为其运算过程。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F932230.jpg" alt="图 5 对10位取反的运算过程" /><figcaption aria-hidden="true">图 5 对10位取反的运算过程</figcaption></figure><p>我们可以使用如下的程序来检查这个运算结果。</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> i = <span class="hljs-number">10</span>;<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.printf(&quot;%d \n&quot;,~i);<br></code></pre></td></tr></table></figure><p>编译执行以上程序，会发现输出的结果是 -11，而不是 65525。这是因为取反之后的结果是十六进制数，而在上面的程序中使用 %d 将输出转换为了十进制数。</p><p>可以使用如下语句查看十六进制结果。</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> i=<span class="hljs-number">10</span>;<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.printf(&quot;%x \n&quot;,~i);<br></code></pre></td></tr></table></figure><p>可以看到输出结果为 fff5，将它转换为二进制是 1111111111110101。这个二进制数的最高位为 1，表示这个数为负数。除最高位外，按位取反再加 1，即得到二进制原码 1000000000001011，用十进制数表示即为 -11。</p><p>注意：位运算符的操作数只能是整型或者字符型数据以及它们的变体，不用于 float、double 或者 long 等复杂的数据类型。</p><h2 id="位移运算符">位移运算符</h2><p>位移运算符用来将操作数向某个方向（向左或者右）移动指定的二进制位数。表 中列出了 Java 语言中的两个位移运算符，它们都属于双目运算符。</p><table><thead><tr class="header"><th>运算符</th><th>含义</th><th>实例</th><th>结果</th></tr></thead><tbody><tr class="odd"><td>»</td><td>右移位运算符</td><td>8»1</td><td>4</td></tr><tr class="even"><td>«</td><td>左移位运算符</td><td>9«2</td><td>36</td></tr></tbody></table><h4 id="左位移运算符">左位移运算符</h4><p>左移位运算符为<code>«</code>，其运算规则是：按二进制形式把所有的数字向左移动对应的位数，高位移出（舍弃），低位的空位补零。</p><p>例如，将整数 11 向左位移 1 位的过程如图 6 所示。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F955462.jpg" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure><p>图 6 对11左移1位运算过程</p><p>从图 6 中可以看到，原来数的所有二进制位都向左移动 1 位。原来位于左边的最高位 0 被移出舍弃，再向尾部追加 0 补位。最终到的结果是 22，相当于原来数的 2 倍。</p><h4 id="右位移运算符">右位移运算符</h4><p>右位移运算符为<code>»</code>，其运算规则是：按二进制形式把所有的数字向右移动对应的位数，低位移出（舍弃），高位的空位补零。</p><p>例如，将整数 11 向右位移 1 位的过程如图 7 所示。</p><figure><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301G0343F.jpg" alt="图 7 对11右移1位运算过程" /><figcaption aria-hidden="true">图 7 对11右移1位运算过程</figcaption></figure><p>从图 7 中可以看到，原来数的所有二进制位都向右移动 1 位。原来位于右边的最低位 1 被移出舍弃，再向最高位追加 0 补位。最终到的结果是 5，相当于原数整除 2 的结果。</p><h2 id="复合位赋值运算符">复合位赋值运算符</h2><p>所有的二进制位运算符都有一种将赋值与位运算组合在一起的简写形式。复合位赋值运算符由赋值运算符与位逻辑运算符和位移运算符组合而成。表 3 列出了组合后的复合位赋值运算符。</p><table><thead><tr class="header"><th>运算符</th><th>含义</th><th>实例</th><th>结果</th></tr></thead><tbody><tr class="odd"><td>&amp;=</td><td>按位与赋值</td><td>num1 &amp;= num2</td><td>等价于 num 1=num 1 &amp; num2</td></tr><tr class="even"><td>|=</td><td>按位或赋值</td><td>num1 |= num2</td><td>等价于 num 1=num 1 | num2</td></tr><tr class="odd"><td>^=</td><td>按位异或赋值</td><td>num1 ^= num2</td><td>等价于 num 1=num 1 ^ num2</td></tr><tr class="even"><td>-=</td><td>按位取反赋值</td><td>num1 ~= num2</td><td>等价于 num 1=num 1 ~ num2</td></tr><tr class="odd"><td>«=</td><td>按位左移赋值</td><td>num1 «= num2</td><td>等价于 num 1=num 1 « num2</td></tr><tr class="even"><td>»=</td><td>按位右移赋值</td><td>num1 »= num2</td><td>等价于 num 1=num 1 » num2</td></tr></tbody></table><p>下面的程序定义了几个 int 型变量，然后运用位赋值简写的形式将运算后的值赋给相应的变量：</p><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-type">int</span> c = <span class="hljs-number">3</span>;<br><br>a &amp;= <span class="hljs-number">4</span>;<br>a |= <span class="hljs-number">4</span>;<br>a ^= c;<br>a -= <span class="hljs-number">6</span>;<br>b &gt;&gt;= <span class="hljs-number">1</span>;<br>c &lt;&lt;= <span class="hljs-number">1</span>;<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;a = &quot; + a);<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;b = &quot; + b);<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;c = &quot; + c);<br></code></pre></td></tr></table></figure><p>该程序的输出为：</p><p>a = 1 b = 1 c = 6</p>]]></content>
     
     
     <categories>
       
-      <category>Java</category>
-      
       <category>所有</category>
+      
+      <category>Java</category>
       
     </categories>
     
@@ -603,17 +603,17 @@
   
   <entry>
     <title>Java学习-语言基础-基础语法</title>
-    <link href="/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
-    <url>/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
+    <link href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
+    <url>/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
     
     <content type="html"><![CDATA[<h2 id="java语言基础-基础语法">Java语言基础-基础语法</h2><h4 id="java的基本程序设计结构">00-Java的基本程序设计结构</h4><ul><li><p>简单的Java应用程序</p></li><li><p>注释</p></li><li><p>数据类型</p></li><li><p>变量</p></li><li><p>运算符</p></li><li><p>字符串</p></li><li><p>输入输出</p></li><li><p>控制流</p></li><li><p>大数值</p></li><li><p>数组</p></li></ul><h4 id="简单的java应用程序">01-简单的Java应用程序</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * This is the first sample program in Core Java Chapter 3</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@version </span>1.01 1997-03-22</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author </span>Gary Cornell</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FirstSample</span></span><br><span class="hljs-class"></span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">void</span> <span class="hljs-function"><span class="hljs-title">main</span>(<span class="hljs-params"><span class="hljs-built_in">String</span>[] args</span>)</span><br>   &#123;<br>      System.out.println(<span class="hljs-string">&quot;We will not use &#x27;Hello, World!&#x27;&quot;</span>);<br>   &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure><ol type="1"><li>关键字<code>Public</code>称为<code>访问修饰符</code>，这些修饰符用于控制程序的其他部分对这段代码的访问级别。</li><li>关键字<code>class</code>表明Java程序中的全部内容都包含在类中。这里，只需要将类作为一个加载程序逻辑的容器，程序逻辑定义了应用程序的行为。</li><li>关键字<code>class</code>后面紧跟类名。Java中定义类名的规则很宽松。名字必须以字母开头，后面可以跟字母和数字的任意组合，长度上基本没有限制。但是不能使用Java保留字作为类名。</li><li>标准的命名规范为：类名是以大写字母开头的名词。如果名字由多个单词组成，每个单词的第一个字母都应该大写。</li><li>源代码的文件名必须与公共类的名字相同，并用<code>.java</code>作为扩展名。因此，存储这段源代码的文件名必须为<code>FirstSample.java</code>。</li><li>Java中的所有函数都属于某个类的方法（标准术语称其为方法，而不是成员函数）。</li><li>如果<code>main</code>方法正常退出，那么Java应用程序的推出代码为0，表示成功地运行了程序。如果需要在终止程序时返回其他的代码，那就需要调用<code>System.exit</code>方法。</li></ol><p><code>注意：根据Java语言规范，main方法必须申明为public。在Jaav SE 1.4及以后的版本中强制main方法是public的。</code></p><h4 id="注释">02-注释</h4><ol type="1"><li>使用<code>//</code>，其注释内容从<code>//</code>开始到本行结尾。</li><li>使用<code>/*</code>和<code>*/</code>将一段比较长的注释括起来。</li><li>以<code>/**</code>开始，以<code>*/</code>结束，用于自动生成文档。</li></ol><p><code>在Java中，/* */注释不能嵌套。也就是说，不能简单地把代码用/*和*/括起来作为注释，因为这段代码本身可能也包含一个*/</code></p><h4 id="数据类型">03-数据类型</h4><p>Java是一种强类型语言。这就意味着必须为每一个变量申明一种类型。在Java中，一共有8种基本类型。</p><ul><li>4种整型</li><li>2种浮点类型</li><li>1种用于表示<code>Unicode</code>编码的字符单元的字符类型<code>char</code></li><li>1种用于表示真值的<code>boolean</code>类型</li></ul><p><code>Java有一个能够表示任意精度的算术包，通常称为“大数值”。虽然被称为大数值，但它并不是一种新的Java类型，而是一个Java对象。</code></p><ol type="1"><li><h5 id="整型">整型</h5><p>整型用于表示没有小数部分的数值，它允许是负数。Java提供4种整型。</p><table><thead><tr class="header"><th style="text-align: left;">类型</th><th style="text-align: center;">存储需求</th><th style="text-align: center;">取值范围</th></tr></thead><tbody><tr class="odd"><td style="text-align: left;">int</td><td style="text-align: center;">4字节</td><td style="text-align: center;">-2 147 483 648 ~ 2 147 483 647（正好超过20亿）</td></tr><tr class="even"><td style="text-align: left;">short</td><td style="text-align: center;">2字节</td><td style="text-align: center;">-32 768 ~ 32 767</td></tr><tr class="odd"><td style="text-align: left;">long</td><td style="text-align: center;">8字节</td><td style="text-align: center;">-9 223 372 036 854 775 808 ~ 9 223 372 036 854 775 807</td></tr><tr class="even"><td style="text-align: left;">byte</td><td style="text-align: center;">1字节</td><td style="text-align: center;">-128 ~ 127</td></tr></tbody></table><ol type="1"><li><code>btye</code>——<code>short</code>——<code>int</code>——<code>long</code>，2倍关系，等比增长。</li><li><code>Java中，整型的范围与运行Java代码的机器无关</code></li><li>长整型数值有一个后缀L或l（如4000000000L）。</li><li>十六进制数值有一个前缀0X或0x（如0xCAFE）。</li><li>八进制有一个前缀0，例如，010对应8进制中的8。八进制表示法比较容易混淆，建议最好不要使用八进制常数。</li><li>从Java7开始，加上前缀0B或0b就可以写二进制数。例如，0b1001就是9。另外，同样是从Java7开始，还可以为数字字面量加上下划线，如用1_000_000（或0b1111_0100_0010_0100_0000）表示一百万。这些下划线只是为了让人们更好读。Java编译器会去除这些下划线。</li><li><code>注意：Java没有任何无符号（unsigned）形式的int、long、short、或byte类型。</code></li></ol></li><li><h5 id="浮点类型">浮点类型</h5><p>浮点类型用于表示小数部分的数值。在Java中有两种浮点类型。</p><table><thead><tr class="header"><th style="text-align: left;">类型</th><th style="text-align: center;">存储需求</th><th style="text-align: center;">取值范围</th></tr></thead><tbody><tr class="odd"><td style="text-align: left;">float</td><td style="text-align: center;">4字节</td><td style="text-align: center;">大约± 3.402 823 47E+38F（有效位数为6-7位）</td></tr><tr class="even"><td style="text-align: left;">double</td><td style="text-align: center;">8字节</td><td style="text-align: center;">大约± 1.797 693 134 862 315 70E+308（有效位数为15位）</td></tr></tbody></table><p>double表示这种类型的数值精度是float类型的两倍（有人称之为双精度数值）。绝大部分应用程序都采用double类型。在很多情况下，float类型的精度很难满足需求。实际上，只有很少的情况适合使用float类型，例如，需要单精度数据的库，或者需要存储大量的数据。</p><p>floa类型的数值有一个后缀F或f（例如，3.14F）。没有后缀F的浮点数值（如3.14）默认为double类型。当然，也可以在浮点数值后面添加后缀D或d（例如，3.14D）</p><p>所有的浮点数值计算都遵循IEEE 754规范。具体来说，下面是用于表示溢出和出错情况的三个特殊的浮点数值。</p><ul><li>正无穷大</li><li>负无穷大</li><li>NaN（Not a Number）</li></ul><p>例如，一个正整数除以0的结果是正无穷大。计算0/0或者负数的平方根结果为NaN。</p><p><code>常量Double.POSITIVE_INFINITY、Double.NEGEATIVE_INFINITY和Double.NaN（以及相应的float类型的常量）分别表示这三种特殊的值。</code></p><p>注意：所有NaN（非数值）的值都认为是不相同的。然而，可以使用Double.isNaN方法。</p><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">if</span> (x<span class="hljs-operator"> == </span>Double.NaN)<span class="hljs-comment">//永远是false</span><br><span class="hljs-keyword">if</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Double</span>.</span></span>is<span class="hljs-constructor">NaN(<span class="hljs-params">x</span>)</span>)<span class="hljs-comment">// 检查x是否是（非数值）</span><br></code></pre></td></tr></table></figure><p><code>警告：浮点数值不适用于无法接受舍入误差的金融计算中。例如，命令System.out.println(2.0 - 1.1)将打印出0.8999999999999999，而不是人们想象中的0.9。这种舍入误差的主要原因是浮点数值采用二进制系统表示，而在二进制系统中无法精确地表示分数1/10。这就好像十进制无法精确地表示分数1/3一样。如果在数值计算中不允许有任何舍入误差，就应该使用BigDecimal类。</code></p></li><li><h5 id="浮点类型-1">浮点类型</h5><p><code>char</code>类型原本用于表示单个字符。如今，有些<code>Unicode</code>字符可以用一个<code>char</code>值描述，另外一些<code>Unicode</code>值需要两个<code>char</code>值。</p><p><code>char</code>类型的字面量值要用单引号括起来。例如：<code>'A'</code>是编码值为65所对应的字符常量。它与<code>"A"</code>不同，<code>"A"</code>是包含一个字符A的字符串。</p><p><code>char</code>类型的值可以表示为十六进制值，其范围从<code>\u0000</code>到<code>\Uffff</code>。</p><p>除了转移序列<code>\u</code>之外，还有一些用于表示特殊字符的转义序列，所有这些转义序列都可以出现在加引号的字符字面量或字符串中。</p><table><thead><tr class="header"><th style="text-align: center;">转义序列</th><th style="text-align: center;">名称</th><th style="text-align: center;">Unicode值</th></tr></thead><tbody><tr class="odd"><td style="text-align: center;"><code>\b</code></td><td style="text-align: center;">退格</td><td style="text-align: center;">008</td></tr><tr class="even"><td style="text-align: center;"><code>\t</code></td><td style="text-align: center;">制表</td><td style="text-align: center;">009</td></tr><tr class="odd"><td style="text-align: center;"><code>\n</code></td><td style="text-align: center;">换行</td><td style="text-align: center;">00a</td></tr><tr class="even"><td style="text-align: center;"><code>\r</code></td><td style="text-align: center;">回车</td><td style="text-align: center;">00d</td></tr><tr class="odd"><td style="text-align: center;"><code>\"</code></td><td style="text-align: center;">双引号</td><td style="text-align: center;">022</td></tr><tr class="even"><td style="text-align: center;"><code>\'</code></td><td style="text-align: center;">单引号</td><td style="text-align: center;">027</td></tr><tr class="odd"><td style="text-align: center;"><code>\\</code></td><td style="text-align: center;">反斜杠</td><td style="text-align: center;">05e</td></tr></tbody></table><p><code>警告：Unicode转义字符会在解析代码之前得到处理。例如，"\u0022+\u0022"并不是一个由引号(U+0022)包围加号构成的字符串。实际上，\u0022会在解析之前转换为"，这会得到""+""，也就是一个空串。</code></p><p>更隐蔽地，一定要当心注释中的<code>\u</code>。注释</p><p>​ <code>// \u00A0 is a newline</code></p><p>会产生一个语法错误，因为读程序时<code>\u00A0</code>会替换成一个换行符。</p><p>类似地，下面这个注释</p><p>​ <code>// Look inside c:\users</code></p><p>也会产生一个语法错误，因为<code>\u</code>后面并未跟着4个十六进制数。</p><p>在Java中，char类型描述了UTF-16编码中的一个代码单元。</p><p>我们强烈建议不要在程序中使用char类型，除非确实需要处理UTF-16代码单元。最好将字符串作为抽象数据类型处理。</p></li><li><h5 id="boolean类型">boolean类型</h5><p><code>boolean</code>（布尔）类型有两个值：<code>false</code>和<code>true</code>，用来判断逻辑条件。<code>整型值和布尔值之间不能进行相互转换</code>。</p><p><code>注意：在C++中，数值甚至指针可以代替boolean值。值0相当于布尔值false，非0值相当于布尔值true。在Java中则不是这样。</code>因此，Java程序员不会遇到下述麻烦：</p><p>​ <code>if (x = 0) // oops... meant x == 0</code></p><p>在C++中这个测试可以编译运行，其结果总是<code>false</code>。而在Java中，这个测试将不能通过编译，其原因是整数表达式<code>x = 0</code>不能转换为布尔值。</p></li></ol>]]></content>
     
     
     <categories>
       
-      <category>Java</category>
-      
       <category>所有</category>
+      
+      <category>Java</category>
       
     </categories>
     
@@ -707,9 +707,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>Git</tag>
-      
       <tag>Github Pages</tag>
+      
+      <tag>Git</tag>
       
     </tags>
     
@@ -738,9 +738,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>GithubPages</tag>
-      
       <tag>Git</tag>
+      
+      <tag>GithubPages</tag>
       
       <tag>nvm</tag>
       

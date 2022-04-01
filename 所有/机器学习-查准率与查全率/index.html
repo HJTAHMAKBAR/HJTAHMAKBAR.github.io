@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>Java学习-语言基础-继承 - 江客</title>
+  <title>机器学习-查准率与查全率 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Java学习-语言基础-继承">
+            <span class="h2" id="subtitle" title="机器学习-查准率与查全率">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-19 20:23" pubdate>
-        2021年8月19日 晚上
+      <time datetime="2022-01-05 15:12" pubdate>
+        2022年1月5日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      59 字
+      686 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -225,20 +225,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Java学习-语言基础-继承</h1>
+            <h1 style="display: none">机器学习-查准率与查全率</h1>
             
             <div class="markdown-body">
-              <h2 id="java学习-语言基础-继承">Java学习-语言基础-继承</h2>
-<ul>
-<li>类、超类和子类</li>
-<li>Object：所有类的超类</li>
-<li>泛型数组列表</li>
-<li>对象包装器与自动装箱</li>
-<li>参数数量可变的方法</li>
-<li>枚举类</li>
-<li>反射</li>
-<li>继承的设计技巧</li>
-</ul>
+              <blockquote>
+<p>最近在看周志华的《机器学习》西瓜书的时候，感觉书上的概念-查准率和查全率描述地有点抽象。于是查阅了一些资料深入学习，有所感悟。</p>
+</blockquote>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105153124644.png" srcset="/img/loading.gif" lazyload alt="西瓜书上的描述" style="zoom:200%;" /></p>
+<p>参考了另一本书《机器学习实战：基于Scikit-Learn、Keras和TensorFlow》第二版</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105160225958.png" srcset="/img/loading.gif" lazyload alt="image-20220105160225958"  /></p>
+<p>For each instance, it computes a score based on a decision function.</p>
+<p>对于每个实例，它都基于决策函数计算分数。</p>
+<p>If that score is greater than a threshold, it assigns the instance to the positive class; otherwise it assigns it to the negative class.</p>
+<p>如果该分数大于阈值，则将实例分配给正类；否则，它会将其分配给负类。</p>
+<p>对于这样的二分类问题，我们可以用手写数字识别"5"举例</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105155446546.png" srcset="/img/loading.gif" lazyload alt="机器学习实战第137页" style="zoom:200%;" /></p>
+<p>在上图中，我们可以看到有三个可以选择的阈值（Various thresholds），就拿中间的那条竖线而言（对应一个阈值）：在竖线右边的实例，都会被预测为正例-1，在竖线左边的实例，都会被预测为反例-0。其中，中间的竖线右边有5个实例，而真实情况下这5个实例中只有4个手写数字是表示"5"的（第二个看不出来是"5"）。</p>
+<p>查准率表示所有预测为1的样本中预测正确的比率，也就是4/5 = 80％。其中4就是预测结果是"5"，真实情况是"5"的实例的个数，也就是真正例TP（True Positive），预测正确，而5就是中间竖线右边的实例个数，也就是预测结果是"5"，但是不确定它的真实情况是什么，也就是TP + FP（包括真正例和假正例）。</p>
+<p>查准率P（Precision） <span class="math display">\[
+P={TP \over TP + FP}
+\]</span></p>
+<p>在上图中，可以看到在所有的实例中（共12个），真实情况是"5"的个数有6个，包括了正例中的4个和反例中的2个，也就是真正例TP和假反例FN。召回率是指在所有真正为1的样本中预测正确的比率。也就是4/6 = 67％。</p>
+<p>召回率R（Recall） <span class="math display">\[
+R = { TP \over TP + FN }
+\]</span> 而精度（准确率）是正确预测为1，正确预测为0的样本占总体的比率 <span class="math display">\[
+Acc = { TP + TN \over ALL}
+\]</span> TP是真正例，TN是真反例，准确率只关心是否预测对了，但是不关心实例本身的属性。</p>
+<p>从上图也可以看出，对于图中的三种可以选取的阈值，当阈值越大（也就是把门的越严格），查准率P在上升，查全率R在下降。</p>
+<p>而阈值越小，查准率P在下降，而查全率R在上升，也可以直观地表明查准率和查全率是一对矛盾的度量。</p>
 
             </div>
             <hr>
@@ -248,7 +262,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
                     
@@ -258,9 +272,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%BB%A7%E6%89%BF/">继承</a>
+                      <a class="hover-with-bg" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -277,9 +289,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+                      <a href="/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL学习笔记01</span>
+                        <span class="hidden-mobile">F1度量为何用调和平均而不用算术平均</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -287,8 +299,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
-                        <span class="hidden-mobile">Java学习-语言基础-面向对象</span>
+                      <a href="/Hexo/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%A0%E9%A2%98-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/">
+                        <span class="hidden-mobile">计算机网络习题_第二章_物理层</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -486,6 +498,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
 
 
 
