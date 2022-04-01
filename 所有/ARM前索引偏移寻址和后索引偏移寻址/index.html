@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>Java学习-语言基础-继承 - 江客</title>
+  <title>ARM前索引偏移寻址和后索引偏移寻址 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Java学习-语言基础-继承">
+            <span class="h2" id="subtitle" title="ARM前索引偏移寻址和后索引偏移寻址">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-19 20:23" pubdate>
-        2021年8月19日 晚上
+      <time datetime="2022-04-01 11:48" pubdate>
+        2022年4月1日 中午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      59 字
+      610 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -225,20 +225,44 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Java学习-语言基础-继承</h1>
+            <h1 style="display: none">ARM前索引偏移寻址和后索引偏移寻址</h1>
             
             <div class="markdown-body">
-              <h2 id="java学习-语言基础-继承">Java学习-语言基础-继承</h2>
-<ul>
-<li>类、超类和子类</li>
-<li>Object：所有类的超类</li>
-<li>泛型数组列表</li>
-<li>对象包装器与自动装箱</li>
-<li>参数数量可变的方法</li>
-<li>枚举类</li>
-<li>反射</li>
-<li>继承的设计技巧</li>
-</ul>
+              <p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401124111357.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="寻址模式2--加载和存储字或无符号字节">寻址模式2 -加载和存储字或无符号字节</h3>
+<p>有九种寻址模式用于计算Load and Store 字或无符号字节指令的地址。一般的指令语法是:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">LDR | STR&#123;&lt;cond&gt;&#125; &#123;B&#125; &#123;T&#125; &lt;Rd&gt;, &lt;addressing_mode&gt;<br></code></pre></td></tr></table></figure>
+<p>其中<addressing_mode>是下面列出的九个选项之一：</p>
+<p>LDR、LDRB、STR和STRB均可使用以下9个选项。对于LDRBT、LDRT、STRBT和STRBT，只有post-indexed（后索引）选项（列表中的最后三个）可用。对于A10-14页的PLD中描述的PLD指令，只有 offset （偏移）选项（列表中的前三个）可用。</p>
+<ol type="1">
+<li><code>[&lt;Rn&gt;, #+/-&lt;offset_12&gt;]</code> Immediate offset</li>
+<li><code>[&lt;Rn&gt;, +/-&lt;Rm&gt;]</code> Register offset</li>
+<li><code>[&lt;Rn&gt;, +/-&lt;Rm&gt;, &lt;shift&gt; #&lt;shift_imm&gt;]</code> Scaled register offset</li>
+<li><code>[&lt;Rn&gt;, #+/-&lt;offset_12&gt;]!</code> Immediate pre-indexed</li>
+<li><code>[&lt;Rn&gt;, +/-&lt;Rm&gt;]!</code> Register pre-indexed</li>
+<li><code>[&lt;Rn&gt;, +/-&lt;Rm&gt;, &lt;shift&gt; #&lt;shift_imm&gt;]!</code> Scaled register pre-indexed</li>
+<li><code>[&lt;Rn&gt;], #+/-&lt;offset_12&gt;</code> Immediate post-indexed</li>
+<li><code>[&lt;Rn&gt;], +/-&lt;Rm&gt;</code> Register post-indexed</li>
+<li><code>[&lt;Rn&gt;], +/-&lt;Rm&gt;, &lt;shift&gt; #&lt;shift_imm&gt;</code> Scaled register post-indexed</li>
+</ol>
+<h3 id="前索引寻址">前索引寻址</h3>
+<p>以Immediate pre-indexed举例：</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401124224562.png" srcset="/img/loading.gif" lazyload /></p>
+<p>This addressing mode calculates an address by adding or subtracting the value of an immediate offset to or from the value of the base register Rn. If the condition specified in the instruction matches the condition code status, the calculated address is written back to the base register Rn.</p>
+<p>这种寻址模式通过对基寄存器Rn的值加或减一个立即偏移量的值来计算地址。如果指令中指定的条件与条件代码状态匹配，则计算出的地址被写回基寄存器Rn。</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401124928200.png" srcset="/img/loading.gif" lazyload /></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs assembly">if U == 1 then <br>    address = Rn + offset_12<br>else /* if U == 0 */<br>    address = Rn - offset_12<br>if ConditionPassed(cond) then<br>    Rn = address<br></code></pre></td></tr></table></figure>
+<p>这种寻址模式用于指针访问数组，并自动更新指针值。（类似于a[++i]）</p>
+<h3 id="后索引寻址">后索引寻址</h3>
+<p>以Immediate post-indexed举例：</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401125139620.png" srcset="/img/loading.gif" lazyload /></p>
+<p>This addressing mode uses the value of the base register Rn as the address for the memory access. If the condition specified in the instruction matches the condition code status, the value of the immediate offset is added to or subtracted from the value of the base register Rn and written back to the base register Rn.</p>
+<p>这种寻址模式使用基寄存器Rn的值作为内存访问的地址。如果指令中指定的条件与条件代码状态相匹配，则立即偏移量的值将与基寄存器Rn的值相加或相减，并写入基寄存器Rn。</p>
+<figure>
+<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401125336156.png" srcset="/img/loading.gif" lazyload alt="image-20220401125336156" /><figcaption aria-hidden="true">image-20220401125336156</figcaption>
+</figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs assembly">address = Rn<br>if ConditionPassed(cond) then<br>    if U == 1 then <br>        Rn = Rn + offset_12<br>    else /* U == 0 */<br>        Rn = Rn - offset_12<br></code></pre></td></tr></table></figure>
+<p>这种寻址模式用于指针访问数组，并自动更新指针值。（类似于a[i++]）</p>
 
             </div>
             <hr>
@@ -248,9 +272,9 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
+                      <a class="hover-with-bg" href="/categories/ARM/">ARM</a>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
                     
                   </div>
                 
@@ -258,9 +282,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%BB%A7%E6%89%BF/">继承</a>
+                      <a class="hover-with-bg" href="/tags/ARM/">ARM</a>
                     
                   </div>
                 
@@ -277,9 +299,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+                      <a href="/Windows/%E6%9B%B4%E6%94%B9windows%E7%9A%84cmd%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E8%B7%AF%E5%BE%84/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL学习笔记01</span>
+                        <span class="hidden-mobile">更改windows的cmd默认打开路径</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -287,8 +309,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
-                        <span class="hidden-mobile">Java学习-语言基础-面向对象</span>
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E4%BB%A5%E5%8F%8A%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84immed-8r%E5%BD%A2%E5%BC%8F/">
+                        <span class="hidden-mobile">ARM指令格式以及第二个操作数的immed_8r形式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

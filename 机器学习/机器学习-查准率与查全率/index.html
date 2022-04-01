@@ -18,7 +18,7 @@
   <meta name="author" content="Jett Huang">
   <meta name="keywords" content="">
   
-  <title>更改windows的cmd默认打开路径 - 江客</title>
+  <title>机器学习-查准率与查全率 - 江客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="更改windows的cmd默认打开路径">
+            <span class="h2" id="subtitle" title="机器学习-查准率与查全率">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-01 11:49" pubdate>
-        2022年4月1日 中午
+      <time datetime="2022-01-05 15:12" pubdate>
+        2022年1月5日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      41 字
+      686 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -225,22 +225,34 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">更改windows的cmd默认打开路径</h1>
+            <h1 style="display: none">机器学习-查准率与查全率</h1>
             
             <div class="markdown-body">
-              <ol type="1">
-<li><h3 id="打开注册表">打开注册表</h3>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115105930.png" srcset="/img/loading.gif" lazyload /></p></li>
-<li><h3 id="找到下面的项">找到下面的项</h3></li>
-</ol>
-<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">HKEY_CURRENT_USER<span class="hljs-symbol">\S</span>oftware<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\C</span>ommand Processor<br>或者<br>HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>OFTWARE<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\C</span>ommand Processor<br></code></pre></td></tr></table></figure>
-<ol start="3" type="1">
-<li><h3 id="新增一个字符串">新增一个字符串</h3>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115430752.png" srcset="/img/loading.gif" lazyload /></p></li>
-<li><h3 id="查看效果">查看效果</h3>
-<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115457954.png" srcset="/img/loading.gif" lazyload /></p>
-<p>也可改成其他路径。</p></li>
-</ol>
+              <blockquote>
+<p>最近在看周志华的《机器学习》西瓜书的时候，感觉书上的概念-查准率和查全率描述地有点抽象。于是查阅了一些资料深入学习，有所感悟。</p>
+</blockquote>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105153124644.png" srcset="/img/loading.gif" lazyload alt="西瓜书上的描述" style="zoom:200%;" /></p>
+<p>参考了另一本书《机器学习实战：基于Scikit-Learn、Keras和TensorFlow》第二版</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105160225958.png" srcset="/img/loading.gif" lazyload alt="image-20220105160225958"  /></p>
+<p>For each instance, it computes a score based on a decision function.</p>
+<p>对于每个实例，它都基于决策函数计算分数。</p>
+<p>If that score is greater than a threshold, it assigns the instance to the positive class; otherwise it assigns it to the negative class.</p>
+<p>如果该分数大于阈值，则将实例分配给正类；否则，它会将其分配给负类。</p>
+<p>对于这样的二分类问题，我们可以用手写数字识别"5"举例</p>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105155446546.png" srcset="/img/loading.gif" lazyload alt="机器学习实战第137页" style="zoom:200%;" /></p>
+<p>在上图中，我们可以看到有三个可以选择的阈值（Various thresholds），就拿中间的那条竖线而言（对应一个阈值）：在竖线右边的实例，都会被预测为正例-1，在竖线左边的实例，都会被预测为反例-0。其中，中间的竖线右边有5个实例，而真实情况下这5个实例中只有4个手写数字是表示"5"的（第二个看不出来是"5"）。</p>
+<p>查准率表示所有预测为1的样本中预测正确的比率，也就是4/5 = 80％。其中4就是预测结果是"5"，真实情况是"5"的实例的个数，也就是真正例TP（True Positive），预测正确，而5就是中间竖线右边的实例个数，也就是预测结果是"5"，但是不确定它的真实情况是什么，也就是TP + FP（包括真正例和假正例）。</p>
+<p>查准率P（Precision） <span class="math display">\[
+P={TP \over TP + FP}
+\]</span></p>
+<p>在上图中，可以看到在所有的实例中（共12个），真实情况是"5"的个数有6个，包括了正例中的4个和反例中的2个，也就是真正例TP和假反例FN。召回率是指在所有真正为1的样本中预测正确的比率。也就是4/6 = 67％。</p>
+<p>召回率R（Recall） <span class="math display">\[
+R = { TP \over TP + FN }
+\]</span> 而精度（准确率）是正确预测为1，正确预测为0的样本占总体的比率 <span class="math display">\[
+Acc = { TP + TN \over ALL}
+\]</span> TP是真正例，TN是真反例，准确率只关心是否预测对了，但是不关心实例本身的属性。</p>
+<p>从上图也可以看出，对于图中的三种可以选取的阈值，当阈值越大（也就是把门的越严格），查准率P在上升，查全率R在下降。</p>
+<p>而阈值越小，查准率P在下降，而查全率R在上升，也可以直观地表明查准率和查全率是一对矛盾的度量。</p>
 
             </div>
             <hr>
@@ -252,7 +264,7 @@
                     
                       <a class="hover-with-bg" href="/categories/%E6%89%80%E6%9C%89/">所有</a>
                     
-                      <a class="hover-with-bg" href="/categories/Windows/">Windows</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -260,7 +272,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Windows/">Windows</a>
+                      <a class="hover-with-bg" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
                     
                   </div>
                 
@@ -277,12 +289,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">F1度量为何用调和平均而不用算术平均</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E6%89%80%E6%9C%89/ARM%E5%89%8D%E7%B4%A2%E5%BC%95%E5%81%8F%E7%A7%BB%E5%AF%BB%E5%9D%80%E5%92%8C%E5%90%8E%E7%B4%A2%E5%BC%95%E5%81%8F%E7%A7%BB%E5%AF%BB%E5%9D%80/">
-                        <span class="hidden-mobile">ARM前索引偏移寻址和后索引偏移寻址</span>
+                      <a href="/Hexo/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%A0%E9%A2%98-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%89%A9%E7%90%86%E5%B1%82/">
+                        <span class="hidden-mobile">计算机网络习题_第二章_物理层</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -480,6 +498,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
 
 
 
