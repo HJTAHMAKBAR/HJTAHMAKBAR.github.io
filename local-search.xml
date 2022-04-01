@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>更改windows的cmd默认打开路径</title>
+    <link href="/Windows/%E6%9B%B4%E6%94%B9windows%E7%9A%84cmd%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E8%B7%AF%E5%BE%84/"/>
+    <url>/Windows/%E6%9B%B4%E6%94%B9windows%E7%9A%84cmd%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E8%B7%AF%E5%BE%84/</url>
+    
+    <content type="html"><![CDATA[<ol type="1"><li><h3 id="打开注册表">打开注册表</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115105930.png" /></p></li><li><h3 id="找到下面的项">找到下面的项</h3></li></ol><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">HKEY_CURRENT_USER<span class="hljs-symbol">\S</span>oftware<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\C</span>ommand Processor<br>或者<br>HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>OFTWARE<span class="hljs-symbol">\M</span>icrosoft<span class="hljs-symbol">\C</span>ommand Processor<br></code></pre></td></tr></table></figure><ol start="3" type="1"><li><h3 id="新增一个字符串">新增一个字符串</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115430752.png" /></p></li><li><h3 id="查看效果">查看效果</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401115457954.png" /></p><p>也可改成其他路径。</p></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>所有</category>
+      
+      <category>Windows</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Windows</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>ARM指令格式以及第二个操作数的immed_8r形式</title>
     <link href="/%E6%89%80%E6%9C%89/ARM%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E4%BB%A5%E5%8F%8A%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84immed-8r%E5%BD%A2%E5%BC%8F/"/>
     <url>/%E6%89%80%E6%9C%89/ARM%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E4%BB%A5%E5%8F%8A%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84immed-8r%E5%BD%A2%E5%BC%8F/</url>
@@ -653,9 +680,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>Git</tag>
-      
       <tag>Github Pages</tag>
+      
+      <tag>Git</tag>
       
     </tags>
     
@@ -684,9 +711,9 @@
       
       <tag>Hexo</tag>
       
-      <tag>GithubPages</tag>
-      
       <tag>Git</tag>
+      
+      <tag>GithubPages</tag>
       
       <tag>nvm</tag>
       
