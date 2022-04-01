@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      610 字
+      608 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      8
        分钟
     </span>
   
@@ -258,9 +258,7 @@
 <p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401125139620.png" srcset="/img/loading.gif" lazyload /></p>
 <p>This addressing mode uses the value of the base register Rn as the address for the memory access. If the condition specified in the instruction matches the condition code status, the value of the immediate offset is added to or subtracted from the value of the base register Rn and written back to the base register Rn.</p>
 <p>这种寻址模式使用基寄存器Rn的值作为内存访问的地址。如果指令中指定的条件与条件代码状态相匹配，则立即偏移量的值将与基寄存器Rn的值相加或相减，并写入基寄存器Rn。</p>
-<figure>
-<img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401125336156.png" srcset="/img/loading.gif" lazyload alt="image-20220401125336156" /><figcaption aria-hidden="true">image-20220401125336156</figcaption>
-</figure>
+<p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220401125336156.png" srcset="/img/loading.gif" lazyload /></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs assembly">address = Rn<br>if ConditionPassed(cond) then<br>    if U == 1 then <br>        Rn = Rn + offset_12<br>    else /* U == 0 */<br>        Rn = Rn - offset_12<br></code></pre></td></tr></table></figure>
 <p>这种寻址模式用于指针访问数组，并自动更新指针值。（类似于a[i++]）</p>
 
