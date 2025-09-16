@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ARM微处理器的存储器格式 最大寻址空间 ARM体系结构所支持的最大寻址空间为4GB(\(2^{32}\)字节) 字长、指令长度 ARM处理器的字长是32位，则一条汇编指令的长度也是32位，也就是四个字节(8位一个字节)，而内存中一个地址单元是一个字节，也就是说一条指令要占据4个地址单元。 假设程序顺序执行（一条接一条，没有跳转），假设当前正在CPU中执行的指令A的首地址是0，也就是说指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARM微处理器的存储器格式">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="ARM微处理器的存储器格式 最大寻址空间 ARM体系结构所支持的最大寻址空间为4GB(\(2^{32}\)字节) 字长、指令长度 ARM处理器的字长是32位，则一条汇编指令的长度也是32位，也就是四个字节(8位一个字节)，而内存中一个地址单元是一个字节，也就是说一条指令要占据4个地址单元。 假设程序顺序执行（一条接一条，没有跳转），假设当前正在CPU中执行的指令A的首地址是0，也就是说指">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/arm.png">
+<meta property="article:published_time" content="2022-03-11T02:42:29.000Z">
+<meta property="article:modified_time" content="2025-08-16T02:25:19.607Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="ARM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/arm.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ARM微处理器的存储器格式 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ARM微处理器的存储器格式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-11 10:42" pubdate>
+          2022年3月11日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ARM微处理器的存储器格式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="arm微处理器的存储器格式">ARM微处理器的存储器格式</h2>
+<h3 id="最大寻址空间"><strong>最大寻址空间</strong></h3>
+<p><strong>ARM</strong>体系结构所支持的最大寻址空间为<strong>4GB</strong>(<span
+class="math inline">\(2^{32}\)</span>字节)</p>
+<h3 id="字长指令长度"><strong>字长、指令长度</strong></h3>
+<p>ARM处理器的字长是<strong>32位</strong>，则一条汇编指令的长度也是32位，也就是四个字节(8位一个字节)，而内存中一个地址单元是一个字节，也就是说一条指令要占据4个地址单元。
+假设程序顺序执行（一条接一条，没有跳转），假设当前正在CPU中执行的指令A的首地址是0，也就是说指令A的存放位置是内存中的0—3这4个地址单元。</p>
+<p>ARM是一种32位处理器，即ARM处理器处理的数据通常是以32位二进制位基本单位的。ARM中的一个32位数叫做一个字。在存储器中，ARM的一个基本数据需要占用4个连续存储单元，为了判断哪四个单元为一个字，ARM规定一个字所占用的4个连续存储单元的第一个单元地址的低2位必须是00(能被被四整除)。</p>
+<h3 id="大端格式小端格式"><strong>大端格式、小端格式</strong></h3>
+<p>根据字的4字节在4个存储单元中的存储顺序，ARM提供了两种存储方式：小端方式和大端方式。系统默认的是小端方式，即字的低位字节在地址的底端（小端）。</p>
+<p><strong>理解</strong>：</p>
+<p><strong>所谓的大端模式，</strong>是指数据的低位保存在内存的高地址中，而数据的高位，保存在内存的低地址中；</p>
+<p><img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220311114119021.png" srcset="/img/loading.gif" lazyload /></p>
+<p><strong>所谓的小端模式，</strong>是指数据的低位保存在内存的低地址中，而数据的高位保存在内存的高地址中。</p>
+<p><img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220311114322099.png" srcset="/img/loading.gif" lazyload /></p>
+<p>例如，<strong>16bit</strong>宽的数<strong>0x1234</strong>在Little-endian（小端）模式CPU内存中的存放方式（假设从地址<strong>0x4000</strong>开始存放）为：</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>0x4000</th>
+<th>0x4001</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存放内容</td>
+<td>0x34</td>
+<td>0x12</td>
+</tr>
+</tbody>
+</table>
+<p>而在Big-endian（大端）模式CPU内存中的存放方式则为：</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>0x4000</th>
+<th>0x4001</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存放内容</td>
+<td>0x12</td>
+<td>0x34</td>
+</tr>
+</tbody>
+</table>
+<p><strong>32bit</strong>宽的数0x12345678在Little-endian（小端）模式CPU内存中的存放方式（假设从地址<strong>0x4000</strong>开始存放）为：</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>0x4000</th>
+<th>0x4001</th>
+<th>0x4002</th>
+<th>0x4003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存放内容</td>
+<td>0x78</td>
+<td>0x56</td>
+<td>0x34</td>
+<td>0x12</td>
+</tr>
+</tbody>
+</table>
+<p>　　而在Big-endian（大端）模式CPU内存中的存放方式则为：</p>
+<table>
+<thead>
+<tr>
+<th>内存地址</th>
+<th>0x4000</th>
+<th>0x4001</th>
+<th>0x4002</th>
+<th>0x4003</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存放内容</td>
+<td>0x12</td>
+<td>0x34</td>
+<td>0x56</td>
+<td>0x78</td>
+</tr>
+</tbody>
+</table>
+<p>为什么会有大小端模式之分呢？这是因为在计算机系统中，我们是以字节为单位的，每个地址单元都对应着一个字节，一个字节为8bit。但是在C语言中除了8bit的char之外，还有16bit的short型，32bit的long型（要看具体的编译器），另外，对于位数大于8位的处理器，例如16位或者32位的处理器，由于寄存器宽度大于一个字节，那么必然存在着一个如果将多个字节安排的问题。因此就导致了大端存储模式和小端存储模式。例如一个16bit的short型x，在内存中的地址为0x0010，x的值为0x1122，那么0x11为高字节，0x22为低字节。对于大端模式，就将0x11放在低地址中，即0x0010中，0x22放在高地址中，即0x0011中。小端模式，刚好相反。我们常用的X86结构是小端模式，而KEIL
+C51则为大端模式。很多的ARM，DSP都为小端模式。有些ARM处理器还可以由硬件来选择是大端模式还是小端模式。</p>
+<h3 id="指令长度及数据类型"><strong>指令长度及数据类型</strong></h3>
+<p><strong>ARM</strong>微处理器的指令长度可以是<strong>32</strong>位（在<strong>ARM</strong>状态下），也可以为<strong>16</strong>位（在<strong>Thumb</strong>状态下）。</p>
+<p><strong>ARM</strong>微处理器中支持字节（<strong>8</strong>位）、半字（<strong>16</strong>位）、字（<strong>32</strong>位）三种数据类型，其中，字需要<strong>4</strong>字节对齐（地址的低两位为<strong>0</strong>）、半字需要<strong>2</strong>字节对齐（地址的最低位为<strong>0</strong>）</p>
+<p><strong>ARM</strong>微处理器中的字为32位（4字节）、半字为16位（2字节）、字节为8位（1字节）。</p>
+<p>大多数计算机使用<strong>字节（8位的数据块）作为最小可寻址的存储器单位</strong>，而不是访问存储器中单独的位。存储器的每一个字节都由唯一的数字标识，称为该字节的<strong>地址</strong>，所有可能地址的集合称为存储器空间。</p>
+<p>举例来说，ARM处理器工作状态有如下两种：</p>
+<p>ARM状态：执行字对齐的32位ARM指令。</p>
+<p>Thumb状态：执行半字对齐的16位Thumb指令。</p>
+<p><strong>对于字对齐：</strong></p>
+<p>假如，第一次取ARM指令1的地址为 0x0000
+0000，由于ARM指令占32位（4个字节），因此地址0x0000 0001、0x0000
+0002、0x0000
+0003（分别指向一个字中的4个字节的地址）都是指令1的地盘。那么第二次取ARM指令2的地址为
+0x0000 0004，同样的道理，0x0000 0005、0x0000 0006、0x0000
+0007也都是指令2的地盘，以此类推：</p>
+<p>指令1：<strong>0x0000 0000</strong>——0x0000 0003</p>
+<p>指令2：<strong>0x0000 0004</strong>——0x0000 0007</p>
+<p>指令3：<strong>0x0000 0008</strong>——0x0000 000B</p>
+<p>指令4：<strong>0x0000 000C</strong>——0x0000 000F</p>
+<p>…</p>
+<p>观察各个指令的<strong>起始地址</strong>：</p>
+<p>若按十进制来看分别是：0、4、8、12、…<strong>都可以被4整除</strong>。</p>
+<p>若按二进制来看bit1和bit0都是0：也就是说它们的起始地址都是0bxxxxxxxx
+xxxxxxxx xxxxxxxx xxxxxx<strong>00</strong>（32位地址）</p>
+<p>同理，对于Thumb指令，他们的起始地址都是0bxxxxxxxx xxxxxxxx xxxxxxxx
+xxxxxxx<strong>0</strong>（32位地址）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ARM/" class="category-chain-item">ARM</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ARM/" class="print-no-link">#ARM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ARM微处理器的存储器格式</div>
+      <div>https://jetthuang.top/所有/ARM最大寻址空间、字长、指令长度/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E7%9A%84%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8PC-R15-%E4%BB%A5%E5%8F%8A%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%97%B6%E7%9A%84%E6%93%8D%E4%BD%9C/" title="ARM的程序计数器PC(R15)以及异常返回地址">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ARM的程序计数器PC(R15)以及异常返回地址</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Oracle/%E5%85%B3%E4%BA%8EOracleDBConsoleorcl%E6%9C%8D%E5%8A%A1%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法">
+                        <span class="hidden-mobile">关于OracleDBConsoleorcl服务无法启动问题原因分析与解决办法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

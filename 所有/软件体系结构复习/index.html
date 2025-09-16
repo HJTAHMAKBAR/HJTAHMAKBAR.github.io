@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="软件体系结构复习 第一章 1、为什么要研究软件体系结构？ 1234567研究软件体系结构在软件开发和维护过程中具有及其重要的意义，有助于1、提高软件质量，通过研究软件体系结构，可以确保系统在设计阶段就具备良好的可扩展性、可维护性、可重用性和可靠性等质量属性。2、降低开发成本，合理的软件体系结构能够减少软件开发过程中的重复劳动，提高开发效率。通过复用已有的组件和服务，可以降低新系统的开发成本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件体系结构复习">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/%E8%BD%AF%E4%BB%B6%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="软件体系结构复习 第一章 1、为什么要研究软件体系结构？ 1234567研究软件体系结构在软件开发和维护过程中具有及其重要的意义，有助于1、提高软件质量，通过研究软件体系结构，可以确保系统在设计阶段就具备良好的可扩展性、可维护性、可重用性和可靠性等质量属性。2、降低开发成本，合理的软件体系结构能够减少软件开发过程中的重复劳动，提高开发效率。通过复用已有的组件和服务，可以降低新系统的开发成本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/learning.png">
+<meta property="article:published_time" content="2024-06-20T06:54:00.000Z">
+<meta property="article:modified_time" content="2025-09-16T16:19:01.772Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/learning.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>软件体系结构复习 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="软件体系结构复习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-20 14:54" pubdate>
+          2024年6月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          98 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">软件体系结构复习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="软件体系结构复习">软件体系结构复习</h1>
+<h2 id="第一章">第一章</h2>
+<h3 id="为什么要研究软件体系结构">1、为什么要研究软件体系结构？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs">研究软件体系结构在软件开发和维护过程中具有及其重要的意义，有助于<br>1、提高软件质量，通过研究软件体系结构，可以确保系统在设计阶段就具备良好的可扩展性、可维护性、可重用性和可靠性等质量属性。<br>2、降低开发成本，合理的软件体系结构能够减少软件开发过程中的重复劳动，提高开发效率。通过复用已有的组件和服务，可以降低新系统的开发成本。同时，良好的体系结构能够减少系统维护和升级的难度和成本，因为系统各组件之间的耦合度低，修改一个组件通常不会影响到其他组件。<br>3、支持复杂系统开发，体系结构设计阶段可以明确系统的整体架构和关键组件，为后续的详细设计和实现提供清晰的指导。<br>4、促进团队协作，通过体系结构描述，团队成员可以清晰地了解系统的整体结构和各组件的职责，从而更加有效地协作。<br>5、支持演化和升级，通过研究软件体系结构，可以确保系统在设计时就具备足够的灵活性和可扩展性，以应对未来的变化。<br>6、提高决策质量，以更加全面地了解系统的需求和约束条件，从而做出更加科学合理的决策。<br></code></pre></td></tr></table></figure>
+<h3
+id="根据软件体系结构的定义你认为软件体系结构的模型应该由哪些部分组成">2、根据软件体系结构的定义，你认为软件体系结构的模型应该由哪些部分组成？</h3>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs maxima">软件体系结构是描述软件系统结构的高层抽象，它关注于系统的整体结构、组件之间的交互关系以及指导这些组件设计和演化的原则和方针。一个全面的软件体系结构模型应该包含以下几个关键部分：<br><span class="hljs-number">1</span>、组件（<span class="hljs-built_in">components</span>）<br>	组件是软件体系结构的基本构建块，它们封装了功能性和数据，对外提供接口供其他组件调用。组件可以是类、模块、子系统或服务的集合<br><span class="hljs-number">2</span>、连接件（connectors）<br>	连接件定义了组件之间的交互方式，包括数据流、控制流和可能的异常处理机制。它们可以是简单的函数调用、消息传递、管道、共享内存、远程过程调用等。<br><span class="hljs-number">3</span>、配置（configuration）<br>	配置描述了系统中组件和连接件的组织和布局方式，即他们是如何被组织成一个整体的。这包括组件的层次结构、拓扑结构以及它们在物理上或逻辑上的部署。<br><span class="hljs-number">4</span>、约束（constraints）<br>	约束是对体系结构设计和实现的限制条件，这些条件可能起源于业务需求、技术限制、性能要求、安全策略或法律法规等。约束有助于确保系统结构的一致性和可行性。<br><span class="hljs-number">5</span>、风格（styles）/模式（patterns）<br>	风格或模式是对常见体系结构设计的抽象和概括，它们提供了一组经过验证的、用于指导特定类型软件系统设计的原则和实践。常见的风格包括分层体系结构、客户端-服务器体系结构、事件驱动体系结构、微服务架构等。<br><span class="hljs-number">6</span>、原则（principles）<br>	原则是指导体系结构设计和演化的基本原则，它们定义了设计决策背后的指导思想。例如，模块化原则鼓励将系统划分为独立、可替换的组件。<br><span class="hljs-number">7</span>、视图（views）<br>	由于软件体系结构是一个复杂的系统，通常需要从不同的角度来描述它。视图就是针对特定关注点的体系结构描述，如逻辑视图、开发视图、物理视图和进程视图。<br>	<br></code></pre></td></tr></table></figure>
+<h3
+id="详细了解什么是面向服务体系结构">3、详细了解什么是面向服务体系结构</h3>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dns">面向服务体系结构（Service-Oriented Architecture，<span class="hljs-keyword">SOA</span>）是一种软件设计模式，它将应用程序的不同功能单元（即服务）进行抽象、封装和集成，以实现软件系统的模块化、松耦合和可重用。<span class="hljs-keyword">SOA</span>的核心思想是将软件功能以服务的形式进行组织，这些服务具有明确定义的接口，并通过这些接口与外部交互，以实现软件系统的灵活性和可扩展性。<br><span class="hljs-keyword">SOA</span>的主要特点：<br><span class="hljs-number">1</span>、松耦合，<span class="hljs-keyword">SOA</span>通过定义清晰的服务接口，实现了服务之间的解耦，使得服务之间的依赖关系变得更加灵活。这有助于降低系统间的耦合度，提高系统的可维护性和可扩展性。<br><span class="hljs-number">2</span>、模块化，<span class="hljs-keyword">SOA</span>将复杂的业务功能抽象为简单的服务单元，使得系统的设计和开发变得更加模块化。这有助于提高系统的可重用性和可维护性。<br><span class="hljs-number">3</span>、平台无关性，<span class="hljs-keyword">SOA</span>的服务接口独立于实现，使得服务可以在不同的硬件平台、操作系统和编程语言上实现，提高了系统的跨平台能力。<br><span class="hljs-number">4</span>、易于扩展和维护，由于服务之间的松耦合和模块化设计，<span class="hljs-keyword">SOA</span>使得系统的扩展和维护变得更加容易。当需要添加新功能或修改现有功能时，只需对相应的服务进行修改，而无需影响其他服务。<br><span class="hljs-keyword">SOA</span>已经在企业信息系统、物联网、云计算等多个领域得到了广泛的应用。<br></code></pre></td></tr></table></figure>
+<h2 id="第二章">第二章</h2>
+<h3
+id="选择一个规模合适的系统为其建立41模型">1、选择一个规模合适的系统，为其建立“4+1”模型。</h3>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">选择一个中等复杂度的企业信息系统作为示例。这个系统可能包含多个模块，如用户管理、订单处理、库存管理、财务管理等，并且需要与外部系统（支付网关、物流系统）进行交互。以下是基于“<span class="hljs-number">4</span>+<span class="hljs-number">1</span>”视图模型的详细建立过程：<br><span class="hljs-number">1</span>、逻辑视图（Logical <span class="hljs-keyword">view</span>）<br>	描述系统软件功能拆解后的组件关系，组件约束和边界、反映系统整体组成与系统如何构建的过程。使用UML的组件图和类图来表示逻辑视图，展示组件的层次结构和类之间的关系（关联、泛化、组合、聚合等）<br><span class="hljs-number">2</span>、物理视图（Physical <span class="hljs-keyword">view</span>）<br>	描述系统软件到物理硬件的映射关系，反应系统的组件时如何部署到一组可计算机器节点上，用于指导软件系统的部署实施过程。（负载均衡、容错备份等）<br><span class="hljs-number">3</span>、处理流程视图（<span class="hljs-keyword">Process</span> <span class="hljs-keyword">view</span>）<br>	捕获设计的并发性和同步性方面，解决系统如何执行的问题。描述系统如何处理并发请求和同步操作，确保数据的一致性和系统的稳定性。流程控制定义系统内部各组件之间的交互流程和控制逻辑。使用流程图或活动图表示系统的处理流程和控制逻辑。<br><span class="hljs-number">4</span>、开发视图（Development <span class="hljs-keyword">view</span>）<br>	描述软件在其开发环境中的静态结构（系统和应用），侧重于软件开发环境上的软件模块静态结构。.<br><span class="hljs-number">5</span>、场景视图（<span class="hljs-keyword">Use</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">view</span>）<br>	描述系统的参与者与功能用例间的关系，反映系统的最终需求和交互设计。<br></code></pre></td></tr></table></figure>
+<h3
+id="引入了软件体系结构以后传统软件过程发生了哪些变化这种变化有什么好处">2、引入了软件体系结构以后，传统软件过程发生了哪些变化？这种变化有什么好处？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">传统软件过程的设计开发更加具体和形象，模型使得软件过程更加方便和多样化，促进了软件系统的系统级复用，提高了系统的可维护性和可扩展性。<br>这种变化提高了软件开发的效率、降低了软件开发的成本、提高了软件质量、促进了团队成员之间的沟通和协作、支持了更复杂的软件系统的开发。<br></code></pre></td></tr></table></figure>
+<h3
+id="软件体系结构的生命周期模型与软件生命周期模型有什么关系">3、软件体系结构的生命周期模型与软件生命周期模型有什么关系？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">软件体系结构是贯穿于软件研发的整个生命周期的系统开发、运行、维护所实施的全部工作和任务的结构框架。它给出了软件开发活动各阶段之间的关系，为软件生命周期模型提供了很好的结构与参考，并构建了很好的开发方式。软件生命周期模型是指人们为了开发更好的软件而归纳总结的软件生命周期的典型实践参考，它描述了软件从产生到报废的整个生命周期。<br>软件体系结构生命周期模型为软件生命周期模型提供了结构上的指导和参考，使得软件生命周期的各个阶段更加明确和有序。软件体系结构的生命周期模型更侧重于从体系结构的角度来划分阶段，而软件生命周期模型则更加全面地覆盖了软件的整个生命周期。<br></code></pre></td></tr></table></figure>
+<h3 id="详细了解41视图">4、详细了解4+1视图。</h3>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs subunit">4<span class="hljs-string">+1</span>视图通过五个不同的视角来全面描述软件系统的各个方面，包括逻辑视图，开发视图、过程视图、物理视图、场景视图。<br>逻辑视图：关注系统提供最终用户的功能，即系统提供给用户的服务。展示了系统的静态结构和动态行为，以及系统内部如何实现这些功能。<br>开发视图：主要关注软件模块的组织和管理，定义了在开发环境中软件的静态组织结构，包括源代码的组织和模块间的依赖关系。<br>过程视图：也称运行视图和进程视图，主要关注系统的运行特性，特别是并发性、分布性、系统继承性和容错能力。它描述了系统组件之间的通信时序和数据的输入输出<br>物理视图：定义了软件到硬件的映射<br>场景视图：场景视图也称为用例视图，是“4<span class="hljs-string">+1</span>”视图中的“1”。它作为其他四个视图的补充，通过用例（use cases）或场景（scenarios）将其他几个视图串联起来，对它们进行解释和说明。<br></code></pre></td></tr></table></figure>
+<h2 id="第三章">第三章</h2>
+<h3
+id="试分析和比较bs二层cs和三层cs指出各自的优点和缺点">1、试分析和比较B/S，二层C/S和三层C/S，指出各自的优点和缺点。</h3>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-variable">B</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构：<br>优点：<br><span class="hljs-number">1</span>、无需安装客户端，用户可以直接通过<span class="hljs-variable">Web</span>浏览器访问系统，无需在本地计算机上安装专门的客户端软件，从而简化了用户的操作，降低了使用门槛。<br><span class="hljs-number">2</span>、跨平台性好，可以支持多种操作系统和浏览器。<br><span class="hljs-number">3</span>、易于维护和升级，系统的维护和升级主要集中在服务端进行，用户无需进行任何操作，降低了维护成本。<br><span class="hljs-number">4</span>、开放性和扩展性强，<span class="hljs-variable">B</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构可以方便地与其他<span class="hljs-variable">Web</span>应用和服务进行集成，支持广泛的<span class="hljs-variable">Web</span>技术和标准。<br>缺点：<br><span class="hljs-number">1</span>、安全性和性能方面可能不如<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构，尤其是在处理大量并发请求或敏感数据时。<br><span class="hljs-number">2</span>、依赖网络，完全依赖于网络，如果网络不稳定或中断，系统将无法正常工作。<br><span class="hljs-number">3</span>、交互性受限，由于是基于<span class="hljs-variable">Web</span>浏览器的请求<span class="hljs-operator">-</span>响应模式，<span class="hljs-variable">B</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构在交互性方面可能不如<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构流畅。<br>二层<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构<br>优点：<br><span class="hljs-number">1</span>、数据操作能力强，<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构具有强大的数据操作和处理能力，适用于需要频繁进行数据库操作的应用场景<br><span class="hljs-number">2</span>、适应性和灵活性，<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构对软硬件的变化具有较大的适应性和灵活性，<br><span class="hljs-number">3</span>、功能构建隔离，有助于降低复杂复杂度并提高系统的可维护性。<br>缺点：<br><span class="hljs-number">1</span>、开发成本高<br><span class="hljs-number">2</span>、客户端依赖性强<br><span class="hljs-number">3</span>、维护和升级困难<br>三层<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构<br>优点<br><span class="hljs-number">1</span>、高可维护性和可扩展性，通过合理的划分三层架构（表示层，业务逻辑层，数据访问层）提高了系统和软件的可维护性和可扩展性。<br><span class="hljs-number">2</span>、良好的可升级性和开放性：三层<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构支持并行开发，可以选择最合适的开发语言和技术栈，同时也便于进行系统的升级和扩展。<br><span class="hljs-number">3</span>、安全性好，由于将业务逻辑层和数据访问分开处理，可以在中间层进行严格的权限控制和数据加密，提高系统的安全性。<br>缺点<br><span class="hljs-number">1</span>、开发难度大，需要更多的技术储备和开发经验<br><span class="hljs-number">2</span>、访问效率低，由于增加了中间层的数据处理和转发过程，可能会导致系统的访问效率降低<br><span class="hljs-number">3</span>、成本较高，三层<span class="hljs-built_in">C</span><span class="hljs-operator">/</span><span class="hljs-variable">S</span>架构需要更多的服务器和网络资源来支持系统的运行和维护，因此成本相对较高。<br></code></pre></td></tr></table></figure>
+<h3
+id="组织或参与一个采用三层体系结构的软件项目的开发总结开发经验">2、组织或参与一个采用三层体系结构的软件项目的开发，总结开发经验。</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs">三层体系结构包括：用户界面表示层，业务逻辑层，数据访问层。<br>1、数据访问层，主要是对原始数据的操作层，而不是指原始数据，是对数据的操作，为业务逻辑层或表示层提供数据服务。<br>2、业务逻辑层，主要是针对具体的问题的操作，对数据层的操作，对数据业务逻辑处理<br>3、表示层，主要表示Web方法，也可以表示成Winform方式。<br>采用三层结构主要是使项目结构更清楚，分工更明确，有利于后期的维护和升级，它未必会提升性能，因为当子程序模块未执行结束时，主程序模块只能处于等待状态，这说明将应用程序划分层次，会带来执行速度上的一些损失，但是从团队开发效率上来说可以感到大不相同的效果。<br></code></pre></td></tr></table></figure>
+<h3
+id="在软件开发中采用异构结构有什么好处其负面影响有哪些">3、在软件开发中，采用异构结构有什么好处，其负面影响有哪些？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs">采用异构结构可以<br>1、适应性和灵活性<br>	异构结构允许系统根据实际需求，灵活选择最适合的组件和技术来实现功能，有助于快速适应不断变化的市场需求和技术发展。<br>2、资源优化<br>	异构结构能够更有效地利用系统中的各种资源，避免资源浪费，通过将任务分配给最合适的处理器，可以提高系统的整体性能和效率<br>3、兼容性和互操作性<br>	尽管存在多种不同的技术和标准，但异构结构通过适当的接口和协议设计，可以实现不同组件之间的兼容性和互操作性，有助于系统的集成和扩展。<br>4、降低维护成本<br>	在某些情况下，系统可能包含一些遗留代码或旧系统，这些代码与新系统可能存在一定的不协调。通过采用异构结构，可以在不重写旧代码的情况下，将新系统与之集成，从而降低维护成本。<br>负面影响：<br>1、复杂性增加<br>2、标准不统一<br>3、资源分配和管理难度<br>4、性能瓶颈，性能差异<br>5、安全风险<br></code></pre></td></tr></table></figure>
+<h3 id="详细了解一种体系结构风格">4、详细了解一种体系结构风格</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs">管道/过滤器风格<br>定义：管道/过滤器风格是一种数据流风格的软件体系结构，它将系统划分为一系列独立的过滤器和管道，在这种结构中，构件被称为过滤器，负责对数据进行加工处理，每个过滤器都有一组输入端口和输出端口，从输入端口接受数据，经过内部加工处理后，传送到输出端口上，数据通过相邻过滤器之间的连接件进行传输，连接件可以看作输入数据流和输出数据流之间的通路，这就是管道。<br><br>过滤器：是管道/过滤器风格中的基本构件，负责接受输入数据流，对其进行处理，并产生输出数据流，过滤器之间是相互独立的，一个过滤器的输出称为另一个过滤器的输入。<br>管道：连接过滤器的连接件，用于传输数据流，它确保了数据从一个过滤器流向另一个过滤器，而不需要过滤器之间的直接交互。<br>优点：简单性、支持复用、系统可扩展性和可进化性、系统并发性、便于系统分析<br>缺点：是批处理方式，不适合需要实时响应的交互式应用，不适合设计交互式应用系统，数据传输标准不统一，难以进行错误处理。<br>应用实例：传统的编译器是管道/过滤器风格的一个典型实例，编译器由词法分析，语法分析，语义分析，中间代码生成，中间代码优化和目标代码生成等模块组成，这些模块可以看作一系列的过滤器，它们依次对源代码进行处理，最终生成目标代码，每个模块的输出都是下一个模块的输入，通过管道进行数据传输。<br></code></pre></td></tr></table></figure>
+<h2 id="第四章">第四章</h2>
+<h3
+id="体系结构描述有哪些方法有哪些标准和规范">1、体系结构描述有哪些方法？有哪些标准和规范？</h3>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs armasm">体系结构描述的方法主要包括<br><span class="hljs-number">1</span>、图形表达方式，采用矩形框和有向线段组合而成，其中矩形代表抽象矩阵，有向线段代表连接件，即辅助各构件进行通信、控制或关联的元素。<br><span class="hljs-number">2</span>、模块内连接语言（MIL），是一种将几种传统程序设计语言的模块连接起来的语言，基于程序设计语言的语义基础，能够支持相对较大的软件单元进行描述，但过于依赖程序设计语言，可能限制了其处理和描述更抽象的高层次软件体系结构元素的能力。<br><span class="hljs-number">3</span>、基于软构件的系统描述语言，将软件系统描述成由许多以特定形式相互作用的特殊实体构造组成的组织或系统，例如，PCL和Darwin都可以用来在较高的抽象层次上对系统的体系结构进行建模。<br><span class="hljs-number">4</span>、软件体系结构描述语言（ADL），是参照传统程序设计语言的设计和开发经验，针对软件体系结构特点重新设计、开发和使用的专门的软件体系结构描述语言，它能够使用较小的独立体系结构元素来建造大型软件系统，同时关注构件和连接件的抽象特性，常见的有Wright、<span class="hljs-built_in">C2</span>、Rapide、xADL、MetaH等<br>标准和规范有IEEE P1471、Rational建议标准。<br></code></pre></td></tr></table></figure>
+<h3
+id="体系结构描述语言与程序设计语言有什么区别">2、体系结构描述语言与程序设计语言有什么区别？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">ADL是一种能够建立软件系统概念化结构的语言，它能够刻画体系结构的具体语法和概念框架，ADL的目的是为了描述和表达软件系统的体系结构，便于开发人员之间的交流和系统的建模，设计与分析，主要用于软件系统的体系结构建模、描述、分析和交流，帮助开发人员理解和构建系统的整体结构。<br>程序设计语言是计算机程序设计的基础工具，是计算机能够理解和执行的语言，它包含了一套语法、词法规则，用于定义和实现程序中的数据结构和算法。<br>主要区别在它们的应用层次和目的，ADL用于建立软件系统的高层次概念化体系结构，程序设计语言用于编写具体的程序代码，实现特定的功能或算法，是实现具体功能的工具。ADL关注系统设计层面的抽象描述，而程序设计语言则关注代码层面的具体实现。<br></code></pre></td></tr></table></figure>
+<h3 id="详细了解一种设计模式">3、详细了解一种设计模式</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs">工厂方法模式：是一种创建型设计模式，它定义了一个创建对象的接口，但让子类决定要实例化的类是哪一个。工厂方法让类的实例化推迟到子类中进行。<br>特点：<br>封装性：客户端不需要指导具体产品的创建过程，只需指导对应工厂的接口<br>扩展性：当需要增加新的产品时，只需新增相应的具体产品和对应的具体工厂类，无需修改原有代码，符合开闭原则<br>解耦：将产品的创建与使用解耦，降低了系统的耦合度。<br>角色：<br>抽象产品、具体产品、抽象工厂、具体工厂<br></code></pre></td></tr></table></figure>
+<h2 id="第五章">第五章</h2>
+<h3
+id="什么是动态软件体系结构动态软件体系结构与静态软件体系结构有什么区别">1、什么是动态软件体系结构？动态软件体系结构与静态软件体系结构有什么区别？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs">动态软件体系结构是指允许在系统运行时发生更新的软件体系结构。能支持系统在运行时根据需求、技术、环境或分布等因素的变化进行动态调整，而无需停止系统运行。动态软件体系结构的研究主要是针对那些需要长期运行且具有特殊使命的系统，如航空航天、生命维持、金融、交通等领域，这些系统的稳定性和可靠性至关重要。<br>区别在于：<br>1、运行时更新能力，静态软件体系结构一旦系统部署运行，其体系结构在运行时无法发生变化，除非通过停止系统并进行更新来实现。<br>2、适应性和灵活性<br>3、复杂性和挑战<br>4、应用场景<br>5、技术实现，动态软件体系结构通常基于构件和连接件模型，通过定义适当的接口和协议来实现动态更新。静态软件体系结构则更多依赖于传统软件开发方法和工具链，如需求分析，设计、编码、测试等。<br></code></pre></td></tr></table></figure>
+<h3
+id="基于构件的动态软件体系结构模型的层次结构是什么">2、基于构件的动态软件体系结构模型的层次结构是什么？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">主要分为三层：应用层，中间层和体系结构层。<br>应用层：处于最底层，包括构件连接，构件接口和执行，这一层是软件系统的核心功能实现部分，可以添加新的构件、删除或更新已经存在的构件，以满足系统的动态更新需求。<br>中间层：位于应用层和体系结构层之间，包括连接件配置，构件配置，构件描述以及执行，这一层是连接应用层和体系结构层的桥梁，负责管理和协调构件和连接件的具体配置和执行。<br>体系结构层：位于最上层，控制和管理整个体系结构，包括体系结构配置、体系结构描述和执行。这一层是系统的全局管理层，负责系统的整体架构设计和配置管理。<br></code></pre></td></tr></table></figure>
+<h3
+id="如何使用πadl进行动态体系结构建模能使用一种动态描述语言对一个简单系统的体系结构进行描述">3、如何使用πADL进行动态体系结构建模？能使用一种动态描述语言对一个简单系统的体系结构进行描述。</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">1、定义基础元素（构件、连接件、类型）<br>2、构件系统架构<br>3、描述动态行为<br>4、形式化验证<br></code></pre></td></tr></table></figure>
+<h2 id="第六章">第六章</h2>
+<h3
+id="什么是web服务体系结构与传统的结构相比使用web服务有哪些好处">1、什么是Web服务体系结构？与传统的结构相比，使用Web服务有哪些好处？</h3>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs gradle">Web服务体系结构是一种用于描述、发布、定位和调用Web服务的框架。它定义了三个主要角色：服务提供者（Service Provider）、服务请求者（Service Requester）和服务代理（Service Broker），以及三个基本操作：发布（Publish）、查找（<span class="hljs-keyword">Find</span>）和绑定（Bind）。这种结构允许网络组件（如服务器、客户端等）以松散耦合的方式相互交互，从而构建出灵活、可扩展的分布式系统。<br>Web服务通常是独立、模块化的应用程序，它们可以通过网络（通常是万维网）进行访问。这些服务遵循一系列标准协议和规范，如SOAP（Simple Object Access Protocol，简单对象访问协议）、WSDL（Web Services <span class="hljs-keyword">Description</span> Language，Web服务描述语言）和UDDI（Universal <span class="hljs-keyword">Description</span>, Discovery and Integration，统一描述、发现和集成）等，以确保服务的互操作性和可发现性。<br>与传统结构相比，使用Web服务的好处：<br><span class="hljs-number">1</span>、高度的通用性和易用性<br><span class="hljs-number">2</span>、平台、语言独立性<br><span class="hljs-number">3</span>、高度的集成性<br><span class="hljs-number">4</span>、松散耦合<br><span class="hljs-number">5</span>、容易部署和发布<br><span class="hljs-number">6</span>、跨Internet通信能力<br><span class="hljs-number">7</span>、更好的伸缩性<br></code></pre></td></tr></table></figure>
+<h3
+id="试分析服务提供者服务请求者和服务代理三者的作用以及它们之间的工作流程">2、试分析服务提供者、服务请求者和服务代理三者的作用，以及它们之间的工作流程。</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs">服务提供者：是Web服务的实际拥有者和发布者。它们负责实现具体的Web服务，包括定义服务接口、编写服务实现代码，并将服务部署到网络上，以便其他服务请求者能够调用。服务提供者还需要将其提供的服务描述信息发布到服务注册中心（通常由服务代理承担），以便服务请求者能够发现并使用这些服务。<br>服务请求者：是使用Web服务的实体，它们可能是另一个Web服务、一个应用程序或是一个终端用户。服务请求者通过服务代理（或直接）查找所需的服务，获取服务的绑定信息（如服务的网络地址、调用方法等），并据此构造调用请求发送给服务提供者。服务请求者接收服务提供者返回的结果，并据此进行后续处理。<br>服务代理：在Web服务体系结构中充当中介角色，主要负责服务的注册、查找和绑定操作。它接收来自服务提供者的服务描述信息，并将这些信息存储在服务注册中心中，以便服务请求者能够查询。当服务请求者发出服务查询请求时，服务代理根据请求中的条件在服务注册中心中查找匹配的服务，并将服务的绑定信息返回给服务请求者。此外，服务代理还可能提供其他增值服务，如服务的监控、管理和优化等。<br>工作流程：<br>1、服务提供者发布服务<br>2、服务请求者查找服务<br>3、服务代理返回服务绑定信息<br>4、服务请求者调用服务<br>5、服务提供者执行服务并返回结果<br>6、服务请求者处理结果<br></code></pre></td></tr></table></figure>
+<h3
+id="在实际开发中如何实现web服务和soa结构">3、在实际开发中，如何实现Web服务和SOA结构？</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs css">Web服务的实现<br><span class="hljs-number">1</span>、定义服务接口，使用WSDL来描述Web服务的接口，包括服务能够做什么、如何调用以及需要哪些参数等信息。WSDL是一种基于XML的语言，用于描述网络服务的公共接口。<br><span class="hljs-number">2</span>、实现服务逻辑，根据服务的需求选择合适的编程语言和框架来实现服务逻辑。例如，可以使用Java结合Spring框架，或者<span class="hljs-selector-class">.NET</span>结合ASP<span class="hljs-selector-class">.NET</span>等技术栈。将实现好的服务部署到服务器上，并确保服务可以通过网络进行访问。<br><span class="hljs-number">3</span>、发布服务，将服务的WSDL文件或其他描述信息发布到服务注册中心（如UDDI注册中心），以便服务请求者能够发现和调用这些服务。然而，在现代Web服务实现中，注册中心的使用越来越少，更多时候服务描述信息可能直接通过HTTP等协议进行共享。<br><span class="hljs-number">4</span>、调用服务，服务请求者（客户端）通过HTTP或其他协议向服务提供者发送请求，并接收响应。请求中包含了调用服务所需的参数和数据。使用SOAP（Simple <span class="hljs-selector-tag">Object</span> Access Protocol）或<span class="hljs-attribute">REST</span>（Representational State Transfer）等协议进行消息交换。SOAP是一种基于XML的协议，而<span class="hljs-attribute">REST</span>则是一种更轻量级的架构风格，它使用HTTP协议进行通信。<br>SOA结构的实现<br><span class="hljs-number">1</span>、设计服务，确保服务之间的耦合度尽可能低，以便服务的修改和升级不会对其他服务造成太大影响。<br><span class="hljs-number">2</span>、服务注册与发现，服务注册：服务提供者将服务信息注册到服务注册中心（可选），以便服务请求者能够发现和调用这些服务。服务发现：服务请求者通过服务注册中心或其他机制发现所需的服务，并获取服务的绑定信息。<br><span class="hljs-number">3</span>、消息传递与交互，选择适合的消息传递协议（如SOAP、<span class="hljs-attribute">REST</span>等）进行服务之间的交互。<br><span class="hljs-number">4</span>、服务治理，对服务的运行状态进行监控，及时发现并处理服务故障。<br></code></pre></td></tr></table></figure>
+<h2 id="第八章">第八章</h2>
+<h3
+id="什么是软件体系结构的可靠性为什么要研究软件体系结构的可靠性">1、什么是软件体系结构的可靠性？为什么要研究软件体系结构的可靠性？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs">软件体系结构的可靠性是指软件系统在规定的条件下和规定的时间区间内，完成规定功能的能力，这种能力体现了软件系统在面对各种错误、异常或挑战时，能够保持正常运行并满足用户需求的稳定性。包含，容错能力，健壮性，减少错误和漏洞。<br>研究软件体系结构的可靠性对于软件系统的开发、维护和运行具有重要意义。<br>1、提高用户信任度<br>2、降低维护和修复成本<br>3、满足行业标准和法规要求<br>4、提升系统性能和稳定性<br>5、促进技术创新和发展<br></code></pre></td></tr></table></figure>
+<h3 id="如何模型化系统的可靠性">2、如何模型化系统的可靠性？</h3>
+<figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs tp"><span class="hljs-number">1</span>、明确系统结构和组成，通过系统的详细说明书，确定系统所采用的体系结构风格，如串联系统、并联系统、冗余系统等。<br><span class="hljs-number">2</span>、构建可靠性模型，使用可靠性框图（RBD）来表示系统及其将每一个体系结构风格转换成状态图，并计算状态视图中每一个状态的可靠性及其相应的迁移概率。这有助于理解系统在不同状态下的行为及其对可靠性的影响。组成部分的可靠性关系。RBD是一种图形化工具，用于展示系统如何从其组成部分的可靠性中构建出整体的可靠性。将每一个体系结构风格转换成状态图，并计算状态视图中每一个状态的可靠性及其相应的迁移概率。这有助于理解系统在不同状态下的行为及其对可靠性的影响。<br><span class="hljs-number">3</span>、计算系统可靠性，串联系统：在串联系统中，如果系统功能正常则要求所有零部件都必须成功运行。对于n个独立的零部件串联来说，假设所有的零部件都是概率独立的，系统可靠性<span class="hljs-keyword">R</span>为所有零部件可靠性的乘积，即<span class="hljs-keyword">R</span> = <span class="hljs-keyword">R</span><span class="hljs-number">1</span> * <span class="hljs-keyword">R</span><span class="hljs-number">2</span> * ... * Rn，其中Ri为第i个零件的可靠性。并联系统：在并联系统中，如果任何一个零部件正常工作，系统就能正常工作。对于n个独立的零部件并联来说，系统可靠性<span class="hljs-keyword">R</span>至少为<span class="hljs-number">1</span>减去所有零部件同时失效的概率，即<span class="hljs-keyword">R</span> = <span class="hljs-number">1</span> - (<span class="hljs-number">1</span>-<span class="hljs-keyword">R</span><span class="hljs-number">1</span>) * (<span class="hljs-number">1</span>-<span class="hljs-keyword">R</span><span class="hljs-number">2</span>) * ... * (<span class="hljs-number">1</span>-Rn)。冗余系统：对于包含冗余部件的系统，需要根据冗余的类型（如工作冗余、备用冗余等）和冗余部件的可靠性来计算系统的整体可靠性。冗余系统的可靠性通常高于非冗余系统，因为它可以在部分部件失效时仍然保持系统的正常运行。<br><span class="hljs-number">4</span>、考虑其他因素，共模故障，维修性，环境因素<br><span class="hljs-number">5</span>、使用专业工具和方法，故障树分析（FTA），失效模式和影响分析（FMEA）<br></code></pre></td></tr></table></figure>
+<h3
+id="软件体系结构风险分析有哪些基本步骤">3、软件体系结构风险分析有哪些基本步骤？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs">1、建模与文档化，使用特定的体系结构描述语言（如ADL）来建模，这有助于精确地表示软件系统的各个组成部分及其之间的关系。建模过程有助于深入理解系统的结构，并为后续的风险分析提供基础。<br>2、复杂性分析，利用模拟技术来评估软件系统的复杂性。复杂性是风险的重要来源之一，过高的复杂性可能导致系统难以维护、测试和理解，进而增加风险。通过模拟运行和性能测试等方法，可以识别系统中的复杂性和潜在的瓶颈。<br>3、严重性分析，FMEA是一种常用的风险分析方法，它通过分析系统中每个组成部分的失效模式及其对整个系统的影响，来评估风险的严重程度。结合模拟运行的结果，可以进一步验证和量化风险的严重性。<br>4、风险因子开发，在软件体系结构中，构建（即系统的各个组成部分）和连接件（即构建之间的交互方式）是风险的重要来源。为这些元素开发启发式风险因子，有助于更准确地评估它们对系统整体风险的影响。<br>5、风险评估与分析，利用图论中的算法（如路径分析、割集分析等）对CDG进行分析，可以量化系统中各个部分的风险水平，并识别出关键的风险路径和节点。这有助于制定针对性的风险缓解措施。<br>6、复审与演化，在软件开发的不同阶段对体系结构进行复审，以确保其符合设计要求并满足业务需求。复审过程中应重点关注潜在的风险点，并评估现有风险缓解措施的有效性。<br></code></pre></td></tr></table></figure>
+<h3
+id="软件体系结构测试是什么熟悉使用抽象化学机进行测试的方法">4、软件体系结构测试是什么？熟悉使用抽象化学机进行测试的方法。</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">软件体系结构测试是一种评估软件体系结构是否满足预期需求和设计目标的测试方法。更侧重于检查软件的整体结构、组件之间的交互以及它们如何共同工作以实现系统功能。这种测试方法主要关注以下几个方面：结构合理性、性能评估、可扩展性和可维护性、安全性。<br>抽象化学机是一种基于操作的系统框架，它不仅能够描述系统的静态特征，还能从系统操作的动态性方面进行描述，在软件体系结构测试中，CHAM可以用于模拟和验证软件体系结构的动态行为，从而帮助测试人员发现潜在的问题和缺陷。<br>步骤：<br>1、定义系统模型：<br>2、生成LTS（带标号的迁移系统）<br>3、设计测试用例<br>4、执行测试<br>5、验证测试结果<br>6、迭代优化<br></code></pre></td></tr></table></figure>
+<h2 id="第九章">第九章</h2>
+<h3 id="为什么要评估软件体系结构">1、为什么要评估软件体系结构？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs">评估软件体系结构在软件开发过程中是至关重要的，原因主要体现在以下几个方面：<br>1、确保系统满足需求：<br>软件体系结构是系统设计的高级抽象，它定义了系统的组织结构和组件之间的交互方式。通过评估体系结构，可以验证系统是否能够按照预定的需求进行设计和构建，确保系统能够满足用户的期望。<br>2、提高系统的质量：<br>软件体系结构的质量直接影响整个软件系统的质量。评估体系结构可以帮助发现潜在的设计缺陷、性能瓶颈、安全漏洞等问题，从而及时采取措施进行修复和改进，提高系统的稳定性、可靠性和安全性。<br>3、促进团队协作：<br>软件体系结构为团队成员提供了一个共同的理解基础。通过评估体系结构，团队成员可以更好地理解系统的整体结构和各个组件的职责，促进团队成员之间的沟通和协作，提高开发效率。<br>4、支持决策制定：<br>在软件开发过程中，经常需要做出关于技术选型、架构调整等关键决策。评估软件体系结构可以为这些决策提供科学依据，帮助团队选择最合适的方案，减少决策失误和不必要的风险。<br>5、适应变化：<br>软件系统的需求和环境是不断变化的。评估软件体系结构可以帮助团队了解系统的可扩展性、可维护性和可重用性等特性，从而在面对需求变化时能够灵活地进行调整和优化，确保系统能够持续满足业务需求。<br>6、优化成本效益：<br>软件体系结构的选择和实现方式直接影响软件开发的成本和效益。通过评估体系结构，可以评估不同方案的成本效益比，选择性价比最高的方案，降低开发成本并提高系统的经济效益。<br>7、提高用户体验：<br>软件体系结构的设计直接影响系统的性能和用户体验。通过评估体系结构，可以优化系统的性能瓶颈和交互流程，提高系统的响应速度和易用性，从而提升用户的满意度和忠诚度。<br></code></pre></td></tr></table></figure>
+<h3 id="从哪些方面评估软件体系结构">2、从哪些方面评估软件体系结构？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs">性能：<br>定义：系统的影响能力，即系统对某个事件作出响应的时间或在某段时间内系统所能处理的事件个数。<br>评估内容：包括响应时间、吞吐量、并发用户数等指标，确保系统能够满足业务需求。<br>可靠性：<br>定义：软件系统在应用或系统错误面前，在意外或错误使用的情况下维持软件系统的功能特性的基本能力。<br>评估内容：包括容错性、健壮性等，确保系统能够稳定运行，减少故障和停机时间。<br>可用性：<br>定义：系统能够正常运行的时间比例。<br>评估内容：通常用两次故障间的时间长度或在出现故障时系统能够恢复正常的速度来表示。<br>安全性：<br>定义：系统在向合法用户提供服务的同时能够阻止非授权用户使用的企图或拒绝服务的能力。<br>评估内容：包括机密性、完整性、不可否认性及可控性等特性，确保系统数据的安全和隐私保护。<br>可修改性（可维护性、可扩展性、可移植性等）：<br>定义：能够快速地以较高的性能代价比对系统进行变更的能力。<br>评估内容：包括代码的可读性、可测试性、模块化程度等，确保系统易于维护和扩展。<br>功能性：<br>定义：系统所能完成所期望的工作的能力。<br>评估内容：验证系统是否满足业务需求，包括功能完整性、准确性等。<br>可变性：<br>定义：体系结构经扩充或变更而成为新体系结构的能力。<br>评估内容：考虑系统是否支持未来的变更和扩展，包括组件的替换、新增等。<br>可集成性：<br>定义：系统能与其他系统协作的程度。<br>评估内容：考虑系统与其他系统的接口兼容性、数据交换能力等。<br>互操作性：<br>定义：与其他环境或者系统本身相互作用的能力。<br>评估内容：验证系统是否能够在不同环境下正常工作，与其他系统的兼容性等。<br></code></pre></td></tr></table></figure>
+<h3
+id="atam评估方法的基本步骤是什么">3、ATAM评估方法的基本步骤是什么？</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs">一、准备阶段<br>描述ATAM方法：向评估团队和参与人员介绍ATAM方法的基本原理、目的和流程，确保所有人对评估过程有清晰的理解。<br>二、引入背景信息<br>描述商业动机：阐述软件开发项目的商业目标、需求背景以及期望达到的商业效果，这有助于评估团队理解项目的重要性和优先级。<br>三、体系结构描述<br>描述体系结构：详细展示软件系统的体系结构，包括其主要组件、组件之间的关系以及它们如何协同工作。这可以通过体系结构图、组件描述文档等形式进行。<br>四、分析阶段<br>确定体系结构方法：识别并明确体系结构中的关键设计决策和模式，这些决策和模式将作为后续分析的基础。<br>生成质量属性效用树：针对软件系统的关键质量属性（如性能、可靠性、安全性等），构建效用树来量化这些属性对系统成功的重要性。效用树有助于评估团队理解不同质量属性之间的权衡关系。<br>五、场景分析与讨论<br>集体讨论确定场景优先级：通过头脑风暴和讨论，确定一系列能够代表系统关键使用情况和潜在风险的场景。然后，根据这些场景对系统成功的重要性进行优先级排序。<br>分析体系结构方法：针对每个优先级较高的场景，评估体系结构在该场景下的表现。这包括分析体系结构如何支持场景中的需求、可能存在的瓶颈和风险点等。<br>六、结果呈现与反馈<br>结果的表述：将评估结果整理成报告或演示文稿，向项目团队和相关利益方展示。报告应包含对体系结构优缺点的分析、潜在风险的识别以及改进建议等内容。<br>反馈：鼓励项目团队和相关利益方对评估结果进行反馈和讨论，以便进一步完善和优化体系结构。<br>七、总结与改进<br>总结评价：对整个评估过程进行总结和评价，包括评估方法的适用性、评估结果的准确性以及改进建议的有效性等。<br>提出改进建议：根据评估结果和反馈意见，提出针对体系结构的具体改进建议。这些建议应旨在提高系统的质量、性能和可维护性，以满足项目的商业目标和需求。<br></code></pre></td></tr></table></figure>
+<h3
+id="详细了解一种体系结构风险分析方法">4、详细了解一种体系结构风险分析方法。</h3>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs oxygene">以SAAM（Scenario-based Architecture Analysis <span class="hljs-keyword">Method</span>，基于场景的体系结构分析方法）为例。<br>1、场景开发：<br>通过各类风险承担者（如用户、开发者、维护者等）协商讨论，开发一系列任务场景。这些场景应能够体现系统所支持的各种活动，或者描述系统在一定时期后可能进行的各种变化。<br>场景开发的关键是捕获系统的重用方式，以便分析体系结构在不同场景下的表现。<br>2、软件体系结构描述：<br>体系结构描述是<span class="hljs-title function_">SAAM</span>评估的前提和基础。它应该以一种易于理解、合乎语法规则的表示方式呈现，并能体现系统的计算构件、数据构件以及构件之间的关系（数据和控制）。<br>如果没有直接的体系结构描述可用，可以使用逆向工程的方法进行提取。<br>3、单个场景的评估：<br>将开发的场景进行分类，分为直接场景和间接场景。直接场景是指系统已经能满足的场景，而间接场景则需要对体系结构进行适当修改才能满足。<br>针对每个场景，分析体系结构是如何实现的，并列出为支持间接场景所需做出的修改，以及这些修改的难易程度、实现代价等。<br>生成一个关于特定体系结构的场景描述列表，记录每个场景对体系结构的要求和潜在影响。<br>4、场景交互的评估：<br>分析不同场景之间可能存在的交互作用，特别是当多个间接场景需要修改同一个构件或连接件时。<br>通过场景交互的分析，揭示系统构件划分的质量，并在一定程度上表达产品设计的功能分配。<br>生成一个列表中显示所有场景对系统中构件的影响。<br>5、总体评估：<br>对所有场景及其交互进行总体权衡和评价。按照重要性为每个场景及场景交互分派权值，权值的选择应反映该场景表现的质量因素的重要程度。<br>将所有权值相加得出总体评价，以评估体系结构在满足不同场景和质量属性方面的整体表现。<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B/" class="category-chain-item">课程</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/learning/" class="print-no-link">#learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>软件体系结构复习</div>
+      <div>https://jetthuang.top/所有/软件体系结构复习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%E4%B8%8EWeb%E6%8C%96%E6%8E%98%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%80%9D%E8%80%83%E9%A2%98/" title="信息检索与Web挖掘第一次思考题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">信息检索与Web挖掘第一次思考题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Point-Cloud/Point%20Cloud%20Processing/" title="Point Cloud Processing">
+                        <span class="hidden-mobile">Point Cloud Processing</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

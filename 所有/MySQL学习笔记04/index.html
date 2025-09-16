@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="索引 索引是在数据库表的字段上添加的，是为了提高查询效率存在的一种机制。 一张表的一个字段可以添加一个索引，当然，多个字段联合起来也可以添加索引。 索引相当于一本书的目录，是为了缩小扫描范围而存在的一种机制。 对于一本字典来说，查找某个汉字有两种方式：  第一种方式：一页一页挨着找，直到找到为止，这种查找方式属于全字典扫描。效率比较低。 第二种方式：先通过目录（索引）去定位一个大概的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记04">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="索引 索引是在数据库表的字段上添加的，是为了提高查询效率存在的一种机制。 一张表的一个字段可以添加一个索引，当然，多个字段联合起来也可以添加索引。 索引相当于一本书的目录，是为了缩小扫描范围而存在的一种机制。 对于一本字典来说，查找某个汉字有两种方式：  第一种方式：一页一页挨着找，直到找到为止，这种查找方式属于全字典扫描。效率比较低。 第二种方式：先通过目录（索引）去定位一个大概的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/mysql.png">
+<meta property="article:published_time" content="2021-08-27T09:04:56.000Z">
+<meta property="article:modified_time" content="2025-08-16T02:25:19.611Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/mysql.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>MySQL学习笔记04 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MySQL学习笔记04"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-27 17:04" pubdate>
+          2021年8月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MySQL学习笔记04</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="索引">索引</h3>
+<p>索引是在数据库表的字段上添加的，是为了提高查询效率存在的一种机制。
+一张表的一个字段可以添加一个索引，当然，多个字段联合起来也可以添加索引。
+索引相当于一本书的目录，是为了缩小扫描范围而存在的一种机制。</p>
+<p>对于一本字典来说，查找某个汉字有两种方式：</p>
+<blockquote>
+<p>第一种方式：一页一页挨着找，直到找到为止，这种查找方式属于全字典扫描。效率比较低。
+第二种方式：先通过目录（索引）去定位一个大概的位置，然后直接定位到这个位置，做局域性扫描，缩小扫描的范围，快速的查找。这种查找方式属于通过索引检索，效率较高。</p>
+</blockquote>
+<p>MySQL在查询方面主要就是两种方式：</p>
+<ul>
+<li>第一种方式：全表扫描</li>
+<li>第二种方式：根据索引检索。</li>
+</ul>
+<blockquote>
+<p>注意： 在实际中，汉语字典前面的目录是排序的，按照a b c d e
+f....排序，
+为什么排序呢？因为只有排序了才会有区间查找这一说！（缩小扫描范围
+其实就是扫描某个区间罢了！）</p>
+</blockquote>
+<h4 id="索引的数据结构">索引的数据结构</h4>
+<p>在mysql数据库当中索引也是需要排序的，并且这个所以的排序和TreeSet数据结构相同。TreeSet（TreeMap）底层是一个自平衡的二叉树！在mysql当中索引是一个B-Tree数据结构。</p>
+<p>遵循左小又大原则存放。采用中序遍历方式遍历取数据。</p>
+<h4 id="索引的实现原理">索引的实现原理</h4>
+<p>假设有一张用户表：t_user</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">id(PK)</th>
+<th style="text-align: center;">name</th>
+<th style="text-align: center;">硬盘物理存储编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">zhangsan</td>
+<td style="text-align: center;">0x1111</td>
+</tr>
+<tr>
+<td style="text-align: center;">120</td>
+<td style="text-align: center;">lisi</td>
+<td style="text-align: center;">0x2222</td>
+</tr>
+<tr>
+<td style="text-align: center;">99</td>
+<td style="text-align: center;">wangwu</td>
+<td style="text-align: center;">0x8888</td>
+</tr>
+<tr>
+<td style="text-align: center;">88</td>
+<td style="text-align: center;">zhaoliu</td>
+<td style="text-align: center;">0x9999</td>
+</tr>
+<tr>
+<td style="text-align: center;">101</td>
+<td style="text-align: center;">jack</td>
+<td style="text-align: center;">0x6666</td>
+</tr>
+<tr>
+<td style="text-align: center;">55</td>
+<td style="text-align: center;">lucy</td>
+<td style="text-align: center;">0x5555</td>
+</tr>
+<tr>
+<td style="text-align: center;">130</td>
+<td style="text-align: center;">tom</td>
+<td style="text-align: center;">0x7777</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>提醒1：在任何数据库当中主键上都会自动添加索引对象，id字段上自动有索引，因为id是PK。另外在mysql当中，一个字段上如果有unique约束的话，也会自动创建索引对象。</p></li>
+<li><p>提醒2：在任何数据库当中，任何一张表的任何一条记录在硬盘存储上都有一个硬盘的物理存储编号。</p></li>
+<li><p>提醒3：在mysql当中，索引是一个单独的对象，不同的存储引擎以不同的形式存在，MyISAM存储引擎中，索引存储在一个.MYI文件中。在InnoDB存储引擎中索引存储在一个逻辑名称叫做tablespace的当中。在MEMORY存储引擎当中索引被存储在内存当中。不管索引存储在哪里，索引在mysql当中都是一个树的形式存在。（自平衡二叉树：B-Tree）</p></li>
+</ul>
+<p>在mysql当中，主键上，以及unique字段上都会自动添加索引的！！！！</p>
+<h4 id="添加索引的条件">添加索引的条件</h4>
+<ol type="1">
+<li>条件1：数据量庞大（到底有多么庞大算庞大，这个需要测试，因为每一个硬件环境不同）+</li>
+<li>条件2：该字段经常出现在where的后面，以条件的形式存在，也就是说这个字段总是被扫描。</li>
+<li>条件3：该字段很少的DML(insert delete
+update)操作。（因为DML之后，索引需要重新排序。）</li>
+</ol>
+<p>建议不要随意添加索引，因为索引也是需要维护的，太多的话反而会降低系统的性能。
+建议通过主键查询，建议通过unique约束的字段进行查询，效率是比较高的。</p>
+<h4 id="索引的创建与删除">索引的创建与删除</h4>
+<p>创建索引：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">mysql&gt; <span class="hljs-keyword">create</span> <span class="hljs-keyword">index</span> emp_ename_index <span class="hljs-keyword">on</span> emp(ename);<br>给emp表的ename字段添加索引，起名：emp_ename_index<br></code></pre></td></tr></table></figure>
+<p>删除索引：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">mysql&gt; <span class="hljs-keyword">drop</span> <span class="hljs-keyword">index</span> emp_ename_index <span class="hljs-keyword">on</span> emp;<br>将emp表上的emp_ename_index索引对象删除。<br></code></pre></td></tr></table></figure>
+<h4 id="索引失效">索引失效</h4>
+<h5 id="失效的第1种情况">失效的第1种情况：</h5>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%T&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>ename上即使添加了索引，也不会走索引，为什么？
+原因是因为模糊匹配当中以“%”开头了！ 尽量避免模糊查询的时候以“%”开始。
+这是一种优化的手段/策略。</p>
+<h5 id="失效的第2种情况">失效的第2种情况：</h5>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">mysql&gt; <span class="hljs-keyword">explain</span> <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename = <span class="hljs-string">&#x27;KING&#x27;</span> <span class="hljs-keyword">or</span> job = <span class="hljs-string">&#x27;MANAGER&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>使用or的时候会失效，如果使用or那么要求or两边的条件字段都要有索引，才会走索引，如果其中一边有一个字段没有索引，那么另一个字段上的索引也会失效。所以这就是为什么不建议使用or的原因。</p>
+<h5 id="失效的第3种情况">失效的第3种情况：</h5>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">index</span> emp_job_sal_index <span class="hljs-keyword">on</span> emp(job,sal);<br>mysql&gt; <span class="hljs-keyword">explain</span> <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> job = <span class="hljs-string">&#x27;MANAGER&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>使用复合索引的时候，没有使用左侧的列查找，索引失效 什么是复合索引？
+两个字段，或者更多的字段联合起来添加一个索引，叫做复合索引。</p>
+<h5 id="失效的第4种情况">失效的第4种情况：</h5>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">mysql&gt; <span class="hljs-keyword">create</span> <span class="hljs-keyword">index</span> emp_sal_index <span class="hljs-keyword">on</span> emp(sal);<br>mysql&gt; <span class="hljs-keyword">explain</span> <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> sal+<span class="hljs-number">1</span> = <span class="hljs-number">800</span>;<br></code></pre></td></tr></table></figure>
+<p>在where当中索引列参加了运算，索引失效。 mysql&gt; create index
+emp_sal_index on emp(sal);</p>
+<h5 id="失效的第5种情况">失效的第5种情况：</h5>
+<pre><code class="hljs">explain select * from emp where lower(ename) = &#39;smith&#39;;</code></pre>
+<p>在where当中索引列使用了函数</p>
+<h5 id="失效的第6...">失效的第6...</h5>
+<h5 id="失效的第7...">失效的第7...</h5>
+<h4 id="索引的分类">索引的分类</h4>
+<ul>
+<li>单一索引：一个字段上添加索引。</li>
+<li>复合索引：两个字段或者更多的字段上添加索引。</li>
+<li>主键索引：主键上添加索引。</li>
+<li>唯一性索引：具有unique约束的字段上添加索引。</li>
+<li>.....</li>
+</ul>
+<p>注意：唯一性比较弱的字段上添加索引用处不大。</p>
+<h3 id="视图">视图</h3>
+<p>view:站在不同的角度去看待同一份数据。</p>
+<p>创建视图对象：</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> dept2_view <span class="hljs-keyword">as</span> <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> dept2;<br></code></pre></td></tr></table></figure>
+<p>删除视图对象：</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gauss"><span class="hljs-built_in">drop</span> <span class="hljs-built_in">view</span> dept2_view;<br></code></pre></td></tr></table></figure>
+<p>注意：只有DQL语句才能以view的形式创建。</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> view_name <span class="hljs-keyword">as</span> 这里的语句必须是DQL语句;<br></code></pre></td></tr></table></figure>
+<h4 id="视图的操作">视图的操作</h4>
+<p>我们可以面向视图对象进行增删改查，对视图对象的增删改查，会导致原表被操作！（视图的特点：通过对视图的操作，会影响到原表数据。）</p>
+<p>//面向视图查询</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> dept2_view; <br></code></pre></td></tr></table></figure>
+<p>// 面向视图插入</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> dept2_view(deptno,dname,loc) <span class="hljs-keyword">values</span>(<span class="hljs-number">60</span>,<span class="hljs-string">&#x27;SALES&#x27;</span>, <span class="hljs-string">&#x27;BEIJING&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>// 查询原表数据</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> dept2;<br></code></pre></td></tr></table></figure>
+<p>// 面向视图删除</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">mysql&gt; <span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> dept2_view;<br></code></pre></td></tr></table></figure>
+<p>// 查询原表数据</p>
+<pre><code class="hljs">mysql&gt; select * from dept2;
+Empty set (0.00 sec)</code></pre>
+<p>// 创建视图对象</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> <br>	emp_dept_view<br><span class="hljs-keyword">as</span><br>	<span class="hljs-keyword">select</span> <br>		<span class="hljs-built_in">e</span>.ename,<span class="hljs-built_in">e</span>.sal,d.dname<br>	<span class="hljs-keyword">from</span><br>		emp <span class="hljs-built_in">e</span><br>	<span class="hljs-keyword">join</span><br>		dept d<br>	<span class="hljs-keyword">on</span><br>		<span class="hljs-built_in">e</span>.deptno = d.deptno;<br></code></pre></td></tr></table></figure>
+<p>// 查询视图对象</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp_dept_view;<br></code></pre></td></tr></table></figure>
+<p>// 面向视图更新</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">update</span> emp_dept_view <span class="hljs-keyword">set</span> sal = <span class="hljs-number">1000</span> <span class="hljs-keyword">where</span> dname = <span class="hljs-string">&#x27;ACCOUNTING&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>// 原表数据被更新</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta">mysql&gt; <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> emp;<br></code></pre></td></tr></table></figure>
+<h4 id="视图的作用">视图的作用</h4>
+<blockquote>
+<p>方便，简化开发，利于维护</p>
+</blockquote>
+<p>假设有一条非常复杂的SQL语句，而这条SQL语句需要在不同的位置上反复使用。
+每一次使用这个sql语句的时候都需要重新编写，很长，很麻烦，怎么办？
+可以把这条复杂的SQL语句以视图对象的形式新建。
+在需要编写这条SQL语句的位置直接使用视图对象，可以大大简化开发。
+并且利于后期的维护，因为修改的时候也只需要修改一个位置就行，只需要修改视图对象所映射的SQL语句。</p>
+<p>面向视图开发的时候，使用视图的时候可以像使用table一样。
+可以对视图进行增删改查等操作。视图不是在内存当中，视图对象也是存储在硬盘上的，不会消失。</p>
+<p>视图对应的语句只能是DQL语句。
+但是视图对象创建完成之后，可以对视图进行增删改查等操作。</p>
+<h4 id="增删改查crud">增删改查（CRUD）</h4>
+<ul>
+<li>C:Create（增）<br />
+</li>
+<li>R:Retrive（查：检索）</li>
+<li>U:Update（改）<br />
+</li>
+<li>D:Delete（删）</li>
+</ul>
+<h3 id="dba常用命令">DBA常用命令</h3>
+<ul>
+<li><h4 id="数据导出">数据导出</h4>
+<ul>
+<li><p>导出数据库到D盘</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livescript">mysqldump xxxxxx&gt;D:<span class="hljs-string">\xxxxxx.sql</span> -uyourname -pyourpassword<br></code></pre></td></tr></table></figure></li>
+<li><p>导出数据库指定的表到D盘</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livescript">mysqldump xxxxxx yourtable&gt;D:<span class="hljs-string">\xxxxxx.sql</span> -uyourname -pyourpassword<br></code></pre></td></tr></table></figure></li>
+</ul></li>
+<li><h4 id="数据导入">数据导入</h4>
+<ul>
+<li><p>登录到mysql数据库服务器上</p></li>
+<li><p>创建数据库xxxxxx</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> xxxxxx;<br></code></pre></td></tr></table></figure></li>
+<li><p>使用数据库xxxxxx</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript"><span class="hljs-keyword">use</span> xxxxxx<br></code></pre></td></tr></table></figure></li>
+<li><p>使用D盘下的sql文件初始化数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> D:\xxxxxx.sql<br></code></pre></td></tr></table></figure></li>
+</ul></li>
+</ul>
+<h3 id="数据库设计三范式">数据库设计三范式</h3>
+<ul>
+<li>第一范式：要求任何一张表必须有主键，每一个字段原子性不可再分。</li>
+<li>第二范式：建立在第一范式的基础之上，要求所有非主键字段完全依赖主键，不要产生部分依赖。</li>
+<li>第三范式：建立在第二范式的基础之上，要求所有非主键字段直接依赖主键，不要产生传递依赖。</li>
+</ul>
+<p>设计数据库表的时候，按照以上的范式进行，可以避免表中数据的冗余，空间的浪费。</p>
+<h4 id="第一范式">第一范式</h4>
+<blockquote>
+<p>最核心，最重要的范式，所有表的设计都需要满足。必须有主键，并且每一个字段都是原子性不可再分。</p>
+</blockquote>
+<h4 id="第二范式">第二范式</h4>
+<blockquote>
+<p>建立在第一范式的基础之上，要求所有非主键字段必须完全依赖主键，不要产生部分依赖。</p>
+</blockquote>
+<h4 id="第三范式">第三范式</h4>
+<blockquote>
+<p>第三范式建立在第二范式的基础之上要求所有非主键字典必须直接依赖主键，不要产生传递依赖。</p>
+</blockquote>
+<h3 id="表的设计">表的设计</h3>
+<ul>
+<li>一对多：一对多，两张表，多的表加外键！</li>
+<li>多对多：多对多，三张表，关系表两个外键！</li>
+<li>一对一：一张表字段太多，太庞大。这个时候要拆分表。一对一，外键唯一！</li>
+</ul>
+<h4 id="总结">总结</h4>
+<blockquote>
+<p>数据库设计三范式是理论上的。实践和理论有的时候有偏差。</p>
+</blockquote>
+<p>最终的目的都是为了满足客户的需求，有的时候会拿冗余换执行速度。</p>
+<p>因为在sql当中，表和表之间连接次数越多，效率越低。（笛卡尔积）</p>
+<p>有的时候可能会存在冗余，但是为了减少表的连接次数，这样做也是合理的，</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MySQL/" class="category-chain-item">MySQL</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MySQL学习笔记04</div>
+      <div>https://jetthuang.top/所有/MySQL学习笔记04/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0-%E6%A6%82%E8%BF%B0/" title="算法学习-概述">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">算法学习-概述</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/" title="MySQL学习笔记03">
+                        <span class="hidden-mobile">MySQL学习笔记03</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

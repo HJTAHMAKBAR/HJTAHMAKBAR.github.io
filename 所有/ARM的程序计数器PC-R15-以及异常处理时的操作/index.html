@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="程序计数器PC(R15) ARM状态下，位[1:0]为0，位[31:2]用于保存PC； Thumb状态下，位[0]为0，位[31:1]用于保存PC； 由于ARM体系结构采用了多级流水线技术，对于ARM指令集而言，PC总是指向当前指令的下两条指令的地址，即PC的值为当前指令（正在执行的指令）的地址值加8个字节（一个ARM指令32位，4个字节）。 理解 这里需要回顾一下CPU执行指令的步骤和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARM的程序计数器PC(R15)以及异常返回地址">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/ARM%E7%9A%84%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8PC-R15-%E4%BB%A5%E5%8F%8A%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%97%B6%E7%9A%84%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="程序计数器PC(R15) ARM状态下，位[1:0]为0，位[31:2]用于保存PC； Thumb状态下，位[0]为0，位[31:1]用于保存PC； 由于ARM体系结构采用了多级流水线技术，对于ARM指令集而言，PC总是指向当前指令的下两条指令的地址，即PC的值为当前指令（正在执行的指令）的地址值加8个字节（一个ARM指令32位，4个字节）。 理解 这里需要回顾一下CPU执行指令的步骤和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/arm.png">
+<meta property="article:published_time" content="2022-03-18T03:29:08.000Z">
+<meta property="article:modified_time" content="2025-08-16T02:25:19.607Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="ARM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/arm.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ARM的程序计数器PC(R15)以及异常返回地址 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ARM的程序计数器PC(R15)以及异常返回地址"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-18 11:29" pubdate>
+          2022年3月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ARM的程序计数器PC(R15)以及异常返回地址</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="程序计数器pcr15">程序计数器PC(R15)</h3>
+<p><strong>ARM</strong>状态下，位<strong>[1:0]</strong>为0，位<strong>[31:2]</strong>用于保存<strong>PC</strong>；</p>
+<p><strong>Thumb</strong>状态下，位<strong>[0]</strong>为0，位<strong>[31:1]</strong>用于保存<strong>PC</strong>；</p>
+<p>由于<strong>ARM</strong>体系结构采用了多级流水线技术，对于<strong>ARM</strong>指令集而言，<strong>PC</strong>总是指向当前指令的<strong>下两条指令</strong>的地址，即<strong>PC</strong>的值为当前指令（正在执行的指令）的地址值加<strong>8</strong>个字节（一个ARM指令32位，4个字节）。</p>
+<h4 id="理解">理解</h4>
+<p>这里需要回顾一下CPU执行指令的步骤和多级流水线技术</p>
+<p>CPU在执行1条指令的时候，主要有3个步骤：</p>
+<ul>
+<li><p>取指（将指令从内存或指令cache中取入指令寄存器）；</p></li>
+<li><p>译码（指令译码器对指令寄存器中的指令进行译码操作，从而辨识出该指令是要执行add，或是sub，或是其它操作，从而产生各种时序控制信号）；</p></li>
+<li><p>执行（指令执行单元根据译码的结果进行运算并保存结果）</p></li>
+</ul>
+<p><strong>取指</strong>阶段占用的CPU硬件是<strong>指令通路</strong>和<strong>指令寄存器</strong>；<strong>译码</strong>阶段占用的CPU硬件是<strong>指令译码器</strong>；<strong>执行</strong>阶段占用的CPU硬件是指令<strong>执行单元</strong>和<strong>数据通路</strong>。三者占用的CPU硬件完全不同，这样就使得如下的操作得以进行：在对第1条指令进行译码的时候，可以同时对第2条指令进行取指操作；在对第1条指令进行执行的时候，可以同时对第2条指令进行译码操作，对第3条指令进行取指操作。显然，这样就可以将该程序的运行总时间从30秒缩减为12秒，提速近3倍。上面所述并行运行指令的方式就被称为流水线操作。可见：流水线操作的本质是利用指令运行的不同阶段使用的CPU硬件互不相同，并发的运行多条指令，从而提高时间效率。</p>
+<p>这里以三级流水线为例：</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318170255436.png" srcset="/img/loading.gif" lazyload
+alt="三级流水线" />
+<figcaption aria-hidden="true">三级流水线</figcaption>
+</figure>
+<p><code>寄存器PC的值是即将被取指的指令的地址</code></p>
+<p><strong>正常情况下</strong>，在该条指令被取入CPU后执行期间，PC的值保持不变，在该条指令执行完成的时间点上，硬件会自动将PC的值增加一个单位的大小，这样PC就指向了下一条将被取指和执行的指令。</p>
+<p><strong>而在引入流水线后</strong>，PC值的情况发生了变化，假定第1条指令的内存地址为X，则在时刻T（第一条指令即将被取指），PC的值变为X，并在时刻T至时刻T+1期间维持不变；在时刻T+1，PC的值变为X+1个单位，并在时刻T+1至时刻T+2期间维持不变；在时刻T+2，PC的值变为X+2个单位，并在时刻T+2至时刻T+3期间维持不变；在时刻T+3，PC的值将变为X+3个单位。<strong>（为要保证流水线正常工作就得不停取指，每次取值PC值就会增加）</strong>由此可见，在第1条指令的执行阶段，PC的值不再是该指令在内存中的位置，而是该指令在内存中的位置+2个单元。对于ARM指令集而言，每条指令的长度为32bit，占4byte，所以1条指令在内存中需要4byte存储。</p>
+<p><strong>注意</strong>：虽然存在多种级别的流水线，但ARM出于统一和前后兼容的考虑，<code>PC 的值 = 当前正在执行指令在内存中的地址 + 8</code>这个结论在所有的流水线级别上都是相同的。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318171259152.png" srcset="/img/loading.gif" lazyload
+alt="读R15的限制" />
+<figcaption aria-hidden="true">读R15的限制</figcaption>
+</figure>
+<h3 id="arm处理器异常返回地址">ARM处理器异常返回地址</h3>
+<p>下面以三种异常为例，说明<strong>ARM处理器异常返回地址</strong>：</p>
+<ol type="1">
+<li><strong>FIQ</strong>（<strong>Fast Interrupt Request</strong>）</li>
+<li><strong>IRQ</strong>（<strong>Interrupt Request</strong>）</li>
+<li><strong>ABORT</strong>（中止）</li>
+</ol>
+<p>在ARM处理器中一条指令的执行分为取指、译码、执行三个阶段，由于指令流水线的存在造成当前执行的指令的地址是PC-8(ARM指令集)，那么当前执行指令的下一条指令的地址应该是PC-4，所以在异常产生时处理器会将PC-4的值保存到对应模式的LR寄存器中，但是该返回地址是否能够被使用还要看具体产生的异常的种类而定。</p>
+<p><strong>FIQ与RIQ异常：</strong></p>
+<p>FIQ与RIQ异常返回处理是一样的，当处理器<strong>执行完当前指令后</strong>才去查询中断且查看是否允许中断，如果处理器产生了中断，这时PC的值已经更新，即PC指向了当前指令后<strong>第三条指令的位置</strong>(被中断指令地址加12)，产生FIQ与RIQ异常后处理器将PC-4的值保存到了对应模式下的LR，而它指向的是当前被中断指令的后面的第二条指令，因此在返回时我们需要人为的将LR中保存的值自减4以得到正确的返回地址。</p>
+<p>说明：PC是发生中断的指令后面的第三条指令地址，PC-12是发生中断的指令地址，LR（R14）=
+PC - 4，LR - 4就是发生中断的指令地址后面的第一条指令(也就是PC - 8)。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318172408962.png" srcset="/img/loading.gif" lazyload
+alt="以FIQ为例" />
+<figcaption aria-hidden="true">以FIQ为例</figcaption>
+</figure>
+<p><strong>数据中止异常：</strong></p>
+<p>产生该异常的时候程序要返回到有问题的指令处重新访问该数据，因此应该返回到产生异常的指令处而不是产生异常指令的下一条指令处。当异常产生时PC的值已经更新，所以PC指向的是异常产生指令的后面的第三条指令，而LR中保存的是PC-4的值即异常产生指令的后面的第二条指令的地址。所以在返回时我们需人为的对LR中的值进行自减8的处理。以保证异常正确的返回。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220318172659486.png" srcset="/img/loading.gif" lazyload
+alt="数据中止异常" />
+<figcaption aria-hidden="true">数据中止异常</figcaption>
+</figure>
+<p><strong>文章参考</strong>：<a
+target="_blank" rel="noopener" href="http://emb.hqyj.com/Column/7517.html">ARM处理器异常返回地址_华清远见教育集团
+(hqyj.com)</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ARM/" class="category-chain-item">ARM</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ARM/" class="print-no-link">#ARM</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ARM的程序计数器PC(R15)以及异常返回地址</div>
+      <div>https://jetthuang.top/所有/ARM的程序计数器PC-R15-以及异常处理时的操作/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E4%BB%A5%E5%8F%8A%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E7%9A%84immed-8r%E5%BD%A2%E5%BC%8F/" title="ARM指令格式以及第二个操作数的immed_8r形式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ARM指令格式以及第二个操作数的immed_8r形式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/ARM%E6%9C%80%E5%A4%A7%E5%AF%BB%E5%9D%80%E7%A9%BA%E9%97%B4%E3%80%81%E5%AD%97%E9%95%BF%E3%80%81%E6%8C%87%E4%BB%A4%E9%95%BF%E5%BA%A6/" title="ARM微处理器的存储器格式">
+                        <span class="hidden-mobile">ARM微处理器的存储器格式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

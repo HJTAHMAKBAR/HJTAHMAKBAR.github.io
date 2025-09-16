@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Java位运算符 Java定义的位运算（bitwise operators）直接对整数类型的位进行操作，这些整数类型包括 long，int，short，char 和 byte。 位运算符主要用来对操作数二进制的位进行运算。按位运算表示按每个二进制位（bit）进行计算，其操作数和运算结果都是整型值。 Java 语言中的位运算符分为位逻辑运算符和位移运算符两类。 位逻辑运算符 位逻辑运算">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java位运算符">
+<meta property="og:url" content="https://jetthuang.top/Java/Java%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="Java位运算符 Java定义的位运算（bitwise operators）直接对整数类型的位进行操作，这些整数类型包括 long，int，short，char 和 byte。 位运算符主要用来对操作数二进制的位进行运算。按位运算表示按每个二进制位（bit）进行计算，其操作数和运算结果都是整型值。 Java 语言中的位运算符分为位逻辑运算符和位移运算符两类。 位逻辑运算符 位逻辑运算">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/java.png">
+<meta property="article:published_time" content="2021-08-14T03:25:48.000Z">
+<meta property="article:modified_time" content="2025-08-16T02:25:19.609Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/java.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Java位运算符 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java位运算符"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-14 11:25" pubdate>
+          2021年8月14日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java位运算符</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="java位运算符">Java位运算符</h1>
+<p>Java定义的位运算（bitwise
+operators）直接对整数类型的位进行操作，这些整数类型包括
+long，int，short，char 和 byte。</p>
+<p>位运算符主要用来对操作数二进制的位进行运算。按位运算表示按每个二进制位（bit）进行计算，其操作数和运算结果都是整型值。</p>
+<p>Java 语言中的位运算符分为位逻辑运算符和位移运算符两类。</p>
+<h2 id="位逻辑运算符">位逻辑运算符</h2>
+<p>位逻辑运算符包含 4 个：&amp;（与）、|（或）、~（非）和
+^（异或）。除了 ~（即位取反）为单目运算符外，其余都为双目运算符。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">运算符</th>
+<th style="text-align: center;">含义</th>
+<th style="text-align: center;">实例</th>
+<th style="text-align: center;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">&amp;</td>
+<td style="text-align: center;">按位进行与运算（AND）</td>
+<td style="text-align: center;">4 &amp; 5</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr>
+<td style="text-align: center;">|</td>
+<td style="text-align: center;">按位进行或运算（OR）</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr>
+<td style="text-align: center;">^</td>
+<td style="text-align: center;">按位进行异或运算（XOR）</td>
+<td style="text-align: center;">4 ^ 5</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td style="text-align: center;">~</td>
+<td style="text-align: center;">按位进行取反运算（NOT）</td>
+<td style="text-align: center;">~ 4</td>
+<td style="text-align: center;">-5</td>
+</tr>
+</tbody>
+</table>
+<h4 id="位与运算符">位与运算符</h4>
+<p>位与运算符为<code>&amp;</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零，如果对应的二进制位同时为
+1，那么计算结果才为 1，否则为 0。因此，任何数与 0
+进行按位与运算，其结果都为 0。</p>
+<p>例如下面的表达式：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-number">100</span><span class="hljs-meta">&amp;0</span><br></code></pre></td></tr></table></figure>
+<p>图 1 所示为这个运算过程，结果为 0。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F126492.jpg" srcset="/img/loading.gif" lazyload
+alt="图 1 100位与0的运算过程" />
+<figcaption aria-hidden="true">图 1 100位与0的运算过程</figcaption>
+</figure>
+<p>下面是两个非零的数字进行位与运算的过程。</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs perl"><span class="hljs-keyword">int</span> <span class="hljs-keyword">x</span> = <span class="hljs-number">5</span>,<span class="hljs-keyword">y</span> = <span class="hljs-number">12</span>; <span class="hljs-regexp">//</span> 创建整型变量保存两个数<span class="hljs-keyword">int</span> z = <span class="hljs-keyword">x</span>&amp;<span class="hljs-keyword">y</span>; <span class="hljs-regexp">//</span> 对这两个数进行位与运算，结果保存到z<br></code></pre></td></tr></table></figure>
+<p>这两行语句执行后变量 Z 的值是 4，图 2 所示为这个运算过程。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F21U53.jpg" srcset="/img/loading.gif" lazyload
+alt="图 2 5位与12的运算过程" />
+<figcaption aria-hidden="true">图 2 5位与12的运算过程</figcaption>
+</figure>
+<h4 id="位或运算符">位或运算符</h4>
+<p>位或运算符为<code>|</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零。如果对应的二进制位只要有一个为
+1，那么结果就为 1；如果对应的二进制位都为 0，结果才为 0。</p>
+<p>下面是一个使用位或运算符的表达式。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-number">11</span><span class="hljs-string">|7</span><br></code></pre></td></tr></table></figure>
+<p>运算结果为 15，图 3 所示为其运算过程。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F239E8.jpg" srcset="/img/loading.gif" lazyload
+alt="图 3 11位或7的运算过程" />
+<figcaption aria-hidden="true">图 3 11位或7的运算过程</figcaption>
+</figure>
+<h4 id="位异或运算符">位异或运算符</h4>
+<p>位异或运算符为<code>^</code>，其运算规则是：参与运算的数字，低位对齐，高位不足的补零，如果对应的二进制位相同（同时为
+0 或同时为 1）时，结果为 0；如果对应的二进制位不相同，结果则为 1。</p>
+<p>下面是一个使用位异或运算符的表达式。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">11</span>^<span class="hljs-number">7</span><br></code></pre></td></tr></table></figure>
+<p>运算结果为 12，图 4 所示为其运算过程。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F315J4.jpg" srcset="/img/loading.gif" lazyload
+alt="图 4 11位异或7的运算过程" />
+<figcaption aria-hidden="true">图 4 11位异或7的运算过程</figcaption>
+</figure>
+<p>提示：在有的高级语言中，将运算符<code>^</code>作为求幂运算符，要注意区分。</p>
+<h4 id="位取反运算符">位取反运算符</h4>
+<p>位取反运算符为<code>~</code>，其运算规则是：只对一个操作数进行运算，将操作数二进制中的
+1 改为 0，0 改为 1。</p>
+<p>下面是一个使用位取反运算符的表达式。</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs haml">~10<br></code></pre></td></tr></table></figure>
+<p>运算结果为 65525，图 5 所示为其运算过程。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F932230.jpg" srcset="/img/loading.gif" lazyload
+alt="图 5 对10位取反的运算过程" />
+<figcaption aria-hidden="true">图 5 对10位取反的运算过程</figcaption>
+</figure>
+<p>我们可以使用如下的程序来检查这个运算结果。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> i = <span class="hljs-number">10</span>;<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.printf(&quot;%d \n&quot;,~i);<br></code></pre></td></tr></table></figure>
+<p>编译执行以上程序，会发现输出的结果是 -11，而不是
+65525。这是因为取反之后的结果是十六进制数，而在上面的程序中使用 %d
+将输出转换为了十进制数。</p>
+<p>可以使用如下语句查看十六进制结果。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> i=<span class="hljs-number">10</span>;<span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.printf(&quot;%x \n&quot;,~i);<br></code></pre></td></tr></table></figure>
+<p>可以看到输出结果为 fff5，将它转换为二进制是
+1111111111110101。这个二进制数的最高位为
+1，表示这个数为负数。除最高位外，按位取反再加 1，即得到二进制原码
+1000000000001011，用十进制数表示即为 -11。</p>
+<p>注意：位运算符的操作数只能是整型或者字符型数据以及它们的变体，不用于
+float、double 或者 long 等复杂的数据类型。</p>
+<h2 id="位移运算符">位移运算符</h2>
+<p>位移运算符用来将操作数向某个方向（向左或者右）移动指定的二进制位数。表
+中列出了 Java 语言中的两个位移运算符，它们都属于双目运算符。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+<th>实例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>»</td>
+<td>右移位运算符</td>
+<td>8»1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>«</td>
+<td>左移位运算符</td>
+<td>9«2</td>
+<td>36</td>
+</tr>
+</tbody>
+</table>
+<h4 id="左位移运算符">左位移运算符</h4>
+<p>左移位运算符为<code>«</code>，其运算规则是：按二进制形式把所有的数字向左移动对应的位数，高位移出（舍弃），低位的空位补零。</p>
+<p>例如，将整数 11 向左位移 1 位的过程如图 6 所示。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301F955462.jpg" srcset="/img/loading.gif" lazyload
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>图 6 对11左移1位运算过程</p>
+<p>从图 6 中可以看到，原来数的所有二进制位都向左移动 1
+位。原来位于左边的最高位 0 被移出舍弃，再向尾部追加 0
+补位。最终到的结果是 22，相当于原来数的 2 倍。</p>
+<h4 id="右位移运算符">右位移运算符</h4>
+<p>右位移运算符为<code>»</code>，其运算规则是：按二进制形式把所有的数字向右移动对应的位数，低位移出（舍弃），高位的空位补零。</p>
+<p>例如，将整数 11 向右位移 1 位的过程如图 7 所示。</p>
+<figure>
+<img
+src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/3-1P9301G0343F.jpg" srcset="/img/loading.gif" lazyload
+alt="图 7 对11右移1位运算过程" />
+<figcaption aria-hidden="true">图 7 对11右移1位运算过程</figcaption>
+</figure>
+<p>从图 7 中可以看到，原来数的所有二进制位都向右移动 1
+位。原来位于右边的最低位 1 被移出舍弃，再向最高位追加 0
+补位。最终到的结果是 5，相当于原数整除 2 的结果。</p>
+<h2 id="复合位赋值运算符">复合位赋值运算符</h2>
+<p>所有的二进制位运算符都有一种将赋值与位运算组合在一起的简写形式。复合位赋值运算符由赋值运算符与位逻辑运算符和位移运算符组合而成。表
+3 列出了组合后的复合位赋值运算符。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+<th>实例</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;=</td>
+<td>按位与赋值</td>
+<td>num1 &amp;= num2</td>
+<td>等价于 num 1=num 1 &amp; num2</td>
+</tr>
+<tr>
+<td>|=</td>
+<td>按位或赋值</td>
+<td>num1 |= num2</td>
+<td>等价于 num 1=num 1 | num2</td>
+</tr>
+<tr>
+<td>^=</td>
+<td>按位异或赋值</td>
+<td>num1 ^= num2</td>
+<td>等价于 num 1=num 1 ^ num2</td>
+</tr>
+<tr>
+<td>-=</td>
+<td>按位取反赋值</td>
+<td>num1 ~= num2</td>
+<td>等价于 num 1=num 1 ~ num2</td>
+</tr>
+<tr>
+<td>«=</td>
+<td>按位左移赋值</td>
+<td>num1 «= num2</td>
+<td>等价于 num 1=num 1 « num2</td>
+</tr>
+<tr>
+<td>»=</td>
+<td>按位右移赋值</td>
+<td>num1 »= num2</td>
+<td>等价于 num 1=num 1 » num2</td>
+</tr>
+</tbody>
+</table>
+<p>下面的程序定义了几个 int
+型变量，然后运用位赋值简写的形式将运算后的值赋给相应的变量：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-type">int</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-type">int</span> c = <span class="hljs-number">3</span>;<br><br>a &amp;= <span class="hljs-number">4</span>;<br>a |= <span class="hljs-number">4</span>;<br>a ^= c;<br>a -= <span class="hljs-number">6</span>;<br>b &gt;&gt;= <span class="hljs-number">1</span>;<br>c &lt;&lt;= <span class="hljs-number">1</span>;<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;a = &quot; + a);<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;b = &quot; + b);<br><span class="hljs-keyword">System</span>.<span class="hljs-keyword">out</span>.println(&quot;c = &quot; + c);<br></code></pre></td></tr></table></figure>
+<p>该程序的输出为：</p>
+<p>a = 1 b = 1 c = 6</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Java位运算符</div>
+      <div>https://jetthuang.top/Java/Java位运算符/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="Java学习-语言基础-面向对象">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java学习-语言基础-面向对象</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Java/Java%E5%AD%A6%E4%B9%A0-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Java学习-语言基础-基础语法">
+                        <span class="hidden-mobile">Java学习-语言基础-基础语法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

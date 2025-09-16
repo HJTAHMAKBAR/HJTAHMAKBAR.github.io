@@ -1,0 +1,1023 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="3D gaussian splatting 前置知识 球谐函数 我们在学习高等数学的时候都学习过傅里叶，任何一个二维函数都可以分解成为不同的正弦与余弦之和：  \(f(x)&#x3D;a_0+\sum_{n&#x3D;1}^{+\infty}a_ncos\frac{n\pi}{l}x+b_nsin\frac{n\pi}{l}x\) 这里\(cos\frac{n\pi}{l}x\)和\(sin\frac{n\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3D gaussian splatting">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/3d%20gaussian%20splatting/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="3D gaussian splatting 前置知识 球谐函数 我们在学习高等数学的时候都学习过傅里叶，任何一个二维函数都可以分解成为不同的正弦与余弦之和：  \(f(x)&#x3D;a_0+\sum_{n&#x3D;1}^{+\infty}a_ncos\frac{n\pi}{l}x+b_nsin\frac{n\pi}{l}x\) 这里\(cos\frac{n\pi}{l}x\)和\(sin\frac{n\">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/deeplearning.png">
+<meta property="article:published_time" content="2023-09-20T06:54:00.000Z">
+<meta property="article:modified_time" content="2025-09-16T16:29:16.332Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="3D Vision">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/deeplearning.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>3D gaussian splatting - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="3D gaussian splatting"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-20 14:54" pubdate>
+          2023年9月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">3D gaussian splatting</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="d-gaussian-splatting">3D gaussian splatting</h1>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="球谐函数">球谐函数</h3>
+<p>我们在学习高等数学的时候都学习过傅里叶，任何一个二维函数都可以分解成为不同的正弦与余弦之和：
+<img
+src="C:\Users\Huang\AppData\Roaming\Typora\typora-user-images\image-20231214180128456.png" srcset="/img/loading.gif" lazyload
+alt="image-20231214180128456" /> <span
+class="math inline">\(f(x)=a_0+\sum_{n=1}^{+\infty}a_ncos\frac{n\pi}{l}x+b_nsin\frac{n\pi}{l}x\)</span>
+这里<span class="math inline">\(cos\frac{n\pi}{l}x\)</span>和<span
+class="math inline">\(sin\frac{n\pi}{l}x\)</span>就叫作基函数，原则上来讲当<span
+class="math inline">\(n-&gt;+\infty\)</span>时，我们就可以完美拟合这个函数，即使只有有限个<span
+class="math inline">\(n\)</span>，我们也可以对这个函数进行近似。 <span
+class="math inline">\(f(x) \approx
+a_0+\sum_{n=1}^{i}a_ncos\frac{n\pi}{l}x+b_nsin\frac{n\pi}{l}x\)</span></p>
+<p>这种基函数的思想其实在数学中很常见。
+我们考虑一个有界，闭合的，平滑的曲面。 <img
+src="C:\Users\Huang\AppData\Roaming\Typora\typora-user-images\image-20231214180552584.png" srcset="/img/loading.gif" lazyload
+alt="image-20231214180552584" /></p>
+<p><img
+src="https://pic1.zhimg.com/v2-db5bb558d04a9a6e0ec0cebf67e4d2a0_r.jpg" srcset="/img/loading.gif" lazyload
+alt="输入图片描述" /> 它可以用球面函数表示方法来表示<span
+class="math inline">\(f(\theta,\phi)\)</span>，这样一个函数同样可以有自己的基函数来组成。
+<img
+src="https://pic3.zhimg.com/v2-44f5c58a5fef6b8f047a8c7167b040e2_r.jpg" srcset="/img/loading.gif" lazyload />
+它的基函数长这样： <img
+src="https://picx.zhimg.com/70/v2-cdfac824da2d8ed9581fc39b378b5681_1440w.avis?source=172ae18b&amp;biz_tag=Post" srcset="/img/loading.gif" lazyload
+alt="输入图片描述" />
+这个就是球谐函数。球谐函数的推导比较复杂，而且是递推的，这里不做介绍，只列一些比较低阶的球谐函数的方程：
+<img
+src="https://pic2.zhimg.com/80/v2-ba5369958555bd55af7b17c038d8bb95_1440w.webp" srcset="/img/loading.gif" lazyload
+alt="输入图片描述" />
+因此，我任意一个球面坐标的函数，就可以用多个球谐函数来近似。 <span
+class="math inline">\(f(\theta,\phi) \approx
+a_0f_{l=0,m=0}f(\theta,\phi)+a_1f_{l=1,m=-1}f(\theta,\phi)+a_2f_{l=1,m=0}f(\theta,\phi)+a_3f_{l=1,m=1}f(\theta,\phi)+a_4f_{l=2,m=-2}f(\theta,\phi)+a_5f_{l=2,m=-1}f(\theta,\phi)+...\)</span>
+如果想要近似准确点，就多用一些level的球谐函数，如果不需要太准确，用较少的球谐函数就可以。
+### 3D Gaussian #### 一维高斯分布 一维高斯的概念我们都很熟悉，公式为：
+<span class="math inline">\(p(x)=\frac{1}{\sqrt {2
+\pi}\sigma}e^{-\frac{(x-u)^2}{2 \sigma^2}}\)</span> 其图像如下： <img
+src="https://img-blog.csdnimg.cn/img_convert/0e39dc2b94811ede4d77da7ba7acb35d.png" srcset="/img/loading.gif" lazyload
+alt="输入图片描述" /> 其均值为<span
+class="math inline">\(u\)</span>，方差为<span
+class="math inline">\(\sigma\)</span>，数据会以99%的概率落在<span
+class="math inline">\(u-3\sigma\)</span>到<span
+class="math inline">\(u+3\sigma\)</span>之中。 #### 三维高斯分布
+多维高斯的公式如下： <span class="math inline">\(\frac{1}{(2
+\pi)^{\frac{N}{2}}|\Sigma|}e^{-\frac{1}{2}(x-u)^T\Sigma^{-1}
+(x-u)}\)</span> 这个三维高斯画出来的图是什么样的呢？
+我们想像一下固定概率为<span
+class="math inline">\(p\)</span>的三维高斯分布长什么样。 <span
+class="math inline">\(\frac{1}{(2
+\pi)^{\frac{N}{2}}|\Sigma|}e^{-\frac{1}{2}(x-u)^T\Sigma^{-1}
+(x-u)}=p\)</span> <span class="math inline">\(-ln(2
+\pi)^{\frac{N}{2}}|\Sigma|-\frac{1}{2}(x-u)^T\Sigma (x-u)=lnp\)</span>
+<span class="math inline">\((x-u)^T\Sigma (x-u)=-2lnp-2ln(2
+\pi)^{\frac{N}{2}}|\Sigma=C\)</span> 这里，<span
+class="math inline">\(\Sigma\)</span>是一个实对称矩阵，令： <span
+class="math inline">\(\Sigma=P^T\wedge P\)</span> <span
+class="math inline">\((x-u)^TP^T\wedge P(x-u)=(P(x-u))^T \wedge
+P(x-u)=C\)</span> 令: <span class="math inline">\(y=P(x-u)\)</span>, 令
+<span class="math display">\[
+\wedge=
+\begin{bmatrix}
+\sigma_1^2 &amp; 0 &amp; 0\\
+0 &amp; \sigma_2^2 &amp; 0 \\
+0 &amp; 0 &amp; \sigma_3^2
+\end{bmatrix}
+\]</span> 原式子变为 <span class="math display">\[
+y^T \wedge y=\sigma_1^2y_1^2+\sigma_2^2y_2^2+\sigma_3^2y_3^2
+\]</span>
+这是一个标准的椭球的方程，所以原式子就是把标准椭球先经过经过一个旋转变换<span
+class="math inline">\(P^{-1}\)</span>，再挪到<span
+class="math inline">\(u\)</span>点得到。所以对于一个三维高斯而言，同一个椭球表面其概率密度相同，离<span
+class="math inline">\(u\)</span>越远，其概率越小。 <img
+src="https://cdn-lfs.huggingface.co/datasets/huggingface/documentation-images/af041bd0ab2c29f6fd8dc04e12211f080463b9b86ca90f36091f5cb879338015?response-content-disposition=inline;%20filename*=UTF-8%27%27single-gaussian.png;%20filename=%22single-gaussian.png%22;&amp;response-content-type=image/png&amp;Expires=1701927748&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTcwMTkyNzc0OH19LCJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLWxmcy5odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9odWdnaW5nZmFjZS9kb2N1bWVudGF0aW9uLWltYWdlcy9hZjA0MWJkMGFiMmMyOWY2ZmQ4ZGMwNGUxMjIxMWYwODA0NjNiOWI4NmNhOTBmMzYwOTFmNWNiODc5MzM4MDE1P3Jlc3BvbnNlLWNvbnRlbnQtZGlzcG9zaXRpb249KiZyZXNwb25zZS1jb250ZW50LXR5cGU9KiJ9XX0_&amp;Signature=bd0u6vvomyoJvDXRp8gMuQlZQYKf-h34IuzVOqPd2grvENeF6Iqpj82GP~28cDs-HkRVMjMVfppvXHSVys0GAivVS4lj38IThJAOWc2xMFTUQ8vpBgC9aU8aDtY4IsF5RBQgNOj5dORAOuwWNCRkxSyWYJHOysd5gh0Q2Vf0A6PqAYhfhDx2J9rJMmh3xdKvMH0BPd4UeA8f~o2uRH0smJ9kRzeUllobY7GDlYI4rB1GZKwT3tQHYOoaVEqQUWz5-yRTJBZnYBwgd7IoilIE2FvapQDQph9vI-RoCRlUc7ZlG-8exYTmcgnj6w2tjvNHMPQuMXtPx8xZaH0J7x2-3w__&amp;Key-Pair-Id=KVTP0A1DKRTAX" srcset="/img/loading.gif" lazyload
+alt="输入图片描述" /> 所以一个多元高斯轴的长度为<span
+class="math inline">\(\Sigma\)</span>的特征值。
+跟一维一样，有99%的概率落在3倍方差之内，也就是有99%的概率落在<span
+class="math inline">\(3\sigma_1,3\sigma_2,3\sigma_3\)</span>所在的椭球内，另外<span
+class="math inline">\(\sigma_1,\sigma_2,\sigma_3\)</span>为<span
+class="math inline">\(\Sigma\)</span>的特征值。 ### 图形学渲染-坐标变换
+<img
+src="3d%20gaussian%20splatting_md_files/image_20231206202903.png?v=1&amp;type=image&amp;token=V1:0oFwG0rq7cAsSOXZ51cfebeE9BbFg7KRVhMvSX08UJw" srcset="/img/loading.gif" lazyload />
+在传统图形学的渲染pipeline里面，需要把空间里面的物体投影到相机的平面，也就是需要知道空间中每个点投影到特定相机平面上的位置是多少，在传统图形学里面的流程通常是这样的：
+先把视椎内物体进行一个透视投影，压缩到一个非透视的空间内，然后使用正交投影，将视椎内物体压缩到各维度为[-1,1]的空间内。
+#### 透视投影 <img
+src="3d%20gaussian%20splatting_md_files/image_20231206203006.png?v=1&amp;type=image&amp;token=V1:szGEi-Ale4_R-7Q6AmLefLtZDW8OqOl6f-YRFMZ5XQA" srcset="/img/loading.gif" lazyload />
+设近平面为<span class="math inline">\(n\)</span>，远平面为<span
+class="math inline">\(f\)</span>，这里假设我们相机坐标的位置如下（采用右手坐标系）：
+空间内任一点<span
+class="math inline">\((x,y,z)\)</span>投影到相机平面的位置为<span
+class="math inline">\((x&#39;,y&#39;,z&#39;)\)</span>，投影矩阵为<span
+class="math inline">\(P\)</span>, 则有： <span
+class="math inline">\(x&#39;=\frac{n}{z}x,y&#39;=\frac{n}{z}y\)</span>
+换成齐次坐标表示，也就是经过。 <span
+class="math inline">\([x,y,z,1]^T-&gt;[nx,ny,?,z]\)</span> <span
+class="math display">\[
+P=
+\begin{bmatrix}
+n &amp;&amp; 0 &amp;&amp; 0 &amp;&amp; 0\\
+0 &amp;&amp; n &amp;&amp; 0 &amp;&amp; 0\\
+? &amp;&amp; ? &amp;&amp; ? &amp;&amp; ?\\
+0 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0
+\end{bmatrix}
+\]</span> 我们还有两个约束条件，在近平面上，所有点的<span
+class="math inline">\(z\)</span>坐标不会变，都为<span
+class="math inline">\(n\)</span>，在远平面上，所有点的<span
+class="math inline">\(z\)</span>坐也不会变： <span
+class="math inline">\([x,y,n,1]-&gt;[nx,ny,n^2,n]\)</span> <span
+class="math inline">\([x,y,f,1]-&gt;[x&#39;,y&#39;,f,1]=[\frac{nx}{f},\frac{ny}{f},f,1]=[nx,ny,f^2,f]\)</span>
+所以<span class="math inline">\(P\)</span>一定满足如下的形式： <span
+class="math display">\[
+P=
+\begin{bmatrix}
+n &amp;&amp; 0 &amp;&amp; 0 &amp;&amp; 0\\
+0 &amp;&amp; n &amp;&amp; 0 &amp;&amp; 0\\
+0 &amp;&amp; 0 &amp;&amp; A &amp;&amp; B\\
+0 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0
+\end{bmatrix}
+\]</span> 其中<span class="math inline">\(An+B=n^2\)</span>,<span
+class="math inline">\(Af+B=f^2\)</span> 解出来为： <span
+class="math inline">\(A=n+f, B=-nf\)</span> 因此，投影距离为： <span
+class="math display">\[
+P=
+\begin{bmatrix}
+n &amp;&amp; 0 &amp;&amp; 0 &amp;&amp; 0\\
+0 &amp;&amp; n &amp;&amp; 0 &amp;&amp; 0\\
+0 &amp;&amp; 0 &amp;&amp; n+f &amp;&amp; -nf\\
+0 &amp;&amp; 0 &amp;&amp; 1 &amp;&amp; 0
+\end{bmatrix}
+\]</span> #### 正交投影 <img
+src="https://pic4.zhimg.com/v2-7a64b65b2506ad3209667df0de4e00ff_r.jpg" srcset="/img/loading.gif" lazyload />
+下交投影相对较简单，只需要将非透视空间内的内容挪到坐标原点，并规范化到[-1,1]的空间内，设x坐标的范围为[l,r]，y坐标为[b,t]，z坐标为[n,f],
+我们可以先把坐标得到了零点，再做各个维度的压缩，从坐标到零点的变换矩阵为：
+<span class="math display">\[
+T_1=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; -\frac{l+r}{2}\\
+0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2}\\
+0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2}\\
+0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span> 缩放矩阵如下： <span class="math display">\[
+T_2=
+\begin{bmatrix}
+\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span> 最后的矩阵就是两个矩阵乘起来： <span class="math display">\[
+T=T_2T_1=
+\begin{bmatrix}
+\frac{2}{r-l} &amp; 0 &amp; 0 &amp; -\frac{r+l}{r-l}\\
+0 &amp; \frac{2}{t-b} &amp; 0 &amp; -\frac{t+b}{t-b}\\
+0 &amp; 0 &amp; \frac{2}{n-f} &amp; -\frac{n+f}{n-f}\\
+0 &amp; 0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\]</span> 综合一下，将一个坐标先经过矩阵<span
+class="math inline">\(P\)</span>, 再过<span
+class="math inline">\(T\)</span>的变换就可以变到NDC坐标系。 ###
+基于点的渲染
+这块不大熟，根据论文做个粗浅的理解，图形学里面有时候会对一些离散的点数据进行渲染（点云），因为点是没有体积的，所以我们可以有一个固定的几何表示（球，立方体）来对这个点进行表示，以球为例，投影到相机面上变会成一个圆，然后着色时，如果一个像素点上，有几个点都投影过来了，这时候使用<span
+class="math inline">\(\alpha\)</span> blending. <span
+class="math inline">\(C=\sum_{i=N}c_i \alpha_i
+\prod_{j=1}^{i-1}(1-\alpha_j)\)</span>
+这个公式其实跟神经辐射场推出来的离散公式也非常的像。 ## Gaussian
+Splatting
+回想一下传统神经辐射场，我们将三维空间里连续数据存下来，然后使用体渲染公式，得到某一个像素点的颜色，由于空间中物体的通常是稀疏的，MLP里存放的三维体数据很多其实都存在浪费，另外ray
+matching的方法使得渲染速度变得相当地慢。像Instant
+NGP采用了hash表的方式，来减少无效数据的存放，Plenoctrees采用了八叉树来减少数据存放，但这些方法并没有改进ray
+marching。而且像Instant
+NGP因为人为缩小了存放的空间，所以实际是一种渲染质量对时间的妥协。
+所以，如果我们能够设计一种算法，能够自适应的学习三维空间里面物体的分布，同时可以减去ray
+marching这一繁琐的采样步骤，那理论上来说，就可以一定程度上解决现在nerf的问题。
+我们把Nerf的场景想像成一个非常非常密集的点，我们需要存储的点的信息，其实只会是那些在物体表面上的，因此我们能不能只存那些有物体地方的点呢，让神经网络去学习这些点的坐标与颜色，透明度等等，然后用基于点的渲染方式进行渲染，将渲染后的图片与图片计算损失函数，最后得到这些点的坐标，颜色与透明度。
+### 如何对点进行初始化 #### 随机初始化 #### sfm <img
+src="3d%20gaussian%20splatting_md_files/image_20231206204307.png?v=1&amp;type=image&amp;token=V1:PRGBZH10idigKMUcwIwufxfLk1Wk6j7cHjBR32BImoA" srcset="/img/loading.gif" lazyload />
+### 点体积的扩展 跟particle-based
+rendering一样，因为点没有体积，所以需要对它进行一个扩展，扩展方式这篇论文与传统的particle-based
+rendering不一样，它用的3D Gaussian表示。 <span
+class="math inline">\(G(x)=e^{-\frac{1}{2}x^T\Sigma^{-1}x}\)</span> <img
+src="https://cdn-lfs.huggingface.co/datasets/huggingface/documentation-images/97360330c98cb8306438dbb070518a0d2bf6f373637b208a4d16b30baaec5856?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27three-gaussians.png%3B+filename%3D%22three-gaussians.png%22%3B&amp;response-content-type=image%2Fpng&amp;Expires=1702125425&amp;Policy=eyJTdGF0ZW1lbnQiOlt7IkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTcwMjEyNTQyNX19LCJSZXNvdXJjZSI6Imh0dHBzOi8vY2RuLWxmcy5odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9odWdnaW5nZmFjZS9kb2N1bWVudGF0aW9uLWltYWdlcy85NzM2MDMzMGM5OGNiODMwNjQzOGRiYjA3MDUxOGEwZDJiZjZmMzczNjM3YjIwOGE0ZDE2YjMwYmFhZWM1ODU2P3Jlc3BvbnNlLWNvbnRlbnQtZGlzcG9zaXRpb249KiZyZXNwb25zZS1jb250ZW50LXR5cGU9KiJ9XX0_&amp;Signature=EhwMu9HDyrHVmOuwEM-VGahvo%7EemdTnVWjBCXbqNbjTTTJJia7Gg2VxDOOlUOu5Zg5K7zOlhUMG3719KCYLd4ZLo5Y2RRy52W85ttFtzlA-5g8ZtklpbgCeClLAf2InR8LyCRpcqSXub0EObBF5Xkh50Lfep9fIXYcNBRlY17uZcoqObKjy17hjW77EcoBere1Z2YGGrQgH2OqxGNkBou4Qh5Oz0MlXLxGu-6dvD-l3LuIEz9tFxU5AxCqH3t%7E0zWf9RDdxnoYckNq1ZupYChnwDZZdiIJUNhRK2wd5ZCV%7E%7ELVkVqYZgKhv0mkQI4NfqH6sBzIxN731lMpKhWmcJ5g__&amp;Key-Pair-Id=KVTP0A1DKRTAX" srcset="/img/loading.gif" lazyload />
+这跟前面3D
+Gaussian里的表示是一样的，只是省去了前面的常数项。跟前面那这球或者方形的表示不同，3D
+Gaussian这种表示具有更强的灵活性，它可以用较少的点表示更复杂的形状。
+在这种表示下面，我们希望存储的信息就变成了： 1. 每个点的坐标； 2.
+每个点的高斯表示中的<span class="math inline">\(\Sigma\)</span>; 3.
+每个点的颜色； 4. 每个点的不透明度<span
+class="math inline">\(\alpha\)</span>； 这里的<span
+class="math inline">\(\Sigma\)</span>（协方差矩阵）是一个半正定矩阵，所以你当然不能对这个随机对这个距离进行初始化，然后随机迭代，因为要保证半正定这个条件，我们假定：
+<span class="math inline">\(\Sigma=P \wedge P^T=P
+\wedge^{\frac{1}{2}}\wedge^{\frac{1}{2}}P^T=(P \wedge^{\frac{1}{2}})(P
+\wedge^{\frac{1}{2}})^T\)</span>. 其中，<span
+class="math inline">\(P\)</span>是一个正交阵，可以理解为是一个旋转矩阵，<span
+class="math inline">\(\wedge^{\frac{1}{2}}\)</span>为一个全为正数的对角阵，可以理解为是一个scale矩阵，论文里的表示为：
+<span class="math inline">\(\Sigma=RSS^TR^T\)</span> ### 点的颜色的表示
+我们在Nerf里面为了去模拟一些高光的点，会入view dir，也不是不同view dir,
+其看过来颜色是不一样的，之前都用神经网络来存这一信息.
+那我们现在存的话怎么存，使用球谐函数，这其实是很多nerf都采用的存储方式。
+### 如何投影
+那怎么知道空间里面一个高斯投影到某个相机平面上，在相机平面上的什么位置呢？这里采用了跟之前NDC坐标有点类似的方法，使用“挤压”的方式，相机坐标<span
+class="math inline">\((t_1,t_2,t_3)\)</span>压缩到<span
+class="math inline">\((x_1,x_2,x_3)\)</span>上。 <span
+class="math display">\[
+x_1=\frac{t_1}{t_3}\\
+x_2=\frac{t_2}{t_3}\\
+x_3=\sqrt{t_1^2+t_2^2+t_3^2}
+\]</span> 这里<span
+class="math inline">\(x_3\)</span>设计成是因为在基于点的着色时，需要考虑一个射线出去的点的前后顺序，所以需要对相应位置进行保留。但是比较遗憾的是，这并不是一个线性变换，也就是无法通过求解一个变换矩阵把这个变换求解出来。但是我们可以使用一个线性变换对这个非线性变换进行近似。我们已经在高数中学过泰勒展开式：
+<span class="math inline">\(f(x) \approx
+f(x_0)+f&#39;(x_0)(x-x_0)\)</span> 这里的情况其实当函数为<span
+class="math inline">\(R-&gt;R\)</span>的情况，如果把这个扩展到高维呢<span
+class="math inline">\(R^m-&gt;R^n\)</span>。 <span
+class="math inline">\(f(\bold x)=f(\bold x_0)+\bold J (\bold x-\bold
+x_0)\)</span> 这里<span
+class="math inline">\(J\)</span>雅可比矩阵，可以看来一阶导的多维形式，假设我们输入为:<span
+class="math inline">\(x_1,x_2,...x_m\)</span>,输出为<span
+class="math inline">\(y_1,y_2,...,y_n\)</span> <span
+class="math display">\[
+J=
+\begin{bmatrix}
+\frac{\partial y_1}{x_1}&amp;&amp;\frac{\partial
+y_1}{x_2}&amp;&amp;...&amp;&amp;\frac{\partial y_1}{x_m}\\
+\frac{\partial y_2}{x_1}&amp;&amp;\frac{\partial
+y_2}{x_2}&amp;&amp;...&amp;&amp;\frac{\partial y_2}{x_m}\\
+...\\
+\frac{\partial y_n}{x_1}&amp;&amp;\frac{\partial
+y_n}{x_2}&amp;&amp;...&amp;&amp;\frac{\partial y_n}{x_m}
+\end{bmatrix}
+\]</span> 前面的非线性变换，使用这种方式进行近似的话，其雅可比矩阵为：
+<span class="math display">\[
+\begin{bmatrix}
+\frac{1}{t_3} &amp;&amp; 0 &amp;&amp; -\frac{t_1}{t_3^2}\\
+0 &amp;&amp; \frac{1}{t_3} &amp;&amp; -\frac{t_2}{t_3^2}\\
+\frac{t_1}{\sqrt{t_1^2+t_2^2+t_3^2}} &amp;&amp;
+\frac{t_2}{\sqrt{t_1^2+t_2^2+t_3^2}} &amp;&amp;
+\frac{t_3}{\sqrt{t_1^2+t_2^2+t_3^2}}
+\end{bmatrix}
+\]</span>
+我们可以对每个高斯在其中心点展开，得到其雅可比矩阵，就可以得到这个高斯的线性变换矩阵。因为高斯分布的性质，如果一个线性变换<span
+class="math inline">\(Ax+b\)</span>，高斯分布经过这个变换之后： <span
+class="math display">\[
+u&#39;=Au+b
+\]</span> <span class="math display">\[
+\Sigma&#39;=A \Sigma A^T
+\]</span> 所以一个世界坐标系下均值点为<span
+class="math inline">\([t_1,t_2,t_3]\)</span>，方差为<span
+class="math inline">\(\Sigma\)</span>的高斯经过这个变换后，会变为均值为<span
+class="math inline">\([x_1,x_2,x_3]\)</span>，方差为<span
+class="math inline">\(\Sigma&#39;=JW \Sigma
+W^TJ^T\)</span>，其中这里<span
+class="math inline">\(W\)</span>为世界坐标到相机坐标的转换。
+经过这个变换之后，我们只要丢掉<span
+class="math inline">\(\Sigma&#39;\)</span>的第三行的第三列就是投影到相机平面的协方差矩阵。
+### 像素点着色
+要计算像素点的着色，首先需要知道哪些高斯投影到这个像素点上，我们通过之前的计算已经知道空间里的一个高斯投影到相机平面上是一个什么新的高斯，通过前面对高斯的计算，我们也知道有99%的概率会落在<span
+class="math inline">\(3\sigma_1,3\sigma_2\)</span>之内，所以如果一个像素落在高斯的区间内，那我们认为这个像素被高斯所覆盖，为了简化计算，我们将范围扩大为<span
+class="math inline">\((max(3\sigma_1,3\sigma_2),max(3\sigma_1,3\sigma_2))\)</span>
+。到这里其实我们已经知道一个像素被哪些高斯覆盖了，论文里在这一步使用了一些加速的技巧。
+首先可以通过之前的计算，得到每个高斯覆盖的范围，对整个空间内的高斯进行排序。将空间分为一个一个tile，可以得到覆盖这个tile的高斯。对一个tile里的每个像素，计算tile中每个高斯对它的贡献度以及其透明度：
+<span class="math display">\[
+p_i\alpha_i \prod_{j=1}^{i-1}(1-p_i\alpha_j)
+\]</span> 这里: <span class="math display">\[
+p_i=e^{-\frac{1}{2}x^T\Sigma&#39;^{-1}x}
+\]</span>
+这里tile和像素点颜色的计算使用了cuda进行编写，使用了并行计算，这是Gaussian
+得以提高的原因。 ### Adaptive Control <img
+src="3d%20gaussian%20splatting_md_files/image_20231206204535.png?v=1&amp;type=image&amp;token=V1:Tw9U09gs84XuJoRIcoi_mxn2beCoEVq6kJS4qZNvWfE" srcset="/img/loading.gif" lazyload />
+因为3D
+Gaussian的方法是对多个高斯进行优化，高斯的数量的设定当然很重要，如果是一个很简单的场景，少量高斯的数量应该就可以，但是如果是一个很复杂的场景，高斯的数量就需要增加，一个比较好的方法就是我们可以自适应来生成高斯的数量，因此，论文里有提到一个adaptive
+control的方法。 每隔一定的训练时间(100 iter or 100
+iter)。会根据目前的情况决定哪些高斯应该被去除，哪些部分应该增加高斯表示。
+1. 哪些需要去掉？ 透明度非常低的（<span
+class="math inline">\(\alpha\)</span>低于某个阈值的），离相机距离非常近的（很可能是floater）。
+2. 其它
+另外对于一些表示过多或者不够的地方，也需要进行自适应调整，怎么算表示过多或者不够呢？这些地方通常是坐标梯度较大的地方，梯度较大，表示这里高斯表示其实不太合适，模型试图移动这些点，改善模型的表示，所以可以设置一个梯度的阈值，找到这些表示不好的地方。
+### 训练&amp;损失函数 <img
+src="3d%20gaussian%20splatting_md_files/image_20231206204650.png?v=1&amp;type=image&amp;token=V1:dp6qOwfbi5hqIpuOxCFEnNGS-F_sUYFbe7MNptOlex0" srcset="/img/loading.gif" lazyload />
+<span class="math inline">\(L=(1-\lambda)L_1+\lambda
+L_{D-SSIM}\)</span></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Deep-Learning/" class="category-chain-item">Deep Learning</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Computer-Vision/" class="category-chain-item">Computer Vision</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/3D-Vision/" class="print-no-link">#3D Vision</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>3D gaussian splatting</div>
+      <div>https://jetthuang.top/所有/3d gaussian splatting/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/%E5%B9%BB%E5%85%BD%E5%B8%95%E9%B2%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8C%87%E4%BB%A4/" title="幻兽帕鲁服务器指令">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">幻兽帕鲁服务器指令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/Diffusion%E7%9B%B8%E5%85%B3%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/" title="Diffusion相关前置知识">
+                        <span class="hidden-mobile">Diffusion相关前置知识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

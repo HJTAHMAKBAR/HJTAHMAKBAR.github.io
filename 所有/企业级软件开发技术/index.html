@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/img/favicon.png">
+  <link rel="icon" href="/img/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Jett Huang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="企业级软件开发技术  J2EE产生背景 12J2EE是Sun公司为了满足多层体系结构企业级应用开发的需求，在J2SE的基础上，根据企业级应用的各种需求，提出的一种标准。背景：互联网的兴起，企业级应用的需求，跨平台的需求，分布式计算的需求（随着企业应用的复杂性增加，需要将应用逻辑分布在不同的服务器上，以提高性能、可靠性和可伸缩性。） J2EE设计的考虑 1J2EE设计考虑到系统的可维护性和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="企业级软件开发技术">
+<meta property="og:url" content="https://jetthuang.top/%E6%89%80%E6%9C%89/%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="江客">
+<meta property="og:description" content="企业级软件开发技术  J2EE产生背景 12J2EE是Sun公司为了满足多层体系结构企业级应用开发的需求，在J2SE的基础上，根据企业级应用的各种需求，提出的一种标准。背景：互联网的兴起，企业级应用的需求，跨平台的需求，分布式计算的需求（随着企业应用的复杂性增加，需要将应用逻辑分布在不同的服务器上，以提高性能、可靠性和可伸缩性。） J2EE设计的考虑 1J2EE设计考虑到系统的可维护性和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/learning.png">
+<meta property="article:published_time" content="2024-04-20T06:54:00.000Z">
+<meta property="article:modified_time" content="2025-09-16T16:18:35.336Z">
+<meta property="article:author" content="Jett Huang">
+<meta property="article:tag" content="learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/learning.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>企业级软件开发技术 - 江客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jetthuang.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>江客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/library.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="企业级软件开发技术"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-20 14:54" pubdate>
+          2024年4月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          5.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">企业级软件开发技术</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="企业级软件开发技术">企业级软件开发技术</h3>
+<ul>
+<li><p>J2EE产生背景</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">J2EE是Sun公司为了满足多层体系结构企业级应用开发的需求，在J2SE的基础上，根据企业级应用的各种需求，提出的一种标准。</span><br><span class="hljs-keyword"></span>背景：互联网的兴起，企业级应用的需求，跨平台的需求，分布式计算的需求（随着企业应用的复杂性增加，需要将应用逻辑分布在不同的服务器上，以提高性能、可靠性和可伸缩性。）<br></code></pre></td></tr></table></figure></li>
+<li><p>J2EE设计的考虑</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">J2EE设计考虑到系统的可维护性和可扩展性进行了分层架构，包括客户层，Web层，业务层和企业信息系统层。考虑到业务逻辑的不同将系统划分为不同的组件，如JavaBeans、Servlet、Enterprise </span><span class="hljs-keyword">JavaBeans等，组件时可重用的，可替换的。</span><br></code></pre></td></tr></table></figure></li>
+<li><p>J2EE针对分布式的处理，在分布式上的相关技术</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">J2EE平台本质上是一个分布式的服务器应用程序设计环境，是一个专为分布式计算设计的平台，它提供了一套标准化的规范和接口，使得开发者能够构建分布式、多层次、高可用性、可扩展的企业级应用。</span><br><span class="hljs-keyword"></span><br>与分布式相关的技术：<br>EJB、<span class="hljs-keyword">JMS、JPA、JTA、JAX</span><br></code></pre></td></tr></table></figure></li>
+<li><p>J2EE的组成</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">四层模型<br>客户层-Web层-业务层-企业信息系统层<br>JavaApplet-JSP|<span class="hljs-string">Servlet</span>|<span class="hljs-string">EJB</span>|<span class="hljs-string">数据库</span><br></code></pre></td></tr></table></figure></li>
+<li><p>J2EE和MVC的关系</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">J2EE是一个Java平台，提供了一系列规范和接口，用于开发多层次、分布式、可扩展、安全的企业级应用。J2EE包含了多个组件和技术，如Servlets、JavaServer </span>Pages、Enterprise <span class="hljs-keyword">JavaBeans、Java </span>Message Serice（<span class="hljs-keyword">JMS）。</span><br><span class="hljs-keyword"></span>MVC是一种设计模式，用于将应用分为三个核心部分：模型，视图和控制器。这种分离有助于管理复杂的应用，并使代码更易于维护和扩展。<br><span class="hljs-keyword">J2EE与MVC架构的关系在于，J2EE平台提供了实现MVC模式所需的技术和组件。J2EE应用中，模型可以时JavaBeans，Session </span><span class="hljs-keyword">Beans或实体Beans。视图通常是JSP页面、HTML、XML或JSON实现。控制器通常是Servlets实现。J2EE平台提供了构建MVC架构所需的所有工具和架构。</span><br></code></pre></td></tr></table></figure></li>
+<li><p>Web容器和ejb容器的区别</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Web容器主要负责运行和管理Web应用程序，特别是基于Servlet和<span class="hljs-keyword">JSP的技术，Web容器处理客户端的HTTP请求，并将这些请求分发给相应的Servlet或JSP页面进行处理。Web容器的主要作用包括</span><br><span class="hljs-keyword"></span><span class="hljs-number">1</span>.请求处理，接受客户端的HTTP请求，并将其分发给相应的Web组件（如Servlet）<br><span class="hljs-number">2</span>.生命周期关系，负责Servlet的创建，初始化，服务请求，销毁等生命周期管理。<br><span class="hljs-number">3</span>.会话关系，管理用户会话，包括会话的创建，维护和销毁。<br><span class="hljs-number">4</span>.安全性：提供用户身份验证和授权等安全功能<br><span class="hljs-number">5</span>.日志记录：记录Web应用程序的运行记录<br><span class="hljs-number">6</span>.部署和配置：负责Web应用程序的部署和配置管理。<br><br>EJB<br>EJB容器主要负责运行和管理企业<span class="hljs-keyword">JavaBean，提供事务管理，安全性，并发控制，分布式计算等服务。</span><br><span class="hljs-keyword"></span>EJB容器的主要作用包括：<br><span class="hljs-number">1</span>.事务管理：提供声明式事务管理，确保业务操作的原子性，一致性，隔离性和持久性。<br><span class="hljs-number">2</span>.安全性：提供细粒度和安全控制<br><span class="hljs-number">3</span>.并发控制<br><span class="hljs-number">4</span>.生命周期管理<br><span class="hljs-number">5</span>.远程调用<br><span class="hljs-number">6</span>.资源池<br></code></pre></td></tr></table></figure>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Web容器主要处理HTTP请求和Web相关的功能，而EJB容器主要处理企业级业务逻辑和分布式服务。<br>Web容器运行Servlet和<span class="hljs-keyword">JSP，而EJB容器运行会话Bean、实体Bean和消息驱动Bean。</span><br><span class="hljs-keyword"></span>部署单元不同，Web容器部署Web应用程序（WAR），EJB容器部署企业应用（EAR），其中可能包含EJB（<span class="hljs-keyword">JAR）和Web（WAR）模块。</span><br></code></pre></td></tr></table></figure></li>
+<li><p>JSP</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css">JSP是一种动态网页技术，JSP技术允许开发者将Java代码和<span class="hljs-selector-tag">HTML</span>标记语言混合在一起，以创建动态的、基于Web的应用程序。JSP页面在服务端执行，生成<span class="hljs-selector-tag">HTML</span>或其他格式的内容，然后发送到客户端浏览器进行显示。<br>工作原理：<br><span class="hljs-number">1</span>.用户请求jsp页面，浏览器发送请求到服务器。<br><span class="hljs-number">2</span>.如果是第一次请求改jsp页面，服务器会将jsp文件转换为一个servlet（java类），然后编译这个java类。<br><span class="hljs-number">3</span>.服务器调用这个Servlet的service方法，处理请求并生成响应。<br><span class="hljs-number">3</span><span class="hljs-selector-class">.Servlet</span>生成<span class="hljs-selector-tag">HTML</span>内容，并将其作为响应发送回客户端浏览器。<br></code></pre></td></tr></table></figure></li>
+<li><p>Servlet</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">Servlet是<span class="hljs-keyword">Java提供的一种用于扩展服务器功能的技术。它是运行在Web服务器或应用服务器上的Java类，用于处理客户端请求并生成响应。Servlet通常用于处理HTTP请求，但它们也可以用于处理其他类型的协议。</span><br><span class="hljs-keyword"></span><span class="hljs-number">1</span>.当Web服务器（Tomcat）启动或第一次请求到达时，Servlet容器回加载并实例化Servlet。<br><span class="hljs-number">2</span>.初始化<br><span class="hljs-number">3</span>.处理请求，service（）<br><span class="hljs-number">4</span>.销毁<br></code></pre></td></tr></table></figure></li>
+<li><p>EJB</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">EJB是一种<span class="hljs-keyword">Java </span>EE技术，用于开发和部署分布式、面向对象的业务逻辑。将业务逻辑从客户端界面和底层数据访问代码中分离出来，使得业务逻辑可以独立于应用程序的其他部分进行开发，部署和扩展。<br>三种<span class="hljs-keyword">Bean</span><br><span class="hljs-keyword"></span><span class="hljs-number">1</span>.会话<span class="hljs-keyword">Bean，代表客户端的一次操作或会话，有状态：Bean的状态改变，接下来的方法调用中，客户端会出现同样的状态，无状态：不用保存客户端的状态，方法调用之间没有存储信息，不会保存会话状态、</span><br><span class="hljs-keyword"></span><span class="hljs-number">2</span>.实体<span class="hljs-keyword">Bean，代表持久化数据，通常与数据库中的表行对应，用于表现O/R映射。</span><br><span class="hljs-keyword"></span><span class="hljs-number">3</span>.消息驱动<span class="hljs-keyword">Bean，用于处理异步消息，接受客户端发送的消息，并据此触发响应的业务逻辑。通常与JMS一起使用，</span><br></code></pre></td></tr></table></figure></li>
+<li><p>JMS</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">JMS是一个Java EE的API，用于在两个或多个客户端之间异步发送和接受消息。JMS提供了一种标准的方式来实现消息传递，使得开发这可以专注于业务逻辑，而不必关心消息的底层传输细节。<br>JMS支持两种消息传递机制：<br><span class="hljs-number">1</span>.点对点模型，消息被发送到一个特定的队列，然后被一个或多个消费者接受，每个消息只能被一个消费者接受，一旦被消费，就会从队列中消失，保证了消息的顺序传递，并且会确保消息不会消失。<br><span class="hljs-number">2</span>.发布<span class="hljs-regexp">/订阅模式。消息被发送到一个特定的主题，然后被所有订阅了该主题的消费者接受，与点对点模型不同，发布/</span>订阅模型中的消息可以被多个消费者接受，而且消费者可以随时加入或离开主题。<br>主要组件：消息生产者，消息消费者，消息，队列管理器，主题管理器，JMS提供者<br></code></pre></td></tr></table></figure></li>
+<li><p>JNDI</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">JNDI（Java </span>Naming <span class="hljs-keyword">and </span><span class="hljs-keyword">Directory </span>Interface）是一个<span class="hljs-keyword">Java </span>API， 用于在<span class="hljs-keyword">Java应用程序中查找和访问各种命名和目录服务。JNDI提供了一种统一的方式来访问不同类型的目录和命名服务，如DNS，LDAP，CORBA等。JNDI允许开发者将服务名称与实际服务实现分离，使得应用程序可以更加灵活和可配置。</span><br><span class="hljs-keyword"></span>主要概念：<br><span class="hljs-number">1</span>.命名上下文，包含一组名称和对象的目录结构，类似文件系统中的目录<br><span class="hljs-number">2</span>.目录服务i，提供了命名和目录功能的服务，如LDAP（Lightweight <span class="hljs-keyword">Directory </span>Access Protocol）服务。<br><span class="hljs-number">3</span>.绑定，将一个名称与一个对象关联起来的操作。<br><span class="hljs-number">4</span>.查找，根据名称在命名上下文中检索对象的操作。<br><span class="hljs-number">5</span>.引用<br></code></pre></td></tr></table></figure></li>
+<li><p>ejb和javabean的区别</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-keyword">JavaBean是一种Java类，它遵循特定的命名和设计模式，JavaBean通常用于封装数据，作为一个简单的值对象或者数据容器。JavaBean类通常是可序列化的，并且提供无参构造函数。它的属性通过一组标准的getter和setter方法来访问和修改，JavaBean可以在任何Java应用程序中使用，包括桌面应用程序，Web应用程序等。</span><br><span class="hljs-keyword"></span>EJB是<span class="hljs-keyword">Java </span>EE的一部分，它是一个规划，用于开发和部署分布式、面向对象的业务逻辑，EJB旨在简化企业级应用程序的开发，提供事务管理、安全和分布式计算等底层服务，EJB分为会话<span class="hljs-keyword">Bean、实体Bean、消息驱动Bean，企业级、分布式、并发、生命周期</span><br><span class="hljs-keyword"></span><br><span class="hljs-number">1</span>.两者都是可重用的组件，都有get和set方法，都可以进行组装来构建<span class="hljs-keyword">java应用</span><br><span class="hljs-keyword"></span><span class="hljs-number">2</span>.<span class="hljs-keyword">JavaBean不能跨进程访问，较简单，EJB基于RMI技术，可以被远程访问，较复杂</span><br><span class="hljs-keyword"></span><span class="hljs-number">3</span>.<span class="hljs-keyword">JavaBean可以运行在一般的Web容器上，EJB必须部署在EJB容器中</span><br></code></pre></td></tr></table></figure></li>
+<li><p>JDBC</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">是Java语言提供的一种数据库连接API，允许Java程序和多种关系型数据库进行交互。<br><span class="hljs-number">1.</span>加载数据库驱动<br><span class="hljs-number">2.</span>建立与数据库的连接<br><span class="hljs-number">3.</span>创建<span class="hljs-keyword">statement</span><br><span class="hljs-number">4.</span>执行<span class="hljs-keyword">SQL</span><br><span class="hljs-number">5.</span>处理结果<br><span class="hljs-number">6.</span>关系资源<br></code></pre></td></tr></table></figure></li>
+<li><p>JDBC两种连接方式的特点和优缺点</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs">直接连接：使用DriverManager<br>每次请求时，通过DriverManager直接创建一个新的连接。连接的创建和关闭通常在应用程序代码中显式进行。特点是简单，更容易理解，新手。缺点是每次数据库操作都要创建和关闭，增加数据库的负载和延迟。浪费系统资源。连接不复用<br><br>池连接（使用DataSource和连接池）<br>连接池是一个预先创建的连接集合，用于管理和复用数据库连接。应用程序从连接池中获取连接，使用完毕后返回到池中，而不是关闭连接。优点提高了应用程序的性能，避免过多的消耗系统资源。灵活，线程安全。缺点，复杂，配置需要学习时间。<br></code></pre></td></tr></table></figure></li>
+<li><p>连接池优点、配置、特性、访问步骤</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs clean">优点：性能提升、节约资源、加快响应、并发支持、稳定性强、配置灵活<br><br>配置：最大连接数、最小连接数、连接超时、测试连接、最大空余时间<br><br>特性：连接复用、自动收缩、负载均衡<br><br>访问步骤：加载驱动 -&gt; 创建数据源DataSource -&gt; 获取连接（从连接池） -&gt; 使用连接创建StateMent -&gt; 处理SQL结构 -&gt; 释放资源 -&gt; 关闭连接池<br></code></pre></td></tr></table></figure></li>
+<li><p>EJB本地接口、远程接口</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">EJB访问过程：EJB客户端通过JNDI查找EJB的Home接口，然后通过Home接口获得EJB对外接口，获得对外接口后，调用对外接口定义的EJB业务方法，而真正的逻辑是Bean对象完成的<br></code></pre></td></tr></table></figure></li>
+<li><p>消息中间件的原理</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs">基于消息队列的机制。允许应用程序根据队列来发送和接受消息，从而实现系统间的解耦和异步通信，<br>消息生产者：<br>	发送消息的应用程序或服务，将消息发送到消息队列中，然后可以继续执行其他任务，无需等待消息被处理。<br>消息队列：<br>	存储消息的缓冲区，确保消息在生产者发送和消费者接受之间得到暂存。队列通常由消息中间件管理，提供对消息的持久化，有序传递，优先级排序<br>消息消费者<br>	从消息队列中接受消息的应用程序或服务<br>中间件服务<br>	管理和协调消息传递的核心组件，接受生产者消息，存储队列，传递消费者消息<br>消息协议<br>	定义消息格式和通信规则<br></code></pre></td></tr></table></figure></li>
+<li><p>社交通讯软件的架构</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs">社交通讯软件的架构通常需要支持高并发、实时性、数据一致性以及高可用性。通常采用微服务架构、事件驱动架构或两者的结合。<br><br>客户端层：<br>	IOS，Android，Web前端，用户交互，网络请求<br>API网关：<br>	负责处理客户端的所有请求，进行路由、认证、授权、限流、熔断、日志记录，提供统一的接口给客户端，简化客户端的调用逻辑。<br>服务层；<br>	微服务，消息服务，搜索，服务之间用RESTful方式交互<br>消息队列/中间件<br>	RebbitMQ、Kafka，用于处理异步消息，事件广播、服务解耦。用户发送消息时，消息服务可以将消息写入消息队列，由其他服务异步处理和分发。<br>数据库层<br>缓存层<br>搜索引擎<br>文件存储<br>实时通讯<br>分布式<br>	服务的注册与发现<br>持续集成<br></code></pre></td></tr></table></figure></li>
+<li><p>持久化技术，ORM技术</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">持久化包括：<br>文件系统<br>关系数据库<br>非关系数据库<br>对象数据库<br>分布式数据库<br>内存数据库<br><br><span class="hljs-keyword">ORM技术</span><br><span class="hljs-keyword"></span>面向对象程序设计语言和关系数据库之间的桥梁，主要特点<br>映射，封装，数据持久化，事务管理，查询语言<br>常见<span class="hljs-keyword">ORM包括，Hibernate，</span><br></code></pre></td></tr></table></figure></li>
+<li><p>JDBC、实体Bean和Hibernate特点</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">JDBC提供了最基础的数据库操作能力，适用于简单的数据库交互场景；实体Bean是EJB规范的一部分，主要用于表示业务数据，但在现代Java应用中已经较少使用；Hibernate是一个功能强大的ORM框架，适用于需要复杂对象关系映射和数据库操作的场景。<br></code></pre></td></tr></table></figure></li>
+<li><p>缓存的分类</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">读取缓存：解决读取速度慢<br>写入缓存：解决写入速度慢<br>读写缓存，狭义上解决介质读写速度不匹配问题，<br><br>HTTP缓存，页面级缓存，数据库缓存，opcode缓存，反向代理缓存，<br><br>按存储介质分，内存：网站进程内，同服务器独立进程，独立服务器，分布式服务器组。磁盘：本地文件和数据库，独立服务器<br>按照存储的数据分<br>延迟加载的缓存：<br></code></pre></td></tr></table></figure></li>
+<li><p>大型网站设计一般涉及的主要缓存技术</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">1.浏览器缓存：图片、css、脚本存储<br>2.cdn缓存：内容分发网络缓存静态资源，图片，视频，css/js文件到全球各地的边缘服务器上，当用户请求这些资源时，CDN会从最近的边缘服务器提供内容，从而减少延迟和提高加载速度。<br>3.反向代理缓存：Nginx位于Web服务器前，缓存用于请求的动态内容，相同的请求再次到来时，代理服务器可以直接缓存的内容，减轻后端服务器的负担。<br>4.数据库缓存：MySQL的查询缓存，存储了查询结果，减少数据库的查询时间。<br>5.对象缓存系统：Redis用于存储小块的经常访问的数据，如用户会话，配置参数，计数器等， 这些数据通常在内存中，访问速度非常快<br>6.页面缓存，将整个动态生成的页面缓存起来，当用户请求相同的页面时，直接返回缓存的页面内容，而不是重新生成。<br>7.应用层缓存<br>8.分布式缓存：存储跨多个服务器共享的数据，确保所有服务器都能快速访问相同的数据副本。<br></code></pre></td></tr></table></figure></li>
+<li><p>缓存失效</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">解决缓存失效有三种思路<br>1.使用consistent hashing算法，把数据缓存分片，减少缓存宕机对服务的影响范围。在服务器数量比较少时，增加虚拟节点保证服务器能均匀分布在圆环上。<br>2.缓存多份<br>3.实现缓存持久化或半持久化<br></code></pre></td></tr></table></figure></li>
+<li><p>缓存的常见模型和应用场景</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs">常见缓存模型：<br>1.内存缓存：LRU、MRU、FIFO、LFU<br>2.磁盘缓存：用于存储那些不经常访问，但需要快速访问的数据<br>3.分布式缓存：Redis，Memcached用于分布式系统中，可以提供高性能、可扩展的缓存服务。<br>4.浏览器缓存：根据HTTP头部信息决定是否使用本地缓存的资源<br>5.数据库缓存：某些数据库管理系统如MySQL的查询缓存会缓存查询结果，以加快后续查询的速度。<br><br>应用场景：<br>1.Web应用：缓存经常请求的页面或数据，减少数据库负载，提高响应速度。<br>2.数据库查询优化：预先计算和存储复杂的查询结果，以便快速响应用户的请求<br>3.文件系统<br>4.电商平台<br>5.社交媒体：缓存用户动态、评论等<br>6.移动应用：在没有网络连接时也能访问内容<br>7.API服务<br>8.大数据处理<br></code></pre></td></tr></table></figure></li>
+<li><p>负载均衡几种策略</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-number">1</span>.轮询<br><span class="hljs-number">2</span>.加权轮询<br><span class="hljs-number">3</span>.最少链接<br><span class="hljs-number">4</span>.加权最少连接<br><span class="hljs-number">5</span>，<span class="hljs-built_in">IP</span>哈希<br><span class="hljs-number">6</span>.URL哈希<br><span class="hljs-number">7</span>.基于延迟的负载均衡<br></code></pre></td></tr></table></figure></li>
+<li><p>负载均衡下Session的处理方案，优缺点</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-number">1.</span><span class="hljs-keyword">Session</span>复制，<br><span class="hljs-number">2.</span>cookie-based <span class="hljs-keyword">session</span>，完全无状态，服务器不需要存储任何<span class="hljs-keyword">session</span>信息，所有的状态都存储在客户端的cookie中，安全性问题，大小限制<br><span class="hljs-number">3.</span>分布式缓存，redis，高性能，可伸缩性共，多个服务器之间共享<br><span class="hljs-number">4.</span>数据库<span class="hljs-keyword">session</span>存储，<br></code></pre></td></tr></table></figure></li>
+<li><p>SOA（ESB）</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-keyword">SOA</span>，面向服务的架构，是一种设计方法，其中应用程序由一系列松散耦合的服务组成，这些服务通过标准化的接口和协议进行通信。<span class="hljs-keyword">SOA</span>关注于服务的重用性和互操作性。<br>ESB是一种中间件，它支持<span class="hljs-keyword">SOA</span>的实施，允许不同服务之间的消息传递，并且可以转换消息的格式以适应不同的接收者<br>微服务架构是一种将应用程序构建为一组小型，独立服务的方法，每个服务运行在自己的进程中，通常通过轻量级机制如HTP RESTful API进行通信，<br></code></pre></td></tr></table></figure></li>
+<li><p>中台</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css">在大型企业和互联网公司中，中泰通常指的是一个集中的服务平台，它提供一套共享的服务和工具，如用户管理，订单处理，数据分析，支付处理等，以支持多个业务线和产品。<br>中台提供的服务和工具可以被多个业务线和产品共<span class="hljs-selector-tag">i</span>想，避免重复开发的情况。<br>封装和抽象，数据整合，<br></code></pre></td></tr></table></figure></li>
+<li><p>微服务架构</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">微服务架构是一种将应用程序设计为一组小型、独立服务的方法，每个服务运行在自己的进程中，通常通过轻量级机制进行通信，<br>优点，模块化，松散耦合，独立开发，独立部署，灵活性和扩展性，技术多样性，可以采用不同的技术栈，容错性，易于部署<br>缺点，复杂性，运维，初始成本<br><br></code></pre></td></tr></table></figure></li>
+<li><p>系统拆分，水平和垂直</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">系统拆分呢是将一个大型、复杂的系统分解为多个较小的、更易于管理和维护的部分的过程，可以提高系统的可伸缩性，可维护性和可扩展性。<br>水平拆分：也称为分层架构，将系统按照不同的功能层次进行拆分，将表现层，业务逻辑层和数据访问层分离，每一层负责不同的功能，层与层之间通过定义良好的接口进行通信，提高了系统的模块化程序，便于管理和维护，各层可以独立开发，降低耦合，层数过多，系统复杂性增加<br><br>垂直拆分：将系统按照业务功能进行拆分，每个部分负责一个特定的业务领域或功能模块。每个模块专注于一个业务领域，可能会导致重估的功能实现，<br></code></pre></td></tr></table></figure></li>
+<li><p>数据库拆分</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">水平拆分：将数据表按照某种规则，拆分到多个数据库中，每个数据库中包含相同的数据表结构，但是存储不同的数据集，提高了系统的可伸缩性，<br>垂直拆分，将不同的表或表的一部分拆分到不同的数据库中，通常基于业务功能或数据访问模式，将相关的表或数据存储在一起，以提高性能和可维护性，<br>功能拆分<br>地理拆分<br></code></pre></td></tr></table></figure></li>
+<li><p>提高网站访问速度的常用方法</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs">CDN内容分发网络<br>压缩文件<br>减少HTTP请求<br>使用异步加载<br>优化图片<br>使用缓存<br>服务器优化，优化配置<br>数据库优化，<br>最小化HTTP重定向<br></code></pre></td></tr></table></figure></li>
+<li><p>TOGAF</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">The Open <span class="hljs-keyword">Group</span> <span class="hljs-title">Architecture</span> Framework是一个开放的组织架构框架，提供了一套全面的结构化的方法来设计和实施企业架构。<br><br>主要的架构包含<br>业务架构，应用架构，技术架构，数据架构，安全架构，治理交媾，基础设施架构，服务架构，运营架构<br></code></pre></td></tr></table></figure></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AF%BE%E7%A8%8B/" class="category-chain-item">课程</a>
+  
+  
+
+      </span>
+    
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%89%80%E6%9C%89/" class="category-chain-item">所有</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/learning/" class="print-no-link">#learning</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>企业级软件开发技术</div>
+      <div>https://jetthuang.top/所有/企业级软件开发技术/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Jett Huang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Point-Cloud/Point%20Cloud%20Processing/" title="Point Cloud Processing">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Point Cloud Processing</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/%E6%89%80%E6%9C%89/%E5%B9%BB%E5%85%BD%E5%B8%95%E9%B2%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%8C%87%E4%BB%A4/" title="幻兽帕鲁服务器指令">
+                        <span class="hidden-mobile">幻兽帕鲁服务器指令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"m9rpmP8CoFebnH6ARHXs2k3V-gzGzoHsz","appKey":"YWzaOgmVoUMhyuCMpWGzC4rY","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
