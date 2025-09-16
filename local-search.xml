@@ -702,17 +702,17 @@
   
   <entry>
     <title>机器学习-理解ROC、AUC以及rank-loss</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
+    <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/"/>
+    <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%90%86%E8%A7%A3ROC%E3%80%81AUC%E4%BB%A5%E5%8F%8Arank-loss/</url>
     
     <content type="html"><![CDATA[<h1 id="理解rocauc以及rank-loss">理解ROC、AUC以及rank-loss</h1><h3 id="roc">ROC</h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115103747376.png" alt="西瓜书P33" style="zoom:200%;" /></p><p>理解：以ROC在医学检测中的应用举例，首先我们需要将混淆矩阵中的各个元素赋予对应的含义。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115111426556.png" alt="分类结果混淆矩阵" style="zoom:200%;" /></p><p>在医学检测中，我们可以按照下面的含义解释上述各元素（正例为阳性-得病，反例为阴性-健康）</p><ul><li>TP：预测结果是正例，真实情况是正例，可以看作是医生正确诊断出病例</li><li>FN：预测结果是反例，真实情况是正例，可以看作是医生漏诊，将得病诊断为健康</li><li>FP：预测结果是正例，真实情况是反例，可以看作是医生误诊，将健康诊断为得病</li><li>TN：预测结果是反例，真实情况是反例，可以看作是医生检查出没有得病</li></ul><p>我们再来看ROC中的TPR和FPR。 <span class="math display">\[TPR = {TP \over TP + FN}\]</span></p><p><span class="math display">\[FPR = {FP \over TN + FP}\]</span></p><ul><li>TPR：<span class="math display">\[真正例 \over真实情况是正例\]</span>即在所有实际为正例的样本中，被正确地判断为正例的比率，可以看作是在所有得病的人中，有多少人被医生正确地诊断出阳性。</li><li>FPR：<span class="math display">\[假正例 \over真实情况是反例\]</span>即在所有实际为反例的样本中，被错误地判断为正例的比率，可以看作是在所有健康的人当中，有多少人被医生误诊为得病。</li></ul><p>那么对于一个机器学习的学习器而言，我们希望的是TPR越高越好，而FPR越低越好。然后实际情况是，当我们的阈值减小时，TPR和FPR会同时增大，当阈值为0的时候，即所有的实例都被预测为正例，此时的TPR为1，因为所有的阳性都被诊断出来了；此时的FPR为1，因为所有健康的人都被诊断为阳性。</p><p>ROC曲线就是以TPR为纵轴，以FPR为横轴，如图。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115141452830.png" alt="ROC曲线" style="zoom:200%;" /></p><p>如图可见，如果想要TPR尽可能的高，那么相应的阴影部分的面积也会增大。我们进行学习器的比较时，与P-R图相似，若一个学习器的ROC曲线被另一个学习器的曲线完全”包住“，则可断言后者的性能优于前者；若两个学习器的ROC曲线发生交叉，则难以一般性地断言两者孰优孰劣。此时如果一定要进行比较，则较为合理的判据是比较ROC曲线下的面积，即AUC（AreaUnder ROC Curve）。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143800508.png" alt="image-20220115143800508" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115144442178.png" alt="image-20220115144442178" style="zoom:200%;" /></p><p>这里的AUC的公式比较好理解，就是通过坐标计算出一小块一小块的面积的和。</p><figure><imgsrc="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151620674.png"alt="ROC曲线可能出现的3种情况" /><figcaption aria-hidden="true">ROC曲线可能出现的3种情况</figcaption></figure><p>对应3种情况：</p><ol type="1"><li>如果<span class="math display">\[y_i =y_{i+1}\]</span>那么小块形状是矩形，真正例率不变，假正例率增加<spanclass="math inline">\(1 \overm-\)</span>，水平向右移动，面积就是$(x_{i+1} - x_i) y_i $</li><li>如果<span class="math inline">\(x_i =x_{i+1}\)</span>那么小块形状是垂直的线段，真正例率增加<spanclass="math inline">\(1 \overm+\)</span>，假正例率不变，垂直向上移动，面积就是0</li><li>如果下一个点<span class="math inline">\((x_{i+1},y_{i+1})\)</span><span class="math inline">\(在\)</span><spanclass="math inline">\((x_{i}, y_{i})\)</span><spanclass="math inline">\(的右上方，真正例率和假正例率同时增加，面积按照梯形面积公式计算，\)</span><spanclass="math inline">\({1\over2}\cdot(x_{i+1}-x_i)\cdot(y_{i+1}-y_i)\)</span></li></ol><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115151949690.png" alt="image-20220115151949690" style="zoom:200%;" /></p><p>综上，总的AUC计算公式，如下。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115143829171.png" alt="rank-loss" style="zoom:200%;" /></p><p>这里引入了一个loss</p><p><imgsrc="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220115153949762.png" /></p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
@@ -729,17 +729,17 @@
   
   <entry>
     <title>F1度量为何用调和平均而不用算术平均</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/</url>
+    <link href="/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/"/>
+    <url>/%E6%89%80%E6%9C%89/F1%E5%BA%A6%E9%87%8F%E4%B8%BA%E4%BD%95%E7%94%A8%E8%B0%83%E5%92%8C%E5%B9%B3%E5%9D%87%E8%80%8C%E4%B8%8D%E7%94%A8%E7%AE%97%E6%9C%AF%E5%B9%B3%E5%9D%87/</url>
     
     <content type="html"><![CDATA[<h3 id="p-r图">P-R图</h3><p>查准率P（Precision）和查全率R（Recall）是一对矛盾的度量，一般来说，查准率高时，查全率往往偏低；而查全率高时，查准率往往偏低。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203102931.png" alt="P-R曲线" style="zoom:200%;" /></p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203245081.png" alt="西瓜书P31" style="zoom:200%;" /></p><h3 id="f_1值"><span class="math inline">\(F_1值\)</span></h3><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110203305121.png" alt="西瓜书P32" style="zoom:200%;" /></p><blockquote><p>当我看到西瓜书这个地方的时候，觉得一切都很有道理，但是突然又觉得不讲道理。虽然我知道F1度量肯定是人为规定的一个式子，但是为什么F1度量用的是调和平均，为什么不简单的使用算术平均或者其他的平均式综合考虑查准率和查全率。</p></blockquote><p>书上的解释是与算术平均（<span class="math inline">\(P + R \over2\)</span>）和几何平均（<span class="math inline">\(\sqrt{(P \timesR)}\)</span>）相比，调和平均更重视较小值。</p><p>于是我又去看了吴恩达的机器学习课程的相关内容，才算是搞懂了。</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220110205407917.png" alt="吴恩达机器学习系列课程-精确度和召回率的权衡" style="zoom:200%;" /></p><p>如果我们有不同的算法，我们如何比较不同的查准率和召回率。具体一点，假设我们有三个不同的学习算法，或者这三个不同的学习曲线是同样的算法但是临界值（Threshold）不同，我们怎样决定哪一个算法是最好的？</p><p>我们可以用一个评估度量来决定算法的优劣。那么我们怎么得到一个评估度量值呢？</p><p>你可能会去尝试的一件事情是计算一下查准率和召回率的平均值（算术平均）<span class="math display">\[Average = { P + R \over 2}\]</span>但是这可能并不是一个很好的解决办法。因为，如果我们的回归模型总是预测y =1（阈值很低），那么你可能得到非常高的召回率，得到非常低的查准率。相反地，如果你的模型总是预测y= 0，就是说，如果很少预测y =1，对应的，设置了一个高临界值，最后你会得到非常高的查准率和非常低的召回率。这两个极端情况，一个有非常高的临界值，一个有非常低的临界值，它们中的任何一个都不是一个好的模型。我们可以通过非常低的查准率或者非常低的召回率，判断这不是一个好模型。如果你只是使用<spanclass="math inline">\(P + R \over2\)</span>，算法3的这个值是最高的。即使你可以通过使用总是预测y =1这样的方法来得到这样的值，但是这并不是一个好的模型。算法1和算法2比算法3更好，但是在这个例子中，查准率和召回率的平均值，算法3是最高的。</p><p>因此我们通常认为查准率和召回率的平均值（算术平均）不是评估算法的好方法。相反地，有一种结合查准率和召回率的不同方式，叫做F值，公式是<span class="math display">\[F_1Score = 2{ PR \over P + R}\]</span> 我们可以通过<spanclass="math inline">\(F_1Score\)</span>来判断算法1有最高的F值，算法2第二，算法3是最低的。因此，通过F值我们会在这几个算法中选择算法1。F值也叫做<spanclass="math inline">\(F_1\)</span>值。它的定义会考虑一部分查准率和召回率的平均值，但是它会给查准率和召回率中较低的值更高的权重。因此，你可以看到F值的分子是查准率和召回率的乘积，因此如果查准率等于0，或者召回率等于0，F值也会等于0。因此它结合了查准率和召回率，对于一个较大的F值，查准率和召回率都必须较大。</p><p>有较多的公式，可以结合查准率和召回率，F值公式只是其中一个，但是处于历史原因和习惯问题，人们在机器学习中使用F值。这个术语F值，没有什么特别的意义。</p><h3 id="总结">总结</h3><blockquote><p>后续我又上网搜索了下别人对算术平均和调和平均的理解</p></blockquote><p>算术平均值是一个良好的集中量数，具有反应灵敏、确定严密、简明易解、计算简单、适合进一步演算和较小抽样变化的影响等特点。但是极易受极端数据的影响，每个数据的或大或小的变化都会影响最终结果。</p><p>调和平均数具有以下几个主要特点：</p><p>1、调和平均数易受极端值的影响，且受极小值的影响比受极大值的影响更大。</p><p>2、只要有一个标志值为0，就不能计算调和平均数。</p><p>3、当组距数列有开口组时，其组中值即使按照相邻组距计算，假定性也很大。</p><p>4、调和平均数应用的范围较小。</p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
@@ -756,17 +756,17 @@
   
   <entry>
     <title>机器学习-查准率与查全率</title>
-    <link href="/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/"/>
-    <url>/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/</url>
+    <link href="/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/"/>
+    <url>/%E6%89%80%E6%9C%89/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E6%9F%A5%E5%87%86%E7%8E%87%E4%B8%8E%E6%9F%A5%E5%85%A8%E7%8E%87/</url>
     
     <content type="html"><![CDATA[<blockquote><p>最近在看周志华的《机器学习》西瓜书的时候，感觉书上的概念-查准率和查全率描述地有点抽象。于是查阅了一些资料深入学习，有所感悟。</p></blockquote><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105153124644.png" alt="西瓜书上的描述" style="zoom:200%;" /></p><p>参考了另一本书《机器学习实战：基于Scikit-Learn、Keras和TensorFlow》第二版</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105160225958.png" alt="image-20220105160225958"  /></p><p>For each instance, it computes a score based on a decisionfunction.</p><p>对于每个实例，它都基于决策函数计算分数。</p><p>If that score is greater than a threshold, it assigns the instance tothe positive class; otherwise it assigns it to the negative class.</p><p>如果该分数大于阈值，则将实例分配给正类；否则，它会将其分配给负类。</p><p>对于这样的二分类问题，我们可以用手写数字识别"5"举例</p><p><img src="https://jett-image-host.oss-cn-shanghai.aliyuncs.com/img/image-20220105155446546.png" alt="机器学习实战第137页" style="zoom:200%;" /></p><p>在上图中，我们可以看到有三个可以选择的阈值（Variousthresholds），就拿中间的那条竖线而言（对应一个阈值）：在竖线右边的实例，都会被预测为正例-1，在竖线左边的实例，都会被预测为反例-0。其中，中间的竖线右边有5个实例，而真实情况下这5个实例中只有4个手写数字是表示"5"的（第二个看不出来是"5"）。</p><p>查准率表示所有预测为1的样本中预测正确的比率，也就是4/5 =80％。其中4就是预测结果是"5"，真实情况是"5"的实例的个数，也就是真正例TP（TruePositive），预测正确，而5就是中间竖线右边的实例个数，也就是预测结果是"5"，但是不确定它的真实情况是什么，也就是TP+ FP（包括真正例和假正例）。</p><p>查准率P（Precision） <span class="math display">\[P={TP \over TP + FP}\]</span></p><p>在上图中，可以看到在所有的实例中（共12个），真实情况是"5"的个数有6个，包括了正例中的4个和反例中的2个，也就是真正例TP和假反例FN。召回率是指在所有真正为1的样本中预测正确的比率。也就是4/6= 67％。</p><p>召回率R（Recall） <span class="math display">\[R = { TP \over TP + FN }\]</span> 而精度（准确率）是正确预测为1，正确预测为0的样本占总体的比率<span class="math display">\[Acc = { TP + TN \over ALL}\]</span>TP是真正例，TN是真反例，准确率只关心是否预测对了，但是不关心实例本身的属性。</p><p>从上图也可以看出，对于图中的三种可以选取的阈值，当阈值越大（也就是把门的越严格），查准率P在上升，查全率R在下降。</p><p>而阈值越小，查准率P在下降，而查全率R在上升，也可以直观地表明查准率和查全率是一对矛盾的度量。</p>]]></content>
     
     
     <categories>
       
-      <category>所有</category>
-      
       <category>机器学习</category>
+      
+      <category>所有</category>
       
     </categories>
     
